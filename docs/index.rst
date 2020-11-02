@@ -1,5 +1,5 @@
-Circle - C++ bare metal environment for the Raspberry Pi
-========================================================
+Circle - C++ bare metal environment for Raspberry Pi
+====================================================
 
 .. note::
 
