@@ -1,15 +1,19 @@
-Welcome to Circle's documentation!
-==================================
+Circle - C++ bare metal environment for the Raspberry Pi
+========================================================
+
+.. note::
+
+	This documentation is currently under construction.
 
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+	:maxdepth: 2
+	:caption: Contents
 
+	introduction
+	getting-started
+	libraries
+	system-services
 
+.. note::
 
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+	Raspberry Pi is a trademark of the Raspberry Pi Foundation.
