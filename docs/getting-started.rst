@@ -25,14 +25,18 @@ Circle is configured using the file *Config.mk* in the project's root directory.
 	PREFIX = /path/to/your/toolchain/bin/arm-none-eabi-
 	AARCH = 32
 	RASPPI = 3
-	DEFINE += -DREALTIME
-	FLASHBAUD = 921600
 
-This sets the path and name of your toolchain, the architecture and model of your Raspberry Pi [#pi]_ computer, defines a system option (optional) and sets the baud rate for the serial bootloader (optional).
+This sets the path and name of your toolchain, and the architecture and model of your Raspberry Pi [#pi]_ computer.
 
 .. note::
 
-	The configurable system options are described in the file `include/circle/sysconfig.h <https://github.com/rsta2/circle/blob/master/include/circle/sysconfig.h>`_. They can be defined there or in the *Config.mk* file.
+	The configurable system options, described in the file `include/circle/sysconfig.h <https://github.com/rsta2/circle/blob/master/include/circle/sysconfig.h>`_, can be defined there or in the *Config.mk* file, like that:
+
+	``DEFINE += -DOPTION_NAME``
+
+	System options, which are enabled by default, can be disabled with:
+
+	``DEFINE += -DNO_OPTION_NAME``
 
 A typical 64-bit configuration looks like that:
 
@@ -42,7 +46,7 @@ A typical 64-bit configuration looks like that:
 	AARCH = 64
 	RASPPI = 3
 
-64-bit operation is possible on the Raspberry Pi 3 and 4 only. The optional settings (see above) have been omitted here, but are possible too.
+64-bit operation is possible on the Raspberry Pi 3 and 4 only.
 
 Building
 ~~~~~~~~
