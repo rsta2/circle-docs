@@ -12,8 +12,10 @@ Circle - C++ bare metal environment for Raspberry Pi
 	introduction
 	getting-started
 	hello-world
+	a-more-complex-program
 	libraries
 	system-services
+	appendices
 
 .. note::
 
