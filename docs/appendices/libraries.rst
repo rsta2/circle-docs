@@ -1,8 +1,8 @@
 Libraries
----------
+~~~~~~~~~
 
 Basic libraries
-~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^
 
 * Base library
 * USB library
@@ -12,6 +12,6 @@ Basic libraries
 * Net library
 
 Add-on libraries
-~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^
 
 The provided add-on libraries are listed `here <https://github.com/rsta2/circle/blob/master/addon/README>`_.

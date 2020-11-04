@@ -1,6 +1,3 @@
-Appendices
-----------
-
 .. _analyzing-exceptions:
 
 Analyzing exceptions
