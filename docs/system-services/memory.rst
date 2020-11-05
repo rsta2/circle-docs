@@ -40,6 +40,8 @@ CMemorySystem
 
 	#include <circle/memory.h>
 
+.. cpp:class:: CMemorySystem
+
 The class ``CMemorySystem`` implements most of the memory management function inside Circle. There is normally exactly one instance of this class in each Circle application, which is created by the Circle system initialization code. Earlier versions of Circle required to explicitly create this instance in ``CKernel``. This is deprecated now, but does not disturb either. If another instance of ``CMemorySystem`` is created, it is an alias for the first created instance.
 
 Methods callable from applications are:

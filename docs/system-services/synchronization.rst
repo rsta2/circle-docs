@@ -45,11 +45,13 @@ In summary ``EnterCritical()`` is called to enter a critical code region, which 
 CSpinLock
 ^^^^^^^^^
 
-A spin lock is a synchronization object in a multi-core environment. It can be used to protect a data structure, which is shared between multiple cores, from destruction, when multiple cores are trying to access this data structure at the same time. The spin lock serializes the access, so that only one core can write or read the data at a time.
+The class ``CSpinLock`` implements a spin lock, which is a synchronization object in a multi-core environment. It can be used to protect a data structure, which is shared between multiple cores, from destruction, when multiple cores are trying to access this data structure at the same time. The spin lock serializes the access, so that only one core can write or read the data at a time.
 
 .. code-block:: c++
 
 	#include <circle/spinlock.h>
+
+.. cpp:class:: CSpinLock
 
 In Circle a spin lock is initialized with this constructor:
 
