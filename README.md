@@ -1,1 +1,19 @@
+circle-docs
+===========
+
 Source code of the [Circle documentation](https://rsta2.readthedocs.io/projects/circle) on *Read the Docs*.
+
+Local installation
+------------------
+
+This documentation can be built locally too. You will need a working python environment. Just enter in a shell:
+
+	pip install sphinx
+
+	cd /path/to/your/projects
+	git clone https://github.com/rsta2/circle-docs.git
+	cd circle-docs/docs
+
+	make html
+
+Then open [docs/_build/html/index.html](docs/_build/html/index.html) in your web browser.
