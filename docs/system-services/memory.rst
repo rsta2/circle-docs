@@ -118,6 +118,6 @@ Circle provides the following C standard library functions for memory allocation
 
 .. [#ma] There is one exception from this rule. On the Raspberry Pi 4 the memory mapped I/O register space of the xHCI USB controller, which is connected using a PCIe interface, is re-mapped into the 4 GByte 32-bit address space, because it is physically located above the 4 GByte boundary, and would not be accessible in 32-bit mode otherwise.
 
-.. [#el] System execution levels (e.g. ``TASK_LEVEL``) are described in the section Synchronization.
+.. [#el] System execution levels (e.g. ``TASK_LEVEL``) are described in the section :ref:`synchronization`.
 
 .. [#al] 32 bytes on the Raspberry Pi 1 and Zero, 64 bytes otherwise

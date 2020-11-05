@@ -1,0 +1,78 @@
+.. _synchronization:
+
+Synchronization
+~~~~~~~~~~~~~~~
+
+This section discusses the different system execution levels of code inside a Circle application and how they can be synchronized. Furthermore the class ``CSpinLock`` will be introduced, which is the main synchronization object in multi-core environments, but also in single-core environments, because all Circle code should be prepared to run on multiple cores, at least where it is possible.
+
+Execution levels
+^^^^^^^^^^^^^^^^
+
+.. code-block:: c++
+
+	#include <circle/synchronize.h>
+
+The current execution level is determined by the type of interrupt requests, which are enabled (i.e. allowed to occur) or active (i.e. currently handled) at a given time. Circle defines the following execution levels:
+
+==============	======================================	==================
+Level [#lv]_	Currently running			Enabled interrupts
+==============	======================================	==================
+TASK_LEVEL	normal application code or task [#mt]_	IRQ, FIQ
+IRQ_LEVEL	IRQ handler or callback [#iq]_		FIQ
+FIQ_LEVEL	FIQ handler
+==============	======================================	==================
+
+Interrupt requests of the same type (i.e. IRQ or FIQ) cannot be nested. That means, when for example an IRQ handler is running for one device, a triggered IRQ of another device has to wait for the execution of its IRQ handler, until the previous IRQ handler has been completed.
+
+The execution level (e.g. ``TASK_LEVEL``) of the currently running code is returned by the following function:
+
+.. cpp:function:: unsigned CurrentExecutionLevel (void)
+
+The current execution level can be explicitly raised with this function:
+
+.. cpp:function:: void EnterCritical (unsigned nTargetLevel = IRQ_LEVEL)
+
+``EnterCritical()`` can be called with the same as the current execution level or with a higher level, but not with a lower one. Reducing the current execution level is possible with this function:
+
+.. cpp:function:: void LeaveCritical (void)
+
+In summary ``EnterCritical()`` is called to enter a critical code region, which must not be interrupted by an IRQ, or by both IRQ and FIQ, depending on the target level. This critical region will be left with ``LeaveCritical()``. Calls to ``EnterCritical()`` can be nested with the same or increasing target level. Every ``EnterCritical()`` has its corresponding ``LeaveCritical()``.
+
+.. important::
+
+	In a multi-core environment using ``EnterCritical()`` for synchronization (e.g. protecting data structures in a critical region) is not recommended or does not work at all. You should use spin locks (see below) instead. Furthermore, because Circle source code should be able to run in any environment, where possible, it is good practice to use spin locks also for code, which is developed for a single-core environment. If the system option ``ARM_ALLOW_MULTI_CORE`` is disabled, all spin lock operations mutate to calls of ``EnterCritical()`` and ``LeaveCritical()`` automatically.
+
+CSpinLock
+^^^^^^^^^
+
+A spin lock is a synchronization object in a multi-core environment. It can be used to protect a data structure, which is shared between multiple cores, from destruction, when multiple cores are trying to access this data structure at the same time. The spin lock serializes the access, so that only one core can write or read the data at a time.
+
+.. code-block:: c++
+
+	#include <circle/spinlock.h>
+
+In Circle a spin lock is initialized with this constructor:
+
+.. cpp:function:: CSpinLock (unsigned nTargetLevel = IRQ_LEVEL)
+
+	nTargetLevel is the maximum execution level from which the spin lock is acquired and released.
+
+.. cpp:function:: void Acquire (void)
+
+	This method tries to acquire the spin lock. It also raises the execution level to the level given to the constructor. If the spin lock is currently acquired by another core, the execution will be stalled, until the spin lock is released by the other core.
+
+.. cpp:function:: void Release (void)
+
+	Releases the spin lock.
+
+.. important::
+
+	Calls to ``Acquire()`` cannot be nested for the same spin lock. If doing so, the execution will freeze. Multiple spin locks can be acquired in a row, but must be released in the opposite order. Otherwise a system deadlock may occur randomly.
+
+.. rubric:: Footnotes
+
+.. [#lv] These symbols are defined as C macros.
+
+.. [#mt] Tasks are discussed in the section Multi-tasking.
+
+.. [#iq] A number of callback functions in an Circle application (e.g. kernel timer handler) will be called directly from an IRQ handler.
