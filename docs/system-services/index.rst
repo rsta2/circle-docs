@@ -10,8 +10,8 @@ The Circle project does not provide a single centralized C++ header file. Instea
 
 	memory
 	synchronization
+	interrupts
 ..	gpio-control
-..	interrupts
 ..	time
 ..	system-log
 ..	direct-memory-access

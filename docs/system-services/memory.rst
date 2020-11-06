@@ -46,19 +46,19 @@ The class ``CMemorySystem`` implements most of the memory management function in
 
 Methods callable from applications are:
 
-.. cpp:function:: size_t GetMemSize (void) const
+.. cpp:function:: size_t CMemorySystem::GetMemSize (void) const
 
 	Returns the total memory size available to the application, as reported by the firmware.
 
-.. cpp:function:: size_t GetHeapFreeSpace (int nType) const
+.. cpp:function:: size_t CMemorySystem::GetHeapFreeSpace (int nType) const
 
 	Returns the free space on the heap of the given type, according to the memory type ``HEAP_LOW``, ``HEAP_HIGH`` or ``HEAP_ANY``. Does not cover memory blocks, which have been freed.
 
-.. cpp:function:: static CMemorySystem *Get (void)
+.. cpp:function:: static CMemorySystem *CMemorySystem::Get (void)
 
 	Returns a pointer to the instance of ``CMemorySystem``.
 
-.. cpp:function:: static void DumpStatus (void)
+.. cpp:function:: static void CMemorySystem::DumpStatus (void)
 
 	Dumps some memory allocation status information. Requires ``HEAP_DEBUG`` to be defined.
 

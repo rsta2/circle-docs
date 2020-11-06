@@ -55,15 +55,15 @@ The class ``CSpinLock`` implements a spin lock, which is a synchronization objec
 
 In Circle a spin lock is initialized with this constructor:
 
-.. cpp:function:: CSpinLock (unsigned nTargetLevel = IRQ_LEVEL)
+.. cpp:function:: CSpinLock::CSpinLock (unsigned nTargetLevel = IRQ_LEVEL)
 
 	nTargetLevel is the maximum execution level from which the spin lock is acquired and released.
 
-.. cpp:function:: void Acquire (void)
+.. cpp:function:: void CSpinLock::Acquire (void)
 
 	This method tries to acquire the spin lock. It also raises the execution level to the level given to the constructor. If the spin lock is currently acquired by another core, the execution will be stalled, until the spin lock is released by the other core.
 
-.. cpp:function:: void Release (void)
+.. cpp:function:: void CSpinLock::Release (void)
 
 	Releases the spin lock.
 
