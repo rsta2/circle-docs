@@ -8,6 +8,7 @@ The Circle project does not provide a single centralized C++ header file. Instea
 .. toctree::
 	:maxdepth: 1
 
+	system-information
 	memory
 	synchronization
 	system-log
@@ -20,7 +21,6 @@ The Circle project does not provide a single centralized C++ header file. Instea
 ..	cpu-clock-rate-management
 ..	firmware-access
 ..	direct-hardware-access
-..	system-information
 ..	utility
 ..	debugging
 ..	usb
