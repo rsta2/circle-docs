@@ -14,8 +14,8 @@ The Circle project does not provide a single centralized C++ header file. Instea
 	system-log
 	interrupts
 	time
+	direct-memory-access
 ..	gpio-control
-..	direct-memory-access
 ..	multi-tasking
 ..	multi-core-support
 ..	cpu-clock-rate-management
