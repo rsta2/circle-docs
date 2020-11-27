@@ -68,6 +68,8 @@ CDMAChannel
 
 	Returns ``TRUE``, if the last completed transfer was successful.
 
+.. _dma-buffers:
+
 DMA buffers
 ^^^^^^^^^^^
 
