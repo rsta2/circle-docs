@@ -112,7 +112,7 @@ A GPIO pin can trigger an interrupt (IRQ) under certain conditions. The ``CGPIOP
 
 	Disconnects the interrupt handler from the GPIO pin. The interrupt source(s) must be disabled before using ``DisableInterrupt()`` and ``DisableInterrupt2()``, if they were enabled before.
 
-.. cpp:function:: void EnableInterrupt (TGPIOInterrupt Interrupt)
+.. cpp:function:: void CGPIOPin::EnableInterrupt (TGPIOInterrupt Interrupt)
 
 	Enables a specific event condition to trigger an interrupt for this GPIO pin. ``Interrupt`` can be:
 
@@ -448,7 +448,7 @@ The CE# signals are active low.
 
 	Writes ``nCount`` bytes from ``pBuffer``. Activates chip select ``nChipSelect`` (CE#, 0, 1 or 2). Returns the number of written bytes or < 0 on failure.
 
-.. cpp:function:: int WriteRead (unsigned nChipSelect, const void *pWriteBuffer, void *pReadBuffer, unsigned nCount)
+.. cpp:function:: int CSPIMasterAUX::WriteRead (unsigned nChipSelect, const void *pWriteBuffer, void *pReadBuffer, unsigned nCount)
 
 	Simultaneous writes and reads ``nCount`` bytes from ``pWriteBuffer`` and to ``pReadBuffer``. Activates chip select ``nChipSelect`` (CE#, 0, 1 or 2). Returns the number of transferred bytes or < 0 on failure.
 
