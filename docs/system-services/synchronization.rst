@@ -42,6 +42,8 @@ In summary ``EnterCritical()`` is called to enter a critical code region, which 
 
 	In a multi-core environment using ``EnterCritical()`` for synchronization (e.g. protecting data structures in a critical region) is not recommended or does not work at all. You should use spin locks (see below) instead. Furthermore, because Circle source code should be able to run in any environment, where possible, it is good practice to use spin locks also for code, which is developed for a single-core environment. If the system option ``ARM_ALLOW_MULTI_CORE`` is disabled, all spin lock operations mutate to calls of ``EnterCritical()`` and ``LeaveCritical()`` automatically.
 
+.. _CSpinLock:
+
 CSpinLock
 ^^^^^^^^^
 
@@ -78,3 +80,42 @@ In Circle a spin lock is initialized with this constructor:
 .. [#mt] Tasks are discussed in the section Multi-tasking.
 
 .. [#iq] A number of callback functions in an Circle application (e.g. kernel timer handler) will be called directly from an IRQ handler.
+
+.. _Memory Barriers:
+
+Memory barriers
+^^^^^^^^^^^^^^^
+
+Memory barriers are system control CPU instructions, which influence the access to the main memory. They can be important especially in multi-core applications to ensure, that data has been written to or read from memory at a given place in the code.
+
+When a variable is written by one CPU core in a multi-core environment, this is normally recognized by the other CPU cores, but for synchronization purposes barriers may be required, if a write or read operation must be completed at a specific place in code.
+
+.. code-block:: c
+
+	#include <circle/synchronization.h>
+
+Circle defines the following memory barriers:
+
+.. c:macro:: DataSyncBarrier()
+
+	This barrier (also known as `DSB`) ensures, that all memory read and write operations have been completed, at the place where it is inserted in the code. It may be required to insert this barrier, after an application has written data from one CPU core, which will be read from an other CPU core afterwards.
+
+.. c:macro:: DataMemBarrier()
+
+	This barrier (also known as `DMB`) ensures, that all memory read operations have been completed, at the place where it is inserted in the code. It may be required to insert this barrier, before an application will read data, which has been written by an other CPU core before.
+
+The following special barriers are especially used on the Raspberry Pi 1 and Zero. On other Raspberry Pi models they have no function.
+
+.. c:macro:: PeripheralEntry()
+
+	If your code directly accesses memory-mapped hardware registers, you should insert this special barrier before the first access to a specific hardware device.
+
+.. c:macro:: PeripheralExit()
+
+	If your code directly accesses memory-mapped hardware registers, you should insert this special barrier after the last access to a specific hardware device.
+
+.. note::
+
+	Most programs would work without ``PeripheralEntry()`` and ``PeripheralExit()``, but to be sure, it should be used as noted. In a few tests there have been issues on the Raspberry Pi 1, where invalid data was read from hardware registers, without these barriers inserted.
+
+	You do not need to care about this, when you access hardware devices using a Circle device driver class, because this is handled inside the driver.
