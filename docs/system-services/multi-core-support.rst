@@ -1,7 +1,9 @@
+.. _Multi-core support:
+
 Multi-core support
 ~~~~~~~~~~~~~~~~~~
 
-Beginning with the Raspberry Pi 2, four cores are provided by a Cortex-A CPU. Circle distinguishes between the primary core 0 and the secondary cores 1 to 3 in a way, that all system operations including interrupt handling are running on the primary core 0. The secondary cores are free to be used by the application. This allows to implement time-critical or time-consuming operations on the secondary cores, without being disturbed by interrupts or other system functions.
+Beginning with the Raspberry Pi 2, four cores are provided by a Cortex-A CPU. Circle distinguishes between the primary core 0 and the secondary cores 1 to 3 in a way, that all system operations including interrupt handling are running on the primary core 0. The secondary cores are free to be used by the application. This allows to implement time-critical or time-consuming operations on the secondary cores, without being disturbed by interrupts or other system functions. The optional scheduler and all tasks are running on core 0 too (see :ref:`Multitasking`).
 
 Circle supports multi-core applications by handling the start-up of the secondary cores with the class :ref:`CMultiCoreSupport`, with the synchronization class :ref:`CSpinLock` and with :ref:`Memory Barriers`.
 

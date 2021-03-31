@@ -17,7 +17,7 @@ The Circle project does not provide a single centralized C++ header file. Instea
 	direct-memory-access
 	gpio-access
 	multi-core-support
-..	multi-tasking
+	multitasking
 ..	cpu-clock-rate-management
 ..	firmware-access
 ..	direct-hardware-access

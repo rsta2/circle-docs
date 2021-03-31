@@ -77,7 +77,7 @@ In Circle a spin lock is initialized with this constructor:
 
 .. [#lv] These symbols are defined as C macros.
 
-.. [#mt] Tasks are discussed in the section Multi-tasking.
+.. [#mt] Tasks are discussed in the section :ref:`Multitasking`.
 
 .. [#iq] A number of callback functions in an Circle application (e.g. kernel timer handler) will be called directly from an IRQ handler.
 
