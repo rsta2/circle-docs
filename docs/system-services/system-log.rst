@@ -1,3 +1,5 @@
+.. _System log:
+
 System log
 ~~~~~~~~~~
 
