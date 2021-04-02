@@ -20,7 +20,7 @@ The Circle project does not provide a single centralized C++ header file. Instea
 	multitasking
 	cpu-clock-rate-management
 	firmware-access
-..	direct-hardware-access
+	direct-hardware-access
 ..	utility
 ..	debugging
 ..	usb
