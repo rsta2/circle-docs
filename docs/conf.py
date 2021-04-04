@@ -19,7 +19,7 @@ import sphinx_rtd_theme
 # -- Project information -----------------------------------------------------
 
 project = 'Circle'
-copyright = '2014-2021, Rene Stange'
+copyright = '2020-2021, Rene Stange'
 author = 'Rene Stange'
 
 
@@ -31,6 +31,8 @@ author = 'Rene Stange'
 extensions = [
 	"sphinx_rtd_theme"
 ]
+
+source_encoding = 'iso-8859-1'
 
 # Add any paths that contain templates here, relative to this directory.
 # templates_path = ['_templates']
