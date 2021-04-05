@@ -1,7 +1,7 @@
 Getting started
 ---------------
 
-To start using Circle, you need to download the project and a toolchain [#tc]_, configure Circle for your target platform, build the Circle libraries and your application [#ap]_, and install the built binary image (the kernel image) [#ki]_ on a SD card, along with a number of firmware files. In some cases an additional configuration file *config.txt* is needed on the SD card. The following notes require a x86_64 PC running Linux as development host.
+To start using Circle, you need to download the project and a toolchain [#tc]_, configure Circle for your target platform, build the Circle libraries and your application [#ap]_, and install the built binary image (the kernel image) [#ki]_ on a SD card, along with a number of firmware files. In some cases an additional configuration file *config.txt* is needed on the SD card. The following notes require a x86_64 PC running Linux as development host. The file `doc/windows-build.txt <https://github.com/rsta2/circle/blob/master/doc/windows-build.txt>`_ describes, how Windows can be used instead.
 
 Download
 ~~~~~~~~
