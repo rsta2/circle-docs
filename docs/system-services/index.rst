@@ -22,7 +22,7 @@ The Circle project does not provide a single centralized C++ header file. Instea
 	firmware-access
 	direct-hardware-access
 	utilities
-..	debugging
+	debugging-support
 ..	usb
 ..	input
 ..	filesystems
