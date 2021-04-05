@@ -42,6 +42,14 @@ In summary ``EnterCritical()`` is called to enter a critical code region, which 
 
 	In a multi-core environment using ``EnterCritical()`` for synchronization (e.g. protecting data structures in a critical region) is not recommended or does not work at all. You should use spin locks (see below) instead. Furthermore, because Circle source code should be able to run in any environment, where possible, it is good practice to use spin locks also for code, which is developed for a single-core environment. If the system option ``ARM_ALLOW_MULTI_CORE`` is disabled, all spin lock operations mutate to calls of ``EnterCritical()`` and ``LeaveCritical()`` automatically.
 
+.. rubric:: Footnotes
+
+.. [#lv] These symbols are defined as C macros.
+
+.. [#mt] Tasks are discussed in the section :ref:`Multitasking`.
+
+.. [#iq] A number of callback functions in an Circle application (e.g. kernel timer handler) will be called directly from an IRQ handler.
+
 .. _CSpinLock:
 
 CSpinLock
@@ -73,13 +81,24 @@ In Circle a spin lock is initialized with this constructor:
 
 	Calls to ``Acquire()`` cannot be nested for the same spin lock. If doing so, the execution will freeze. Multiple spin locks can be acquired in a row, but must be released in the opposite order. Otherwise a system deadlock may occur randomly.
 
-.. rubric:: Footnotes
+CGenericLock
+^^^^^^^^^^^^
 
-.. [#lv] These symbols are defined as C macros.
+This class is used for mutual exclusion (critical sections) from ``TASK_LEVEL``, at places where it is not clear, if the scheduler (see :ref:`Multitasking`) is in the system and mutual exclusion must work between tasks or between multiple CPU cores otherwise. If the scheduler is available and the system option ``NO_BUSY_WAIT`` is defined, this lock is implemented by the class ``CMutex``, otherwise by the class ``CSpinLock``.
 
-.. [#mt] Tasks are discussed in the section :ref:`Multitasking`.
+.. code-block:: c++
 
-.. [#iq] A number of callback functions in an Circle application (e.g. kernel timer handler) will be called directly from an IRQ handler.
+	#include <circle/genericlock.h>
+
+.. cpp:class:: CGenericLock
+
+.. cpp:function:: void CGenericLock::Acquire (void)
+
+	Acquires the lock. Execution blocks, if another task or CPU core has already acquired the lock.
+
+.. cpp:function:: void CGenericLock::Release (void)
+
+	Releases the lock. Execution of another task or CPU core, which is waiting for the lock, continues.
 
 .. _Memory Barriers:
 
