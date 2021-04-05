@@ -103,19 +103,3 @@ Circle defines the following memory barriers:
 .. c:macro:: DataMemBarrier()
 
 	This barrier (also known as `DMB`) ensures, that all memory read operations have been completed, at the place where it is inserted in the code. It may be required to insert this barrier, before an application will read data, which has been written by an other CPU core before.
-
-The following special barriers are especially used on the Raspberry Pi 1 and Zero. On other Raspberry Pi models they have no function.
-
-.. c:macro:: PeripheralEntry()
-
-	If your code directly accesses memory-mapped hardware registers, you should insert this special barrier before the first access to a specific hardware device.
-
-.. c:macro:: PeripheralExit()
-
-	If your code directly accesses memory-mapped hardware registers, you should insert this special barrier after the last access to a specific hardware device.
-
-.. note::
-
-	Most programs would work without ``PeripheralEntry()`` and ``PeripheralExit()``, but to be sure, it should be used as noted. In a few tests there have been issues on the Raspberry Pi 1, where invalid data was read from hardware registers, without these barriers inserted.
-
-	You do not need to care about this, when you access hardware devices using a Circle device driver class, because this is handled inside the driver.

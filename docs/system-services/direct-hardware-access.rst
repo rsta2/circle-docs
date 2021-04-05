@@ -72,3 +72,26 @@ This header file provides macro definitions of memory-mapped I/O addresses for t
 	#include <circle/bcm2711.h>
 
 This header file provides macro definitions of memory-mapped I/O addresses for the Raspberry Pi 4 and compatible models, described in the `BCM2711 ARM Peripherals <https://datasheets.raspberrypi.org/bcm2711/bcm2711-peripherals.pdf>`_ document.
+
+I/O barriers
+^^^^^^^^^^^^
+
+The following I/O barriers are especially required on the Raspberry Pi 1 and Zero. On other Raspberry Pi models they have no function.
+
+.. code-block:: c
+
+	#include <circle/synchronization.h>
+
+.. c:macro:: PeripheralEntry()
+
+	If your code directly accesses memory-mapped hardware registers, you should insert this special barrier before the first access to a specific hardware device.
+
+.. c:macro:: PeripheralExit()
+
+	If your code directly accesses memory-mapped hardware registers, you should insert this special barrier after the last access to a specific hardware device.
+
+.. note::
+
+	Most programs would work without ``PeripheralEntry()`` and ``PeripheralExit()``, but to be sure, it should be used as noted. In a few tests there have been issues on the Raspberry Pi 1, where invalid data was read from hardware registers, without these barriers inserted.
+
+	You do not need to care about this, when you access hardware devices using a Circle device driver class, because this is handled inside the driver.
