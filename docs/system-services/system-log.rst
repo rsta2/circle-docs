@@ -50,7 +50,7 @@ Write the log
 
 .. cpp:function:: void CLogger::Write (const char *pSource, TLogSeverity Severity, const char *pMessage, ...)
 
-	Writes a message from the module ``pSource`` with ``Severity`` (see table above) to the log. The message can be composed using format specifiers as supported by ``CString::Format()``.
+	Writes a message from the module ``pSource`` with ``Severity`` (see table above) to the log. The message can be composed using format specifiers as supported by :ref:`CString`::Format().
 
 .. cpp:function:: void CLogger::WriteV (const char *pSource, TLogSeverity Severity, const char *pMessage, va_list Args)
 

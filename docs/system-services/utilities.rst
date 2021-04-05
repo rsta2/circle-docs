@@ -3,6 +3,8 @@ Utilities
 
 This section lists utility classes and functions, which help to implement Circle applications.
 
+.. _CString:
+
 CString
 ^^^^^^^
 
