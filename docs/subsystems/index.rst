@@ -9,7 +9,7 @@ The Circle project does not provide a single centralized C++ header file. Instea
 	:maxdepth: 1
 
 	multitasking
-..	usb
+	usb
 ..	file-systems
 ..	tcp-ip-networking
 ..	graphics
