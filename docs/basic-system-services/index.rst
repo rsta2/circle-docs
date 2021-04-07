@@ -1,3 +1,5 @@
+.. _Basic system services:
+
 Basic system services
 ---------------------
 
@@ -17,14 +19,8 @@ The Circle project does not provide a single centralized C++ header file. Instea
 	direct-memory-access
 	gpio-access
 	multi-core-support
-	multitasking
 	cpu-clock-rate-management
 	firmware-access
 	direct-hardware-access
 	utilities
 	debugging-support
-..	usb
-..	input
-..	filesystems
-..	tcp-ip-networking
-..	graphics
