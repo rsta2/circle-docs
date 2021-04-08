@@ -10,6 +10,6 @@ The Circle project does not provide a single centralized C++ header file. Instea
 
 	multitasking
 	usb
-..	file-systems
+	filesystems
 ..	tcp-ip-networking
 ..	graphics
