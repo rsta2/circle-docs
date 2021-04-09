@@ -14,7 +14,7 @@ CUSBHCIDevice
 
 	#include <circle/usb/usbhcidevice.h>
 
-.. cpp:class:: CUSBHCIDevice
+.. cpp:class:: CUSBHCIDevice : public CUSBHostController
 
 	This class is the base of the USB support in a Circle application. To use USB, you should create a member of this class in the ``CKernel`` class of your application.
 
