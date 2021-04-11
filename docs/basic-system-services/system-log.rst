@@ -67,14 +67,14 @@ Read the log
 
 .. cpp:function:: boolean CLogger::ReadEvent (TLogSeverity *pSeverity, char *pSource, char *pMessage, time_t *pTime, unsigned *pHundredthTime, int *pTimeZone)
 
-	Returns the next log event (message) from a log event queue with maximal 50 entries or ``FALSE``, if the queue is empty. The buffers at ``pSource`` and ``pMessage`` must have the sizes ``LOG_MAX_SOURCE`` and ``LOG_MAX_MESSAGE``. This queue is normally used by the class ``CSysLogDaemon``, which sends log messages to a syslog server.
+	Returns the next log event (message) from a log event queue with maximal 50 entries or ``FALSE``, if the queue is empty. The buffers at ``pSource`` and ``pMessage`` must have the sizes ``LOG_MAX_SOURCE`` and ``LOG_MAX_MESSAGE``. This queue is normally used by the class :ref:`CSysLogDaemon`, which sends log messages to a syslog server.
 
 Log event notification
 """"""""""""""""""""""
 
 .. cpp:function:: void CLogger::RegisterEventNotificationHandler (TLogEventNotificationHandler *pHandler)
 
-	Registers a callback function, which is executed, when a log event (message) arrives. This is normally used by the class ``CSysLogDaemon``, which sends log messages to a syslog server. ``TLogEventNotificationHandler`` has the following prototype:
+	Registers a callback function, which is executed, when a log event (message) arrives. This is normally used by the class :ref:`CSysLogDaemon`, which sends log messages to a syslog server. ``TLogEventNotificationHandler`` has the following prototype:
 
 .. code-block:: c++
 
@@ -82,7 +82,7 @@ Log event notification
 
 .. cpp:function:: void CLogger::RegisterPanicHandler (TLogPanicHandler *pHandler)
 
-	Registers a callback function, which is executed, before a system halt, which is triggered by a log message with severity ``LogPanic``. This is normally used by the class ``CSysLogDaemon``, which sends log messages to a syslog server. If ``CSysLogDaemon`` is not in the system, ``RegisterPanicHandler()`` can be used for other application purposes. ``TLogPanicHandler`` has to following prototype:
+	Registers a callback function, which is executed, before a system halt, which is triggered by a log message with severity ``LogPanic``. This is normally used by the class :ref:`CSysLogDaemon`, which sends log messages to a syslog server. If ``CSysLogDaemon`` is not in the system, ``RegisterPanicHandler()`` can be used for other application purposes. ``TLogPanicHandler`` has to following prototype:
 
 .. code-block:: c++
 

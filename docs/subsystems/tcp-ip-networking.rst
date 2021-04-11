@@ -339,6 +339,8 @@ CMQTTClient
 
 	This is a callback regularly entered from the MQTT client task.
 
+.. _CSysLogDaemon:
+
 CSysLogDaemon
 """""""""""""
 
