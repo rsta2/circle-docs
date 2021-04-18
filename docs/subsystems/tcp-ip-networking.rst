@@ -423,6 +423,10 @@ CHTTPDaemon
 
 	Define this method to provide your own content. ``pPath`` is the path of the file to be sent (e.g. "/index.html", can be "/" too). ``pParams`` are the GET parameters ("" for none). ``pFormData`` contains the parameters from the form data from POST ("" for none). Copy your content to ``pBuffer``. ``*pLength`` is the buffer size in bytes on input and the content length on output. ``*ppContentType`` must be set to the MIME type, if it is not "text/html". This method has to return the HTTP status (``HTTPOK`` on success).
 
+.. cpp:function:: virtual void CHTTPDaemon::WriteAccessLog (const CIPAddress &rRemoteIP, THTTPRequestMethod RequestMethod, const char *pRequestURI, THTTPStatus Status, unsigned nContentLength)
+
+	Overwrite this method to implement your own access logging. ``rRemoteIP`` is the IP address of the client. ``RequestMethod`` is the method of the request and ``pRequestURI`` its URI. ``Status`` and ``nContentLength`` specify the returned HTTP status number and the length of the sent content. The default implementation of this method writes a message to the :ref:`System log`.
+
 .. cpp:function:: boolean CHTTPDaemon::GetMultipartFormPart (const char **ppHeader, const u8 **ppData, unsigned *pLength)
 
 	This method can be called from ``GetContent()`` and returns the next part of multipart form data (``TRUE`` if available). This data is not available after returning from ``GetContent()`` any more. ``*ppHeader`` returns a pointer to the part header. ``*ppData`` returns a pointer to part data. ``*pLength`` returns the part data length.
