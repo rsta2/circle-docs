@@ -19,7 +19,7 @@ There is exactly one or no instance of ``CLogger`` in the system. Only relativel
 Initialization
 """"""""""""""
 
-.. cpp:function:: CLogger::CLogger (unsigned nLogLevel, CTimer *pTimer = 0)
+.. cpp:function:: CLogger::CLogger (unsigned nLogLevel, CTimer *pTimer = 0, boolean bOverwriteOldest = TRUE)
 
 	Creates the instance of ``CLogger``. ``nLogLevel`` (0-4) determines, which log messages are included in the system log. Only messages with a log level smaller or equal to ``nLogLevel`` are considered. ``pTimer`` is a pointer to the system timer object. The time is not logged, if ``pTimer`` is zero. The following log levels are defined:
 
@@ -32,6 +32,8 @@ Level	Severity	Description
 3	LogNotice	Informative message, which is interesting for the system user
 4	LogDebug	Message, which is only interesting for debugging this component
 ======	==============	===============================================================
+
+	Set ``bOverwriteOldest`` to ``FALSE``, if you want to keep old log messages for ``Read()``, even when the text ring buffer is full (see :ref:`Read the log`).
 
 .. cpp:function:: boolean CLogger::Initialize (CDevice *pTarget)
 
@@ -56,14 +58,16 @@ Write the log
 
 	Same function as ``Write()``, but the message parameters are given as ``va_list``.
 
+.. _Read the log:
+
 Read the log
 """"""""""""
 
-``CLogger`` has a 16K buffer, which saves the written log messages. If this buffer is full, old messages will be overwritten.
+``CLogger`` has a 16K (``LOGGER_BUFSIZE``) sized text ring buffer, which saves the written log messages. If this buffer is full, old messages will be overwritten by default. This behavior can be changed with the parameter ``bOverwriteOldest`` of the constructor.
 
-.. cpp:function:: int CLogger::Read (void *pBuffer, unsigned nCount)
+.. cpp:function:: int CLogger::Read (void *pBuffer, unsigned nCount, boolean bClear = TRUE)
 
-	Reads and deletes maximal ``nCount`` characters from the log buffer. The read characters will be returned in ``pBuffer``. Returns the number of characters actually read.
+	Reads and deletes maximal ``nCount`` characters from the log buffer. The read characters will be returned in ``pBuffer``. Set ``bClear`` to ``TRUE`` to remove the returned bytes from the buffer or to ``FALSE`` to keep them. Returns the number of characters actually read.
 
 .. cpp:function:: boolean CLogger::ReadEvent (TLogSeverity *pSeverity, char *pSource, char *pMessage, time_t *pTime, unsigned *pHundredthTime, int *pTimeZone)
 
