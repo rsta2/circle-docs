@@ -87,3 +87,20 @@ Log event notification
 .. code-block:: c++
 
 	void TLogPanicHandler (void);
+
+Quick access
+""""""""""""
+
+The following macros allow a quick access to the system log.
+
+.. c:macro:: LOGMODULE(name)
+
+	Defines the C-string ``name`` as a name for this source module for generating log messages with the macros below.
+
+.. c:macro:: LOGPANIC(format, ...)
+.. c:macro:: LOGERR(format, ...)
+.. c:macro:: LOGWARN(format, ...)
+.. c:macro:: LOGNOTE(format, ...)
+.. c:macro:: LOGDBG(format, ...)
+
+	Writes a message with the given severity, ``format`` and optional parameters to the system log using the module name defined with ``LOGMODULE()``.
