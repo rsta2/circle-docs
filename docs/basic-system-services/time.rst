@@ -143,6 +143,17 @@ Periodic timers
 
 	void TPeriodicTimerHandler (void);
 
+Update time handler
+"""""""""""""""""""
+
+.. cpp:function:: void CTimer::RegisterUpdateTimeHandler (TUpdateTimeHandler *pHandler)
+
+	Register a handler, which is called when ``SetTime()`` is invoked. This allows the application to apply additional checks, before the new time is set.
+
+.. c:type:: boolean TUpdateTimeHandler (unsigned nNewTime, unsigned nOldTime)
+
+	The handler gets the ``nNewTime`` to be set and the current ``nOldTime`` in seconds since 1970-01-01 00:00:00 UTC, and returns ``TRUE``, if the new time can be set or ``FALSE``, if the time is invalid. The call to ``SetTime()`` is ignored then.
+
 Delay
 """""
 
