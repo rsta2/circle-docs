@@ -15,6 +15,7 @@ Circle - C++ bare metal environment for Raspberry Pi
 	a-more-complex-program
 	basic-system-services/index
 	subsystems/index
+	devices/index
 	appendices/index
 
 .. note::
