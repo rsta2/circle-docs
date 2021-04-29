@@ -259,7 +259,7 @@ CMQTTClient
 
 .. cpp:class:: CMQTTClient : public CTask
 
-	This class is a client for the MQTT protocol, according to the `MQTT v3.1.1 specification <http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.pdf>`_. It is implemented as a task. To use this class, you have to derive a user defined class from ``CMQTTClient`` and overwrite its virtual methods. The task must be created with the ``new`` operator.
+	This class is a client for the MQTT protocol, according to the `MQTT v3.1.1 specification <http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.pdf>`_. It is implemented as a task. To use this class, you have to derive a user defined class from ``CMQTTClient`` and override its virtual methods. The task must be created with the ``new`` operator.
 
 .. warning::
 
@@ -369,7 +369,7 @@ CHTTPDaemon
 
 .. cpp:class:: CHTTPDaemon : public CTask
 
-	This class implements a simple HTTP server as a task. You have to derive a user class from it, overwrite the virtual methods and create it using the ``new`` operator to start it.
+	This class implements a simple HTTP server as a task. You have to derive a user class from it, override the virtual methods and create it using the ``new`` operator to start it.
 
 .. note::
 
