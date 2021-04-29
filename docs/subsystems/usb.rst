@@ -3,7 +3,7 @@ USB
 
 The USB (Universal Serial Bus) subsystem provides services and device drivers, which support the access to USB 2.0 and USB 3.0 (on the Raspberry Pi 4 only) devices. Essentially, this concerns drivers for the DWHCI OTG USB controller of the Raspberry Pi 1-3 and Zero (host mode only) and the xHCI USB controller(s) of the Raspberry Pi 4 (400 and Compute Module 4 too), USB device class drivers, some vendor specific USB device drivers and support classes for all these drivers.
 
-Most of the operations in this subsystem are hidden from applications behind device driver interfaces, which will be described in the `Devices` section. An application, which uses the USB, has especially to deal with the initialization of the USB support at system startup and optionally with detecting newly attached USB devices, while the system is running (USB plug-and-play). This section is limited to these topics.
+Most of the operations in this subsystem are hidden from applications behind device driver interfaces, which will be described in the :ref:`Devices` section. An application, which uses the USB, has especially to deal with the initialization of the USB support at system startup and optionally with detecting newly attached USB devices, while the system is running (USB plug-and-play). This section is limited to these topics.
 
 Please read the file `doc/usb-plug-and-play.txt <https://github.com/rsta2/circle/blob/master/doc/usb-plug-and-play.txt>`_ for general information about the (optional) USB plug-and-play support in Circle.
 
