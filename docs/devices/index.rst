@@ -11,7 +11,7 @@ The Circle project does not provide a single centralized C++ header file. Instea
 	:maxdepth: 1
 
 	device-management
-..	character-devices
+	character-devices
 ..	block-devices
 ..	audio-devices
 ..	network-devices
