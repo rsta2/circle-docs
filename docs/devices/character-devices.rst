@@ -101,7 +101,80 @@ CScreenDevice
 
 	Returns a pointer to the member of the type ``CBcmFrameBuffer``, which can be used to directly manipulate the frame buffer.
 
-.. CSerialDevice
+CSerialDevice
+"""""""""""""
+
+.. code-block:: cpp
+
+	#include <circle/serial.h>
+
+.. cpp:class:: CSerialDevice : public CDevice
+
+	This class is a driver for the PL011-compatible UART(s) of the Raspberry Pi. The Raspberry Pi 4 provides five of these serial devices, the other models only one. This driver cannot be used for the Mini-UART (AUX). The GPIO mapping is as follows (SoC numbers):
+
+	=======	=======	=======	===================
+	nDevice	TXD	RXD	Support
+	=======	=======	=======	===================
+	0	GPIO14	GPIO15	All boards
+	0	GPIO32	GPIO33	Compute Modules
+	0	GPIO36	GPIO37	Compute Modules
+	1			None (AUX)
+	2	GPIO0	GPIO1	Raspberry Pi 4 only
+	3	GPIO4	GPIO5	Raspberry Pi 4 only
+	4	GPIO8	GPIO9	Raspberry Pi 4 only
+	5	GPIO12	GPIO13	Raspberry Pi 4 only
+	=======	=======	=======	===================
+
+	GPIO32/33 and GPIO36/37 can be selected with system option ``SERIAL_GPIO_SELECT``. GPIO0/1 are normally reserved for the ID EEPROM. Handshake lines CTS and RTS are not supported.
+
+.. note::
+
+	This driver can be used in two modes: polling or interrupt driven. The mode is selected with the parameter ``pInterruptSystem`` of the constructor.
+
+.. c:macro:: SERIAL_BUF_SIZE
+
+	This macro defines the size of the read and write ring buffers for the interrupt driver (default 2048). If you want to increase the buffer size, you have to specify a value, which is a power of two.
+
+.. cpp:function:: CSerialDevice::CSerialDevice (CInterruptSystem *pInterruptSystem = 0, boolean bUseFIQ = FALSE, unsigned nDevice = 0)
+
+	Constructs a ``CSerialDevice`` object. Multiple instances are possible on the Raspberry Pi 4. ``nDevice`` selects the used serial device (see the table above). ``pInterruptSystem`` is a pointer to interrupt system object, or 0 to use the polling driver. The interrupt driver uses the IRQ by default. Set ``bUseFIQ`` to ``TRUE`` to use the FIQ instead. This is recommended for higher baud rates.
+
+.. cpp:function:: boolean CSerialDevice::Initialize (unsigned nBaudrate = 115200)
+
+	Initializes the serial device and sets the baud rate to ``nBaudrate`` bits per second. Returns ``TRUE`` on success.
+
+.. cpp:function:: int CSerialDevice::Write (const void *pBuffer, size_t nCount)
+
+	Writes ``nCount`` bytes from ``pBuffer`` to be sent out via the serial device. Returns the number of bytes, successfully sent or queued for send, or < 0 on error. The following errors are defined:
+
+.. c:macro:: SERIAL_ERROR_BREAK
+.. c:macro:: SERIAL_ERROR_OVERRUN
+.. c:macro:: SERIAL_ERROR_FRAMING
+
+	Returned from ``Write()`` and ``Read()`` as a negative value. Please note, that these defined values are positive. You have to precede them with a minus for comparison.
+
+.. cpp:function:: int CSerialDevice::Read (void *pBuffer, size_t nCount)
+
+	Returns a maximum of ``nCount`` bytes, which have been received via the serial device, in ``pBuffer``. The returned ``int`` value is the number of received bytes, 0 if data is not available, or < 0 on error (see ``Write()``).
+
+.. cpp:function:: unsigned CSerialDevice::GetOptions (void) const
+
+	Returns the current serial options mask.
+
+.. cpp:function:: void CSerialDevice::SetOptions (unsigned nOptions)
+
+	Sets the serial options mask to ``nOptions``. These options are defined:
+
+.. c:macro:: SERIAL_OPTION_ONLCR
+
+	Translate NL to NL+CR on output (default)
+
+.. cpp:function:: void CSerialDevice::RegisterMagicReceivedHandler (const char *pMagic, TMagicReceivedHandler *pHandler)
+
+	Registers a magic received handler ``pHandler``, which is called, when the string ``pMagic`` is found in the received data. ``pMagic`` must remain valid after return from this method. This method does only work with interrupt driver.
+
+.. cpp:type:: void CSerialDevice::TMagicReceivedHandler (void)
+
 .. CUSBKeyboardDevice
 .. CMouseDevice
 .. CUSBGamePadDevice
