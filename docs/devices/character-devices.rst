@@ -61,7 +61,7 @@ CScreenDevice
 	\\E[K		Clear to end of line
 	\\E[%dX		Erase %1 characters starting at cursor
 	^J		Carriage return/linefeed
-	\\E[0m		End of bold, half bright and reverse mode
+	\\E[0m		End of bold, half bright, reverse mode
 	\\E[1m		Start bold mode
 	\\E[2m		Start half bright mode
 	\\E[27m		Same as \\E[0m
