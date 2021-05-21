@@ -18,7 +18,31 @@ The recommended toolchains for building Circle applications can be downloaded fr
 Configuration
 ~~~~~~~~~~~~~
 
-Circle is configured using the file *Config.mk* in the project's root directory. This file has to be created by yourself. A typical 32-bit configuration looks like that:
+Circle is configured using the file *Config.mk* in the project's root directory. This file can be created using the ``configure`` script, which provides these options:
+
+.. code-block:: none
+
+	-r <number>, --raspberrypi <number>
+	                   Raspberry Pi model number (1, 2, 3, 4, default: 1)
+	-p <string>, --prefix <string>
+	                   Prefix of the toolchain commands (default: arm-none-eabi-)
+	--multicore        Allow multi-core applications
+	--realtime         Enable real time mode to improve IRQ latency
+	--keymap <country> Set default USB keymap (DE, ES, FR, IT, UK, US)
+	--qemu             Build for running under QEMU
+	-d <option>, --define <option>
+	                   Define additional system option
+	--c++17            Use C++17 standard for compiling (default C++14)
+	-f, --force        Overwrite existing Config.mk file
+	-h, --help         Show usage message
+
+If you want to configure Circle for a Raspberry Pi 3 with the default toolchain prefix ``arm-none-eabi-``, with the toolchain path in the system ``PATH`` variable, from Circle's project root enter simply:
+
+.. code-block:: shell
+
+	./configure -r 3
+
+The file *Config.mk* can also be created by yourself. A typical 32-bit configuration looks like this:
 
 .. code-block:: make
 
