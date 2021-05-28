@@ -176,7 +176,113 @@ CSerialDevice
 
 .. cpp:type:: void CSerialDevice::TMagicReceivedHandler (void)
 
-.. CUSBKeyboardDevice
+CUSBKeyboardDevice
+""""""""""""""""""
+
+.. code-block:: cpp
+
+	#include <circle/usb/usbkeyboard.h>
+
+.. cpp:class:: CUSBKeyboardDevice : public CUSBHIDDevice
+
+	This class is a driver for USB standard keyboards. An instance of this class is automatically created, when a compatible USB keyboard is found in the USB device enumeration process. Therefore only the class methods needed to use the keyboard by an application are described here, not the methods used for initialization. This device has the name ``"ukbdN"`` (N >= 1) in the device name service.
+
+.. note::
+
+	This driver class supports two keyboard modes: cooked and raw mode. In cooked mode the driver reports ISO-8859-1 character strings and the keyboard LEDs are handled automatically. There are six available keyboard maps (DE, ES, FR, IT, UK, US), which can be selected with the ``DEFAULT_KEYMAP`` configurable system option or the ``keymap=`` setting in the file `cmdline.txt` on the SD card.
+
+	In raw mode the driver reports the raw USB keyboard codes and modifier information and the LEDs have to be set manually by the application.
+
+.. cpp:function:: void CUSBKeyboardDevice::RegisterKeyPressedHandler (TKeyPressedHandler *pKeyPressedHandler)
+
+	Registers a function, which gets called, when a key is pressed in cooked mode:
+
+.. c:type:: void TKeyPressedHandler (const char *pString)
+
+	``pString`` points to a C-string, which contains the ISO-8859-1 code of the pressed key. This is normally only one character, but can be one of the following control sequences for special purpose keys:
+
+	==============	=========
+	Sequence	Key
+	==============	=========
+	\\E		Escape
+	\\177		Backspace
+	^I		Tabulator
+	^J		Return
+	\\E[2~		Insert
+	\\E[1~		Home
+	\\E[5~		PageUp
+	\\E[3~		Delete
+	\\E[4~		End
+	\\E[6~		PageDown
+	\\E[A		Up
+	\\E[B		Down
+	\\E[D		Left
+	\\E[C		Right
+	\\E[[A		F1
+	\\E[[B		F2
+	\\E[[C		F3
+	\\E[[D		F4
+	\\E[[E		F5
+	\\E[17~		F6
+	\\E[18~		F7
+	\\E[19~		F8
+	\\E[20~		F9
+	\\E[G		KP_Center
+	==============	=========
+
+	^X = Control character, \\E = Escape (\\x1b), \\nnn = Octal code
+
+.. cpp:function:: void CUSBKeyboardDevice::RegisterSelectConsoleHandler (TSelectConsoleHandler *pSelectConsoleHandler)
+
+	Registers a function, which gets called, when the `Alt` key is pressed together with a function key `F1` to `F12` in cooked mode. This is used to select the console in some systems.
+
+.. c:type:: void TSelectConsoleHandler (unsigned nConsole)
+
+	``nConsole`` is the number of the console to select (0-11).
+
+.. cpp:function:: void CUSBKeyboardDevice::RegisterShutdownHandler (TShutdownHandler *pShutdownHandler)
+
+	Registers a function, which gets called, when the `Ctrl`, `Alt` and `Del` keys are pressed together in cooked mode. This is used to shutdown or reboot some systems.
+
+.. c:type:: void TShutdownHandler (void)
+
+.. cpp:function:: void CUSBKeyboardDevice::UpdateLEDs (void)
+
+	In cooked mode this method has to be called from TASK_LEVEL from time to time, so that the status of the keyboard LEDs can be updated.
+
+.. cpp:function:: u8 CUSBKeyboardDevice::GetLEDStatus (void) const
+
+	Returns the LED status mask of the keyboard in cooked mode, with the following bit masks:
+
+	* LED_NUM_LOCK
+	* LED_CAPS_LOCK
+	* LED_SCROLL_LOCK
+
+.. cpp:function:: boolean CUSBKeyboardDevice::SetLEDs (u8 ucStatus)
+
+	Sets the keyboard LEDs according to the bit mask values listed under ``GetLEDStatus()``. This method can be called on TASK_LEVEL only. It works in cooked and raw mode.
+
+.. cpp:function:: void CUSBKeyboardDevice::RegisterKeyStatusHandlerRaw (TKeyStatusHandlerRaw *pKeyStatusHandlerRaw, boolean bMixedMode = FALSE)
+
+	Registers a function, which gets called to report the keyboard status in raw mode. If ``bMixedMode`` is ``FALSE``, then the cooked mode handlers are ignored. You can set it to ``TRUE`` to be able to use cooked mode and raw mode handlers together.
+
+.. note::
+
+	It depends on the used USB keyboard, if the raw status handler gets called on status changes only or repeatedly after some delay too. The application must be able to handle both cases.
+
+.. c:type:: void TKeyStatusHandlerRaw (unsigned char ucModifiers, const unsigned char RawKeys[6])
+
+	``RawKeys`` contains up to six raw USB keyboard codes or zero in each byte. ``ucModifiers`` contains a mask of the pressed modifier keys, with the following bit masks:
+
+	* LCTRL
+	* LSHIFT
+	* ALT
+	* LWIN
+	* RCTRL
+	* RSHIFT
+	* ALTGR
+	* RWIN
+
 .. CMouseDevice
 .. CUSBGamePadDevice
 .. CUSBSerialDevice
