@@ -24,6 +24,14 @@ This class encapsulates a character string and allows different manipulations on
 
 	Creates a string object. Sets the string initially to ``pString``.
 
+.. cpp:function:: CString::CString (const CString &rString)
+
+	Copy constructor. Creates a new string object. Sets the string initially to the value of ``rString``. ``rString`` remains unchanged.
+
+.. cpp:function:: CString::CString (CString &&rrString)
+
+	Move constructor. Creates a new string object. Sets the string initially to the value of ``rrString``. ``rrString`` is set to an empty string.
+
 .. cpp:function:: CString::operator const char *(void) const
 
 	Returns a pointer to the string buffer, which is terminated with a zero-character.
@@ -32,9 +40,13 @@ This class encapsulates a character string and allows different manipulations on
 
 	Assigns a new string. Returns a pointer to the string buffer, which is terminated with a zero-character.
 
-.. cpp:function:: const CString &CString::operator = (const CString &rString)
+.. cpp:function:: CString &CString::operator = (const CString &rString)
 
 	Assigns a new string. Returns a reference to the string object.
+
+.. cpp:function:: CString &CString::operator = (CString &&rrString)
+
+	Move assignment. Assigns a new string. ``rrString`` is set to an empty string. Returns a reference to the string object.
 
 .. cpp:function:: size_t CString::GetLength (void) const
 
