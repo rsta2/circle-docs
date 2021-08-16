@@ -131,6 +131,8 @@ CSerialDevice
 
 	GPIO32/33 and GPIO36/37 can be selected with system option ``SERIAL_GPIO_SELECT``. GPIO0/1 are normally reserved for the ID EEPROM. Handshake lines CTS and RTS are not supported.
 
+	This device has the name ``"ttySN"`` (N >= 1) in the device name service, where ``N = nDevice+1``.
+
 .. note::
 
 	This driver can be used in two modes: polling or interrupt driven. The mode is selected with the parameter ``pInterruptSystem`` of the constructor.
@@ -143,9 +145,9 @@ CSerialDevice
 
 	Constructs a ``CSerialDevice`` object. Multiple instances are possible on the Raspberry Pi 4. ``nDevice`` selects the used serial device (see the table above). ``pInterruptSystem`` is a pointer to interrupt system object, or 0 to use the polling driver. The interrupt driver uses the IRQ by default. Set ``bUseFIQ`` to ``TRUE`` to use the FIQ instead. This is recommended for higher baud rates.
 
-.. cpp:function:: boolean CSerialDevice::Initialize (unsigned nBaudrate = 115200)
+.. cpp:function:: boolean CSerialDevice::Initialize (unsigned nBaudrate = 115200, unsigned nDataBits = 8, unsigned nStopBits = 1, TParity Parity = ParityNone)
 
-	Initializes the serial device and sets the baud rate to ``nBaudrate`` bits per second. Returns ``TRUE`` on success.
+	Initializes the serial device and sets the baud rate to ``nBaudrate`` bits per second. ``nDataBits`` selects the number of data bits (5..8, default 8) and ``nStopBits`` the number of stop bits (1..2, default 1). ``Parity`` can be ``CSerialDevice::ParityNone`` (default), ``CSerialDevice::ParityOdd`` or ``CSerialDevice::ParityEven``. Returns ``TRUE`` on success.
 
 .. cpp:function:: int CSerialDevice::Write (const void *pBuffer, size_t nCount)
 
@@ -154,6 +156,7 @@ CSerialDevice
 .. c:macro:: SERIAL_ERROR_BREAK
 .. c:macro:: SERIAL_ERROR_OVERRUN
 .. c:macro:: SERIAL_ERROR_FRAMING
+.. c:macro:: SERIAL_ERROR_PARITY
 
 	Returned from ``Write()`` and ``Read()`` as a negative value. Please note, that these defined values are positive. You have to precede them with a minus for comparison.
 
