@@ -77,7 +77,7 @@ Model information
 
 .. cpp:function:: u32 CMachineInfo::GetRevisionRaw (void) const
 
-	Returns the raw `revision code <https://www.raspberrypi.org/documentation/hardware/raspberrypi/revision-codes/README.md>`_ of the Raspberry Pi model, the application is running on.
+	Returns the raw `revision code <https://www.raspberrypi.org/documentation/computers/raspberry-pi.html#raspberry-pi-revision-codes>`_ of the Raspberry Pi model, the application is running on.
 
 Clocks and peripherals
 """"""""""""""""""""""
