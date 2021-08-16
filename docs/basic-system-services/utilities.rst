@@ -293,6 +293,10 @@ Other functions
 
 	Swaps the byte order of a 16- or 32-bit value.
 
+.. c:function:: int parity32 (unsigned nValue)
+
+	Returns the number of 1-bits in ``nValue`` modulo 1.
+
 Macros
 ^^^^^^
 
