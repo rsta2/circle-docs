@@ -46,9 +46,9 @@ CScreenDevice
 
 	Writes ``nCount`` characters from ``pBuffer`` to the screen. Returns the number of written characters. This method supports several escape sequences:
 
-	==============	======================================	=============
+	==============	======================================	=====================
 	Sequence	Description				Remarks
-	==============	======================================	=============
+	==============	======================================	=====================
 	\\E[B		Cursor down one line
 	\\E[H		Cursor home
 	\\E[A		Cursor up one line
@@ -64,12 +64,15 @@ CScreenDevice
 	\\E[0m		End of bold, half bright, reverse mode
 	\\E[1m		Start bold mode
 	\\E[2m		Start half bright mode
+	\\E[7m		Start reverse video mode
 	\\E[27m		Same as \\E[0m
+	\\E[%dm		Set foreground color			%d = 30-37 or 90-97
+	\\E[%dm		Set background color			%d = 40-47 or 100-107
 	^I		Move to next hardware tab
 	\\E[?25h	Normal cursor visible
 	\\E[?25l	Cursor invisible
 	\\E[%d;%dr	Set scroll region from row %1 to %2	starting at 1
-	==============	======================================	=============
+	==============	======================================	=====================
 
 	^X = Control character, \\E = Escape (\\x1b), %d = Numerical parameter (ASCII)
 
