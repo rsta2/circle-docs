@@ -35,7 +35,7 @@ The detailed definitions for the different hardware devices of the Raspberry Pi 
 
 	#include <circle/bcm2835.h>
 
-This header file provides macro definitions of memory-mapped I/O addresses for all Raspberry Pi models, described in the `BCM2835 ARM Peripherals <https://datasheets.raspberrypi.org/bcm2835/bcm2835-peripherals.pdf>`_ document, especially:
+This header file provides macro definitions of memory-mapped I/O addresses for all Raspberry Pi models, described in the `BCM2835 ARM Peripherals <https://datasheets.raspberrypi.com/bcm2835/bcm2835-peripherals.pdf>`_ document, especially:
 
 .. c:macro:: ARM_IO_BASE
 
@@ -61,7 +61,7 @@ This header file provides macro definitions of memory-mapped I/O addresses for a
 
 	#include <circle/bcm2836.h>
 
-This header file provides macro definitions of memory-mapped I/O addresses for the Raspberry Pi 2 to 4 and compatible models, described in the `ARM Quad A7 core <https://datasheets.raspberrypi.org/bcm2836/bcm2836-peripherals.pdf>`_ document, especially:
+This header file provides macro definitions of memory-mapped I/O addresses for the Raspberry Pi 2 to 4 and compatible models, described in the `ARM Quad A7 core <https://datasheets.raspberrypi.com/bcm2836/bcm2836-peripherals.pdf>`_ document, especially:
 
 .. c:macro:: ARM_LOCAL_BASE
 
@@ -71,7 +71,7 @@ This header file provides macro definitions of memory-mapped I/O addresses for t
 
 	#include <circle/bcm2711.h>
 
-This header file provides macro definitions of memory-mapped I/O addresses for the Raspberry Pi 4 and compatible models, described in the `BCM2711 ARM Peripherals <https://datasheets.raspberrypi.org/bcm2711/bcm2711-peripherals.pdf>`_ document.
+This header file provides macro definitions of memory-mapped I/O addresses for the Raspberry Pi 4 and compatible models, described in the `BCM2711 ARM Peripherals <https://datasheets.raspberrypi.com/bcm2711/bcm2711-peripherals.pdf>`_ document.
 
 I/O barriers
 ^^^^^^^^^^^^

@@ -1,7 +1,7 @@
 Introduction
 ------------
 
-The `Circle <https://github.com/rsta2/circle>`_ project provides a C++ bare metal environment for the `Raspberry Pi <https://www.raspberrypi.org>`_ single-board computers (SBC). This is a framework for developing applications, which run on the bare hardware, without using an operating system, which is somewhat equivalent to programming a very powerful micro-controller. Frequent areas of application for the bare metal system model are:
+The `Circle <https://github.com/rsta2/circle>`_ project provides a C++ bare metal environment for the `Raspberry Pi <https://www.raspberrypi.com>`_ single-board computers (SBC). This is a framework for developing applications, which run on the bare hardware, without using an operating system, which is somewhat equivalent to programming a very powerful micro-controller. Frequent areas of application for the bare metal system model are:
 
 * High-speed data acquisition (DAQ)
 * Retro computer emulation with accurate timing

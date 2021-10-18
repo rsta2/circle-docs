@@ -3,7 +3,7 @@ CPU clock rate management
 
 Most Raspberry Pi models require a CPU clock rate management by the bare metal application to reach the maximum performance. This management continuously measures the current temperature of the CPU (actually the SoC) and regulates the clock rate of the ARM CPU, so that it is decreased, when the temperature is getting too high.
 
-The absolute maximum of the allowed CPU temperature is 85 degrees Celsius. The firmware automatically ensures, that this limit is not exceeded. If the temperature comes near to this value, the firmware shows a warning icon in the upper right corner of the screen. Please read the `Frequency management and thermal control <https://www.raspberrypi.org/documentation/computers/raspberry-pi.html#frequency-management-and-thermal-control>`_ documentation page to get more information on this.
+The absolute maximum of the allowed CPU temperature is 85 degrees Celsius. The firmware automatically ensures, that this limit is not exceeded. If the temperature comes near to this value, the firmware shows a warning icon in the upper right corner of the screen. Please read the `Frequency management and thermal control <https://www.raspberrypi.com/documentation/computers/raspberry-pi.html#frequency-management-and-thermal-control>`_ documentation page to get more information on this.
 
 The different Raspberry Pi models allow different maximum CPU clock rates and the the frequency of the ARM CPU, which is set after boot, is also different:
 

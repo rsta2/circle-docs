@@ -5,8 +5,8 @@ This section presents the Circle classes, which implement digital input/output o
 
 Please see these documents for a description of the GPIO hardware:
 
-* `BCM2835 ARM Peripherals <https://datasheets.raspberrypi.org/bcm2835/bcm2835-peripherals.pdf>`_ (for Raspberry Pi 1 and Zero)
-* `BCM2711 ARM Peripherals <https://datasheets.raspberrypi.org/bcm2711/bcm2711-peripherals.pdf>`_ (for Raspberry Pi 4)
+* `BCM2835 ARM Peripherals <https://datasheets.raspberrypi.com/bcm2835/bcm2835-peripherals.pdf>`_ (for Raspberry Pi 1 and Zero)
+* `BCM2711 ARM Peripherals <https://datasheets.raspberrypi.com/bcm2711/bcm2711-peripherals.pdf>`_ (for Raspberry Pi 4)
 
 The first document is also valid for the Raspberry Pi 2 and 3 with some modifications (e.g. I/O base address).
 
