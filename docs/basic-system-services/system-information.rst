@@ -33,6 +33,7 @@ Model information
 * MachineModelBPlus
 * MachineModelZero
 * MachineModelZeroW
+* MachineModelZero2W
 * MachineModel2B
 * MachineModel3B
 * MachineModel3APlus

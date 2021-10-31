@@ -70,7 +70,7 @@ A typical 64-bit configuration looks like that:
 	AARCH = 64
 	RASPPI = 3
 
-64-bit operation is possible on the Raspberry Pi 3 and 4 only.
+64-bit operation is possible on the Raspberry Pi 3, 4 and Zero 2 only.
 
 Building
 ~~~~~~~~
@@ -101,4 +101,4 @@ Put the SD card into your Raspberry Pi and power it on.
 .. [#tc] A toolchain in this context is cross compiler with additional tools and libraries, which runs on a specific platform and builds binaries for another (normally different) platform.
 .. [#ap] For a start this can be one of the provided `sample programs <https://github.com/rsta2/circle/blob/master/sample/README>`_.
 .. [#ki] Depending on the Raspberry Pi model and the target architecture (32- or 64-bit) a binary image has the filename *kernel.img*, *kernel7.img*, *kernel7l.img*, *kernel8.img* or *kernel8-rpi4.img*.
-.. [#pi] For the Raspberry Pi Zero and Zero W the target ``RASPPI = 1`` has to be configured.
+.. [#pi] For the Raspberry Pi Zero and Zero W the target ``RASPPI = 1`` has to be configured. The Raspberry Pi Zero 2 W requires the target ``RASPPI = 3``.

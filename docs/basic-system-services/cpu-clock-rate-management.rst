@@ -13,6 +13,7 @@ Raspberry Pi	Maximum CPU clock rate	Boot CPU clock rate	Remarks
 1		700 MHz			700 MHz			No management required
 2		900 MHz			600 MHz
 Zero		1000 MHz		700 MHz
+Zero 2		1000 MHz		600 MHz
 3 Model B	1200 MHz		600 MHz
 3 Model A+/B+	1400 MHz		600 MHz
 4		1500 MHz		600 MHz
