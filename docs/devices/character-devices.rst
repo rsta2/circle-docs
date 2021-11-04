@@ -289,11 +289,90 @@ CUSBKeyboardDevice
 	* ALTGR
 	* RWIN
 
-.. CMouseDevice
+CMouseDevice
+""""""""""""
+
+.. code-block:: cpp
+
+	#include <circle/input/mouse.h>
+
+.. cpp:class:: CMouseDevice : public CDevice
+
+	This class is the generic mouse interface device. An instance of this class is automatically created, when a compatible USB mouse or USB gamepad with touchpad is found in the USB device enumeration process. Therefore only the class methods, needed to use the mouse by an application, are described here, not the method used for creation. This device has the name ``"mouseN"`` (N >= 1) in the device name service.
+
+.. note::
+
+	This class supports two mouse modes: cooked and raw mode. In cooked mode a mouse cursor is shown on the screen and automatically controlled by the driver, which reports several mouse events (down, up, move, wheel).
+
+	In raw mode the driver directly reports the raw mouse displacement, button and wheel information.
+
+.. cpp:function:: boolean CMouseDevice::Setup (unsigned nScreenWidth, unsigned nScreenHeight)
+
+	Setup mouse device in cooked mode. ``nScreenWidth`` and ``nScreenHeight`` are the width and height of the screen in pixels. Returns ``FALSE`` on failure. This method must be called first in the setup process for a mouse in cooked mode.
+
+.. cpp:function:: void CMouseDevice::RegisterEventHandler (TMouseEventHandler *pEventHandler)
+
+	Registers an mouse event handler in cooked mode. ``pEventHandler`` is a pointer to the event handler with the following prototype:
+
+.. c:type:: void TMouseEventHandler (TMouseEvent Event, unsigned nButtons, unsigned nPosX, unsigned nPosY, int nWheelMove)
+
+	``nPosX`` is the X-coordinate of the current mouse cursor position in pixels (0 is on the left border). ``nPosY`` is the Y-coordinate of the position in pixels (0 is on the top border). These parameters are always valid (also in button and wheel events). ``Event`` is the reported mouse event with these possible values:
+
+.. c:enum:: TMouseEvent
+
+	======================	======================================	====================
+	Event			Reports					Parameter
+	======================	======================================	====================
+	MouseEventMouseDown	one button, which has been pressed	``nButtons``
+	MouseEventMouseUp	one button, which has been released	``nButtons``
+	MouseEventMouseMove	a mouse move to a new screen position	``nPosX``, ``nPosY``
+	MouseEventMouseWheel	a wheel move (raw displacement -/+)	``nWheelMove``
+	======================	======================================	====================
+
+.. c:macro:: MOUSE_BUTTON_LEFT
+.. c:macro:: MOUSE_BUTTON_RIGHT
+.. c:macro:: MOUSE_BUTTON_MIDDLE
+.. c:macro:: MOUSE_BUTTON_SIDE1
+.. c:macro:: MOUSE_BUTTON_SIDE2
+
+	Bit masks for the ``nButtons`` parameter.
+
+.. cpp:function:: boolean CMouseDevice::SetCursor (unsigned nPosX, unsigned nPosY)
+
+	Sets the mouse cursor to a specific screen position in cooked mode. ``nPosX`` is the X-coordinate of the position in pixels (0 is on the left border). ``nPosY`` is the Y-coordinate of the position in pixels (0 is on the top border). Returns ``FALSE`` on failure.
+
+.. cpp:function:: boolean CMouseDevice::ShowCursor (boolean bShow)
+
+	Switches the mouse cursor on the screen on or off in cooked mode. Set ``bShow`` to ``TRUE`` to show the mouse cursor. Returns the previous state.
+
+.. cpp:function:: void CMouseDevice::UpdateCursor (void)
+
+	This method must be called frequently from ``TASK_LEVEL`` in cooked mode to update the mouse cursor on screen.
+
+.. cpp:function:: void CMouseDevice::RegisterStatusHandler (TMouseStatusHandler *pStatusHandler)
+
+	Registers the mouse status handler in raw mode. ``pStatusHandler`` is a pointer to the status handler with the following prototype:
+
+.. c:type:: void TMouseStatusHandler (unsigned nButtons, int nDisplacementX, int nDisplacementY, int nWheelMove)
+
+	``nButtons`` is the raw button mask reported from the mouse device. Use the same bit masks ``MOUSE_BUTTON_LEFT`` etc. listed above. ``nDisplacementX`` and ``nDisplacementY`` are the raw displacement values reported from the mouse device, with these limits:
+
+.. c:macro:: MOUSE_DISPLACEMENT_MIN
+.. c:macro:: MOUSE_DISPLACEMENT_MAX
+
+.. cpp:function:: unsigned CMouseDevice::GetButtonCount (void) const
+
+	Returns the number of supported buttons for this mouse device.
+
+.. cpp:function:: boolean CMouseDevice::HasWheel (void) const
+
+	Returns ``TRUE``, if the mouse supports a mouse wheel.
+
 .. CUSBGamePadDevice
 .. CUSBSerialDevice
 .. CUSBPrinterDevice
 .. CTouchScreenDevice
+.. CRPiTouchScreen
 .. CConsole
 .. CHD44780Device
 
