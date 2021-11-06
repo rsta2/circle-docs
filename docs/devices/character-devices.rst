@@ -368,7 +368,175 @@ CMouseDevice
 
 	Returns ``TRUE``, if the mouse supports a mouse wheel.
 
-.. CUSBGamePadDevice
+CUSBGamePadDevice
+"""""""""""""""""
+
+.. code-block:: cpp
+
+	#include <circle/usb/usbgamepad.h>
+
+.. cpp:class:: CUSBGamePadDevice : public CUSBHIDDevice
+
+	This class is the base class for USB gamepad drivers and the generic application interface for USB gamepads. There are a number of different derived classes, which implement the drivers for specific gamepads. Circle automatically creates an instance of the right class, when a compatible USB gamepad is found in the USB device enumeration process. Therefore only the class methods, needed to use the gamepad by an application, are described here, not the methods used for initialization. This device has the name ``"upadN"`` (N >= 1) in the device name service.
+
+.. note::
+
+	Circle supports gamepads, which are compatible with the USB HID-class specification and some other gamepads. To use a specific gamepad an application must normally know the mapping of the gamepad controls (buttons, axes etc.) to the gamepad report items. This mapping is not defined by the specification, but known for some widely available gamepads. A supported gamepad with a known mapping is called a "known gamepad" here and its driver offers additional services. The properties of a gamepad can be requested using ``GetProperties()``.
+
+	The *sample/27-usbgamepad* is working with all supported gamepads, but has limited function. The *sample/37-showgamepad* is only working with with known gamepads with more function.
+
+.. c:struct:: TGamePadState
+
+	This structure is used to report the current state of the gamepad controls to the application. It can be fetched using ``GetInitialState()`` or by registering a status handler using ``RegisterStatusHandler()``.
+
+.. code-block:: c
+
+	#define MAX_AXIS	16
+	#define MAX_HATS	6
+
+	struct TGamePadState
+	{
+		int naxes;		// Number of available axes and analog buttons
+		struct
+		{
+			int value;	// Current position value
+			int minimum;	// Minimum position value (normally 0)
+			int maximum;	// Maximum position value (normally 255)
+		}
+		axes[MAX_AXIS];		// Array of axes and analog buttons
+
+		int nhats;		// Number of available hat controls
+		int hats[MAX_HATS];	// Current position value of hat controls
+
+		int nbuttons;		// Number of available digital buttons
+		unsigned buttons;	// Current status of digital buttons (bit mask)
+
+		int acceleration[3];	// Current state of acceleration sensor (x, y, z)
+		int gyroscope[3];	// Current state of gyroscope sensor (x, y, z)
+	};
+
+	#define GAMEPAD_AXIS_DEFAULT_MINIMUM	0
+	#define GAMEPAD_AXIS_DEFAULT_MAXIMUM	255
+
+.. c:enum:: TGamePadButton
+
+	Defines bit masks for the ``TGamePadState::buttons`` field for known gamepads. If the digital button is pressed, the respective bit is set. The following buttons are defined:
+
+	======================	======================================	=================
+	Digital button		Alias					Comment
+	======================	======================================	=================
+	GamePadButtonGuide	GamePadButtonXbox, GamePadButtonPS,
+				GamePadButtonHome
+	GamePadButtonLT		GamePadButtonL2, GamePadButtonLZ
+	GamePadButtonRT		GamePadButtonR2, GamePadButtonRZ
+	GamePadButtonLB		GamePadButtonL1, GamePadButtonL
+	GamePadButtonRB		GamePadButtonR1, GamePadButtonR
+	GamePadButtonY		GamePadButtonTriangle
+	GamePadButtonB		GamePadButtonCircle
+	GamePadButtonA		GamePadButtonCross
+	GamePadButtonX		GamePadButtonSquare
+	GamePadButtonSelect	GamePadButtonBack, GamePadButtonShare,
+				GamePadButtonCapture
+	GamePadButtonL3		GamePadButtonSL				left axis button
+	GamePadButtonR3		GamePadButtonSR				right axis button
+	GamePadButtonStart	GamePadButtonOptions			optional
+	GamePadButtonUp
+	GamePadButtonRight
+	GamePadButtonDown
+	GamePadButtonLeft
+	GamePadButtonPlus						optional
+	GamePadButtonMinus						optional
+	GamePadButtonTouchpad						optional
+	======================	======================================	=================
+
+.. c:macro:: GAMEPAD_BUTTONS_STANDARD
+.. c:macro:: GAMEPAD_BUTTONS_ALTERNATIVE
+.. c:macro:: GAMEPAD_BUTTONS_WITH_TOUCHPAD
+
+	Number of digital buttons (19, 21 or 22) for known gamepads with different properties.
+
+.. c:enum:: TGamePadAxis
+
+	Defines indices for the ``TGamePadState::axes`` field for known gamepads. This field covers the state information of axes and analog buttons. The following axes are defined:
+
+	==============================	===================
+	Axes				Alias
+	==============================	===================
+	GamePadAxisLeftX
+	GamePadAxisLeftY
+	GamePadAxisRightX
+	GamePadAxisRightY
+	GamePadAxisButtonLT		GamePadAxisButtonL2
+	GamePadAxisButtonRT		GamePadAxisButtonR2
+	GamePadAxisButtonUp
+	GamePadAxisButtonRight
+	GamePadAxisButtonDown
+	GamePadAxisButtonLeft
+	GamePadAxisButtonL1
+	GamePadAxisButtonR1
+	GamePadAxisButtonTriangle
+	GamePadAxisButtonCircle
+	GamePadAxisButtonCross
+	GamePadAxisButtonSquare
+	==============================	===================
+
+.. cpp:function:: unsigned CUSBGamePadDevice::GetProperties (void)
+
+	Returns the properties of the gamepad as a bit mask of ``TGamePadProperty`` constants, which are:
+
+	======================================	============================================
+	Constant				Description
+	======================================	============================================
+	GamePadPropertyIsKnown			is a known gamepad
+	GamePadPropertyHasLED			supports ``SetLEDMode()``
+	GamePadPropertyHasRGBLED		if set, ``GamePadPropertyHasLED`` is set too
+	GamePadPropertyHasRumble		supports ``SetRumbleMode()``
+	GamePadPropertyHasGyroscope		provides sensor info in ``TGamePadState``
+	GamePadPropertyHasTouchpad		has touchpad with button
+	GamePadPropertyHasAlternativeMapping	has additional +/- buttons, no START button
+	======================================	============================================
+
+.. cpp:function:: const TGamePadState *CUSBGamePadDevice::GetInitialState (void)
+
+	Returns a pointer to the current gamepad state. This allows to initially request the information about the different gamepad controls. The control's state fields may have some default value, when a report from the gamepad has not been received yet. ``GetReport()`` is an deprecated alias for this method.
+
+.. cpp:function:: void CUSBGamePadDevice::RegisterStatusHandler (TGamePadStatusHandler *pStatusHandler)
+
+	Registers a handler function to be called on gamepad state changes. ``pStatusHandler`` is a pointer to this function, with this prototype:
+
+.. c:type:: void TGamePadStatusHandler (unsigned nDeviceIndex, const TGamePadState *pGamePadState)
+
+	``nDeviceIndex`` is the zero-based device index of this gamepad. The gamepad with the name ``"upadN"`` (N >= 1) in the device name service has the device index ``N-1``. ``pGamePadState`` is a pointer to the current gamepad state.
+
+.. cpp:function:: boolean CUSBGamePadDevice::SetLEDMode (TGamePadLEDMode Mode)
+
+	Sets LED(s) on gamepads with multiple uni-color LEDs. ``Mode`` selects the LED mode to be set. Returns ``TRUE`` if the LED mode is supported and was successfully set. A gamepad may support only a subset of the defined ``TGamePadLEDMode`` modes:
+
+	* GamePadLEDModeOff
+	* GamePadLEDModeOn1
+	* GamePadLEDModeOn2
+	* GamePadLEDModeOn3
+	* GamePadLEDModeOn4
+	* GamePadLEDModeOn5
+	* GamePadLEDModeOn6
+	* GamePadLEDModeOn7
+	* GamePadLEDModeOn8
+	* GamePadLEDModeOn9
+	* GamePadLEDModeOn10
+
+
+.. cpp:function:: boolean CUSBGamePadDevice::SetLEDMode (u32 nRGB, u8 uchTimeOn, u8 uchTimeOff)
+
+	Sets the LED on gamepads with a single flash-able RGB-color LED. The property bit ``GamePadPropertyHasRGBLED`` is set, if this method is supported by a gamepad. ``nRGB`` is the color value to be set (0x00rrggbb). ``uchTimeOn`` is the duration, while the LED is on in 1/100 seconds. ``uchTimeOff`` is the duration, while the LED is off in 1/100 seconds. Returns ``TRUE``, if the operation was successful.
+
+.. cpp:function:: boolean CUSBGamePadDevice::SetRumbleMode (TGamePadRumbleMode Mode)
+
+	Sets the rumble mode ``Mode``, if the gamepad supports it (``GamePadPropertyHasRumble`` is set). Returns ``TRUE``, if the operation was successful. The following modes are defined:
+
+	* GamePadRumbleModeOff
+	* GamePadRumbleModeLow
+	* GamePadRumbleModeHigh
+
 .. CUSBSerialDevice
 .. CUSBPrinterDevice
 .. CTouchScreenDevice
