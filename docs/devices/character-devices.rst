@@ -85,6 +85,24 @@ CScreenDevice
 	* HIGH_COLOR (red)
 	* HALF_COLOR (dark blue)
 
+	The following specific color values are defined:
+
+	* RED_COLOR
+	* GREEN_COLOR
+	* YELLOW_COLOR
+	* BLUE_COLOR
+	* MAGENTA_COLOR
+	* CYAN_COLOR
+	* WHITE_COLOR
+	* BRIGHT_BLACK_COLOR
+	* BRIGHT_RED_COLOR
+	* BRIGHT_GREEN_COLOR
+	* BRIGHT_YELLOW_COLOR
+	* BRIGHT_BLUE_COLOR
+	* BRIGHT_MAGENTA_COLOR
+	* BRIGHT_CYAN_COLOR
+	* BRIGHT_WHITE_COLOR
+
 .. c:macro:: COLOR16(r, g, b)
 
 	Defines a color value for ``DEPTH == 16``. r/g/b can be 0-31.
