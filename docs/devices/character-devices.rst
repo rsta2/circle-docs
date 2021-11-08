@@ -555,7 +555,59 @@ CUSBGamePadDevice
 	* GamePadRumbleModeLow
 	* GamePadRumbleModeHigh
 
-.. CUSBSerialDevice
+CUSBSerialDevice
+""""""""""""""""
+
+.. code-block:: cpp
+
+	#include <circle/usb/usbserial.h>
+
+.. cpp:class:: CUSBSerialDevice : public CUSBFunction
+
+	This class is the base class for USB serial device (aka interface, adapter) drivers and the generic application interface for USB serial devices. There are a number of different derived classes, which implement the drivers for specific devices. Circle automatically creates an instance of the appropriate class, when a compatible USB serial device is found in the USB device enumeration process. Therefore only the class methods, needed to use the USB serial device by an application, are described here, not the methods used for initialization. This device has the name ``"uttyN"`` (N >= 1) in the device name service.
+
+.. note::
+
+	Circle currently supports USB serial devices, which are compatible with the USB CDC-class specification (interfaces 2-2-0 and 2-2-1) and other devices, which use the following controllers: CH341, CP2102, FT231x, PL2303.
+
+	There are many different combinations of USB vendor and device IDs for these devices and Circle supports only a small subset of these combinations, which were available for tests. If you have a USB serial device, which is not detected, there is still some chance, that the device can work with a Circle driver. You have to add the vendor/device ID combination of your device to the array ``DeviceIDTable[]`` at the end of the respective source file *lib/usb/usbserial\*.cpp* and test it. Please report newly found vendor/device ID combinations and the used driver!
+
+.. cpp:function:: int CUSBSerialDevice::Read (void *pBuffer, size_t nCount)
+.. cpp:function:: int CUSBSerialDevice::Write (const void *pBuffer, size_t nCount)
+
+	Reads/writes data from/to the USB serial device (see :cpp:class:`CDevice`).
+
+.. cpp:function:: boolean CUSBSerialDevice::SetBaudRate (unsigned nBaudRate)
+
+	Sets the interface speed to a specific baud (bit) rate. ``nBaudRate`` is the rate in bits per second. Returns ``TRUE`` on success.
+
+.. cpp:function:: boolean CUSBSerialDevice::SetLineProperties (TUSBSerialDataBits DataBits, TUSBSerialParity Parity, TUSBSerialStopBits StopBits)
+
+	Sets the communication parameters number of data bits (``DataBits``), parity (``Parity``) and number of stop bits (``StopBits``) to the following values.  Returns ``TRUE`` on success.
+
+.. code-block:: c
+
+	enum TUSBSerialDataBits
+	{
+		USBSerialDataBits5 = 5,
+		USBSerialDataBits6 = 6,
+		USBSerialDataBits7 = 7,
+		USBSerialDataBits8 = 8,
+	};
+
+	enum TUSBSerialStopBits
+	{
+		USBSerialStopBits1 = 1,
+		USBSerialStopBits2 = 2,
+	};
+
+	enum TUSBSerialParity
+	{
+		USBSerialParityNone,
+		USBSerialParityOdd,
+		USBSerialParityEven,
+	};
+
 .. CUSBPrinterDevice
 .. CTouchScreenDevice
 .. CRPiTouchScreen
