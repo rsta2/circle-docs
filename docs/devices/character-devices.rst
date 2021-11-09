@@ -608,7 +608,21 @@ CUSBSerialDevice
 		USBSerialParityEven,
 	};
 
-.. CUSBPrinterDevice
+CUSBPrinterDevice
+"""""""""""""""""
+
+.. code-block:: cpp
+
+	#include <circle/usb/usbprinter.h>
+
+.. cpp:class:: CUSBPrinterDevice : public CUSBFunction
+
+	This class is a simple driver for printers with USB interface. Only printers are supported, which are by default able to print ASCII characters on their own, not GDI printers. There is only one method of interest for applications, which writes the characters out to the printer. The printer device has the name ``"uprnN"`` (N >= 1) in the device name service.
+
+.. cpp:function:: int CUSBPrinterDevice::Write (const void *pBuffer, size_t nCount)
+
+	See :cpp:func:`CDevice::Write()`.
+
 .. CTouchScreenDevice
 .. CRPiTouchScreen
 .. CConsole
