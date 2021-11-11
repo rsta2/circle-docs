@@ -16,7 +16,7 @@ Zero		1000 MHz		700 MHz
 Zero 2		1000 MHz		600 MHz
 3 Model B	1200 MHz		600 MHz
 3 Model A+/B+	1400 MHz		600 MHz
-4		1500 MHz		600 MHz
+4		1500 MHz		600 MHz			Rev. 1.4: 1800 MHz
 400		1800 MHz		600 MHz			Head sink included
 ==============	======================	======================	======================
 
