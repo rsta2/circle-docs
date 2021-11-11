@@ -623,8 +623,66 @@ CUSBPrinterDevice
 
 	See :cpp:func:`CDevice::Write()`.
 
-.. CTouchScreenDevice
-.. CRPiTouchScreen
+CTouchScreenDevice
+""""""""""""""""""
+
+.. code-block:: cpp
+
+	#include <circle/input/touchscreen.h>
+
+.. cpp:class:: CTouchScreenDevice : public CDevice
+
+	This class is the generic touchscreen interface device. An instance of this class is automatically created, when a compatible USB touchscreen is found in the USB device enumeration process. When the class :cpp:class:`CRPiTouchScreen` is manually instantiated, it is created too. This device has the name ``"touchN"`` (N >= 1) in the device name service.
+
+.. cpp:function:: void CTouchScreenDevice::Update (void)
+
+	This method must be called about 60 times per second. This is required for the Raspberry Pi official touchscreen only, but to be prepared for any touchscreen, you should call it in any case.
+
+.. cpp:function:: void CTouchScreenDevice::RegisterEventHandler (TTouchScreenEventHandler *pEventHandler)
+
+	Registers a handler function, which will be called on events from the touchscreen. The prototype of the handler is:
+
+.. c:type:: void TTouchScreenEventHandler (TTouchScreenEvent Event, unsigned nID, unsigned nPosX, unsigned nPosY)
+
+	``Event`` specifies the received event. ``nID`` is an zero based identifier of the finger (for multi-touch). This first finger has always the ID zero. ``nPosX`` and ``nPosY`` specify the pixel position of the finger on the screen (for finger down and move events), where ``(0,0)`` is the top left position. The following touchscreen events are defined:
+
+.. c:enum:: TTouchScreenEvent
+
+	* TouchScreenEventFingerDown
+	* TouchScreenEventFingerUp
+	* TouchScreenEventFingerMove
+
+.. cpp:function:: boolean CTouchScreenDevice::SetCalibration (const unsigned Coords[4], unsigned nWidth, unsigned nHeight)
+
+	Sets the calibration parameters for the touchscreen. ``Coords`` are the usable coordinates (min-x, max-x, min-y, max-y) of the touchscreen. ``nWidth`` is the physical screen width and ``nHeight`` the height in number of pixels. Returns ``TRUE``, if the calibration information is valid.
+
+.. note::
+
+	The calibration parameters for a touchscreen can be determined with the `Touchscreen calibrator <https://github.com/rsta2/circle/tree/master/tools/touchscreen-calibrator>`_.
+
+CRPiTouchScreen
+"""""""""""""""
+
+.. code-block:: cpp
+
+	#include <circle/input/rpitouchscreen.h>
+
+.. cpp:class:: CRPiTouchScreen
+
+	This class is a driver for the official Raspberry Pi touchscreen. If you want to use this touchscreen, you have to create an instance of this class and initialize it. For the further use of this touchscreen an instance of the class :cpp:class:`CTouchScreenDevice` is automatically created.
+
+.. c:macro:: RPITOUCH_SCREEN_MAX_POINTS
+
+	The maximum number of detected fingers on the touchscreen (10).
+
+.. cpp:function:: boolean CRPiTouchScreen::Initialize (void)
+
+	Initializes the driver. Returns ``TRUE`` on success.
+
+.. note::
+
+	The driver cannot detect, if an official Raspberry Pi touchscreen is actually connected. Normally it returns ``TRUE`` in any case.
+
 .. CConsole
 .. CHD44780Device
 
