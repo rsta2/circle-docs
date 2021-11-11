@@ -176,3 +176,7 @@ The class ``CKernelOptions`` provides the values of runtime options, which can b
 .. cpp:function:: unsigned CKernelOptions::GetSoCMaxTemp (void) const
 
 	Returns the enforced maximal temperature of the SoC (option ``socmaxtemp=``) in degrees Celsius (default 60).
+
+.. cpp:function:: const unsigned *CKernelOptions::GetTouchScreen (void) const
+
+	Returns the calibration parameters for the touchscreen. The returned pointer refers to an array with four elements (min-x, max-x, min-y, max-y). It is ``nullptr``, if the option ``touchscreen=`` is not set.
