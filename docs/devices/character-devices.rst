@@ -4,7 +4,7 @@ Character devices
 Character devices usually accept and/or deliver a stream of characters via ``Write()`` and ``Read()`` calls. In Circle some character devices use a register-able callback handler instead of the ``Read()`` method, to deliver the received data. This makes time-consuming polling operations superfluous for these devices.
 
 CScreenDevice
-"""""""""""""
+^^^^^^^^^^^^^
 
 .. code-block:: cpp
 
@@ -124,7 +124,7 @@ CScreenDevice
 	Returns a pointer to the member of the type ``CBcmFrameBuffer``, which can be used to directly manipulate the frame buffer.
 
 CSerialDevice
-"""""""""""""
+^^^^^^^^^^^^^
 
 .. code-block:: cpp
 
@@ -201,7 +201,7 @@ CSerialDevice
 .. cpp:type:: void CSerialDevice::TMagicReceivedHandler (void)
 
 CUSBKeyboardDevice
-""""""""""""""""""
+^^^^^^^^^^^^^^^^^^
 
 .. code-block:: cpp
 
@@ -308,7 +308,7 @@ CUSBKeyboardDevice
 	* RWIN
 
 CMouseDevice
-""""""""""""
+^^^^^^^^^^^^
 
 .. code-block:: cpp
 
@@ -387,7 +387,7 @@ CMouseDevice
 	Returns ``TRUE``, if the mouse supports a mouse wheel.
 
 CUSBGamePadDevice
-"""""""""""""""""
+^^^^^^^^^^^^^^^^^
 
 .. code-block:: cpp
 
@@ -556,7 +556,7 @@ CUSBGamePadDevice
 	* GamePadRumbleModeHigh
 
 CUSBSerialDevice
-""""""""""""""""
+^^^^^^^^^^^^^^^^
 
 .. code-block:: cpp
 
@@ -609,7 +609,7 @@ CUSBSerialDevice
 	};
 
 CUSBPrinterDevice
-"""""""""""""""""
+^^^^^^^^^^^^^^^^^
 
 .. code-block:: cpp
 
@@ -624,7 +624,7 @@ CUSBPrinterDevice
 	See :cpp:func:`CDevice::Write()`.
 
 CTouchScreenDevice
-""""""""""""""""""
+^^^^^^^^^^^^^^^^^^
 
 .. code-block:: cpp
 
@@ -661,7 +661,7 @@ CTouchScreenDevice
 	The calibration parameters for a touchscreen can be determined with the `Touchscreen calibrator <https://github.com/rsta2/circle/tree/master/tools/touchscreen-calibrator>`_.
 
 CRPiTouchScreen
-"""""""""""""""
+^^^^^^^^^^^^^^^
 
 .. code-block:: cpp
 
@@ -684,7 +684,7 @@ CRPiTouchScreen
 	The driver cannot detect, if an official Raspberry Pi touchscreen is actually connected. Normally it returns ``TRUE`` in any case.
 
 CConsole
-""""""""
+^^^^^^^^
 
 .. code-block:: cpp
 
@@ -745,7 +745,7 @@ CConsole
 	Echo input to output is enabled (default).
 
 CNullDevice
-"""""""""""
+^^^^^^^^^^^
 
 .. code-block:: cpp
 
