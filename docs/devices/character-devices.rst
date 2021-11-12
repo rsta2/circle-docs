@@ -683,8 +683,66 @@ CRPiTouchScreen
 
 	The driver cannot detect, if an official Raspberry Pi touchscreen is actually connected. Normally it returns ``TRUE`` in any case.
 
-.. CConsole
-.. CHD44780Device
+CConsole
+""""""""
+
+.. code-block:: cpp
+
+	#include <circle/input/console.h>
+
+.. cpp:class:: CConsole : public CDevice
+
+	This class implements a console with input and output stream and a line editor using the screen ``tty1`` and USB keyboard ``ukbd1`` devices or alternate device(s) (e.g. serial interface). The console device itself has the name ``console`` in the device name service. The `sample/32-i2cshell <https://github.com/rsta2/circle/tree/master/sample/32-i2cshell>`_ demonstrates, how this class can be used to implement a simple shell.
+
+.. note::
+
+	This class does not create instances of the devices, which are used for input and output. This has to be done by the application. The device ``ukbd1`` is created in the USB device enumeration process, when an USB keyboard is found.
+
+.. cpp:function:: CConsole::CConsole (CDevice *pAlternateDevice = 0, boolean bPlugAndPlay = FALSE)
+
+	Creates an instance of this class. ``pAlternateDevice`` is an alternate device to be used, if the USB keyboard is not attached (default none). ``bPlugAndPlay`` must be set to ``TRUE`` to enable USB plug-and-play support for the console. This constructor is mandatory for USB plug-and-play operation.
+
+.. cpp:function:: CConsole::CConsole (CDevice *pInputDevice, CDevice *pOutputDevice)
+
+	Creates an instance of this class. ``pInputDevice`` is the device used for input (instead of the USB keyboard) and ``pOutputDevice`` is the device used for output (instead of the screen).
+
+.. cpp:function:: boolean CConsole::Initialize (void)
+
+	Initializes the console class. Returns ``TRUE``, if the operation has been successful.
+
+.. cpp:function:: void CConsole::UpdatePlugAndPlay (void)
+
+	Updates the USB plug-and-play configuration. This method must be called continuously, if the USB-plug-and-play support has been enabled in the constructor.
+
+.. cpp:function:: boolean CConsole::IsAlternateDeviceUsed (void) const
+
+	Returns ``TRUE``, if the alternate device is used instead of screen/USB keyboard?
+
+.. cpp:function:: int CConsole::Read (void *pBuffer, size_t nCount)
+
+	See :cpp:func:`CDevice::Read()`.  This method does not block! It has to be called until ``!= 0`` is returned.
+
+.. cpp:function:: int CConsole::Write (const void *pBuffer, size_t nCount)
+
+	See :cpp:func:`CDevice::Write()`.
+
+.. cpp:function:: unsigned CConsole::GetOptions (void) const
+
+	Returns the console options bit mask.
+
+.. cpp:function:: void CConsole::SetOptions (unsigned nOptions)
+
+	Sets the console options bit mask to ``nOptions``.
+
+	The following bits are defined:
+
+.. c:macro:: CONSOLE_OPTION_ICANON
+
+	Canonic input using a line editor is enabled (default).
+
+.. c:macro:: CONSOLE_OPTION_ECHO
+
+	Echo input to output is enabled (default).
 
 CNullDevice
 """""""""""
