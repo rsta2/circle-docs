@@ -12,7 +12,7 @@ The Circle project does not provide a single centralized C++ header file. Instea
 
 	device-management
 	character-devices
-..	block-devices
+	block-devices
 ..	audio-devices
 ..	network-devices
 ..	other-devices

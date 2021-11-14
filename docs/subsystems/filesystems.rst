@@ -79,6 +79,8 @@ CFATFileSystem
 
 	Deletes the file with the name ``pTitle`` from the root directory. Returns a positive value on success, zero, if the file was not found, or a negative value, if the file has the read-only attribute.
 
+.. _FatFs library:
+
 FatFs library
 ^^^^^^^^^^^^^
 
