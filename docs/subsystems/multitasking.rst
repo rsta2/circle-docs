@@ -46,6 +46,10 @@ This class implements a cooperative non-preemptive scheduler, which controls whi
 
 	Returns a pointer to the ``CTask`` object of the currently running task.
 
+.. cpp:function:: CTask *CScheduler::GetTask (const char *pTaskName)
+
+	Returns a pointer to the ``CTask`` object of the task with the name ``pTaskName`` or 0, if the task was not found.
+
 .. cpp:function:: boolean CScheduler::IsValidTask (CTask *pTask)
 
 	Returns ``TRUE``, if ``pTask`` is referencing a CTask object of a currently known task.
@@ -77,6 +81,10 @@ This class implements a cooperative non-preemptive scheduler, which controls whi
 .. cpp:function:: void CScheduler::ResumeNewTasks (void)
 
 	Stops causing new tasks to be created in a suspended state and starts any tasks that were created suspended. Nested calls to ``SuspendNewTasks()`` and ``ResumeNewTasks()`` are allowed.
+
+.. cpp:function:: void CScheduler::ListTasks (CDevice *pTarget)
+
+	Writes a task listing to the device ``pTarget``.
 
 .. cpp:function:: void CScheduler::RegisterTaskSwitchHandler (TSchedulerTaskHandler *pHandler)
 
@@ -111,7 +119,19 @@ Derive this class, define the ``Run()`` method to implement your own task and ca
 
 .. cpp:function:: void CTask::Start (void)
 
-	Starts a task, that was created with ``bCreateSuspended = TRUE``.
+	Starts a task, that was created with ``bCreateSuspended = TRUE`` or restarts it after ``Suspend()``.
+
+.. cpp:function:: void CTask::Suspend (void)
+
+	Suspends a task from running, until ``Resume()`` is called for this task.
+
+.. cpp:function:: void CTask::Resume (void)
+
+	Alternative method to (re-)start a suspended task.
+
+.. cpp:function:: boolean CTask::IsSuspended (void) const
+
+	Returns ``TRUE``, if the task is currently suspended from running.
 
 .. cpp:function:: void CTask::Terminate (void)
 
@@ -120,6 +140,14 @@ Derive this class, define the ``Run()`` method to implement your own task and ca
 .. cpp:function:: void CTask::WaitForTermination (void)
 
 	Waits for the termination of the task. This method can only be called by an other task.
+
+.. cpp:function:: void CTask::SetName (const char *pName)
+
+	Sets the specific name ``pName`` for this task.
+
+.. cpp:function:: const char *CTask::GetName (void) const
+
+	Returns a pointer to 0-terminated name string of this task. The default name of a task is constructed from the address of its task object (e.g. ``"@84abc0"``). The main application task has the name ``"main"``.
 
 .. cpp:function:: void CTask::SetUserData (void *pData, unsigned nSlot)
 
