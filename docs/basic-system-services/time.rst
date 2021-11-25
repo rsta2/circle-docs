@@ -10,7 +10,7 @@ This section describes the services, which are provided by Circle regarding time
 * A fine grained, consecutive system tick counter in microseconds
 * A possibly greater number of kernel timers, which elapse after a given number of coarse system ticks, resulting in a callback function to be executed
 * Up to four periodic timer handlers, called 100 times per second
-* Delaying program execution for a number of milli- or microseconds
+* Delaying program execution for a number of milli-, micro- or nanoseconds
 * One fine grained periodic user timer, executing a callback function in an interval down to microseconds
 * Converting time values (seconds since 1970-01-01 00:00:00) into time components (i.e. year, month, day, hour, minute, seconds) or reversed or into a string representation
 
@@ -159,8 +159,13 @@ Delay
 
 .. cpp:function:: void CTimer::MsDelay (unsigned nMilliSeconds)
 .. cpp:function:: void CTimer::usDelay (unsigned nMicroSeconds)
+.. cpp:function:: void CTimer::nsDelay (unsigned nNanoSeconds)
 
 	Delay the program execution by the given amount of time. These functions should be used, when an instance of ``CTimer`` is available in the system (i.e. instead of ``SimpleMsDelay()`` and ``SimpleusDelay()``).
+
+.. note::
+
+	The actual delay may deviate from the requested value to some degree, but is never smaller than requested.
 
 CUserTimer
 ^^^^^^^^^^
