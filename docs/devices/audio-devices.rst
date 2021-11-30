@@ -284,4 +284,34 @@ CHDMISoundBaseDevice
 
 .. CVCHIQSoundBaseDevice
 .. CVCHIQSoundDevice
-.. CUSBMIDIDevice
+
+CUSBMIDIDevice
+^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+	#include <circle/usb/usbmidi.h>
+
+.. cpp:class:: CUSBMIDIDevice : public CUSBFunction
+
+	This class is a driver for USB Audio Class MIDI 1.0 devices. An instance of this class is automatically created, when a compatible device is found in the USB device enumeration process. Therefore only the class methods needed to use an USB MIDI device by an application are described here, not the methods used for initialization. This device has the name ``"umidiN"`` (N >= 1) in the device name service (character device).
+
+.. note::
+
+	See the `Universal Serial Bus Device Class Definition for MIDI Devices, Release 1.0 <https://usb.org/document-library/usb-midi-devices-10>`_ for information about USB MIDI packets and virtual MIDI cables!
+
+.. cpp:function:: void CUSBMIDIDevice::RegisterPacketHandler (TMIDIPacketHandler *pPacketHandler)
+
+	Registers a callback function, which is called, when a MIDI packet arrives. ``pPacketHandler`` is a pointer to the function, which has the following prototype:
+
+.. c:type:: void TMIDIPacketHandler (unsigned nCable, u8 *pPacket, unsigned nLength)
+
+	``nCable`` is the number of the virtual MIDI cable (0..15). ``pPacket`` is a pointer to one received MIDI packet. ``nLength`` is the number of valid bytes in the packet (1..3).
+
+.. cpp:function:: boolean CUSBMIDIDevice::SendEventPackets (const u8 *pData, unsigned nLength)
+
+	Sends one or more packets in the encoded USB MIDI event packet format. ``pData`` is a pointer to the packet buffer. ``nLength`` is the length of the packet buffer in bytes, which must be a multiple of 4. Returns ``TRUE``, if the operation has been successful. This function fails, if ``nLength`` is not a multiple of 4 or the send function is not supported. The format of the USB MIDI event packets is not validated.
+
+.. cpp:function:: boolean CUSBMIDIDevice::SendPlainMIDI (unsigned nCable, const u8 *pData, unsigned nLength)
+
+	Sends one or more messages in plain MIDI message format. ``nCable`` is the number of the virtual MIDI cable (0..15). ``pData`` is a pointer to the message buffer. ``nLength`` is the length of the message buffer in bytes. Returns ``TRUE``, if the operation has been successful. This function fails, if the message format is invalid or the send function is not supported.
