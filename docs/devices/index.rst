@@ -14,5 +14,5 @@ The Circle project does not provide a single centralized C++ header file. Instea
 	character-devices
 	block-devices
 	audio-devices
-..	network-devices
+	network-devices
 ..	other-devices
