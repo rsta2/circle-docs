@@ -7,7 +7,7 @@ This appendix explains, how system abort exceptions can be analyzed. The output 
 
 .. code-block:: none
 
-	logger: Circle 43.1 started on Raspberry Pi Zero W
+	logger: Circle 44.3 started on Raspberry Pi Zero W
 	00:00:01.00 timer: SpeedFactor is 1.00
 	00:00:01.00 kernel: An exception will occur after 15 seconds from now
 	00:00:02.00 kernel: Time is 2
