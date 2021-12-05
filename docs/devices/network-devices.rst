@@ -129,4 +129,45 @@ CBcm54213Device
 
 	This class is a driver for the BCM54213PE Gigabit Ethernet Transceivers of the Raspberry Pi 4, 400 and Compute Module 4. It is instantiated in the :ref:`TCP/IP networking` subsystem, but has to be manually instantiated by applications, which do not use this subsystem. This class does not provide specific methods, its API is defined by the base class :cpp:class:`CNetDevice`.
 
-.. CBcm4343Device
+CBcm4343Device
+^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+	#include <wlan/bcm4343.h>
+
+.. cpp:class:: CBcm4343Device : public CNetDevice
+
+	This class is a driver for the BCM4343x WLAN interface device of the Raspberry Pi 3, 4 and Zero (2) W. It has to be instantiated manually, and is normally used together with the class :cpp:class:`CNetSubSystem` from the :ref:`TCP/IP networking` subsystem and the class :cpp:class:`CWPASupplicant` from the submodule *addon/wlan/hostap*. This class provides the interface, defined in its base class :cpp:class:`CNetDevice`, and additional methods, which are needed to manage the association with a WLAN access point (AP). The following description covers only the methods, which are specific to this class.
+
+.. cpp:function:: CBcm4343Device::CBcm4343Device (const char *pFirmwarePath)
+
+	Creates an instance of this class. ``pFirmwarePath`` points to the path, where the firmware files of the WLAN controller are provided (e.g. "SD:/firmware/").
+
+.. cpp:function:: boolean CBcm4343Device::Initialize (void)
+
+	Initializes the WLAN controller and driver. Returns ``TRUE`` on success.
+
+.. cpp:function:: void CBcm4343Device::RegisterEventHandler (TBcm4343EventHandler *pHandler, void *pContext)
+
+	Registers the event handler ``pHandler``, which is called on some specific WLAN events (e.g. disassociation from AP). ``pContext`` is a user pointer, which is handed over to the event handler. ``pHandler`` can be 0 to unregister the event handler.
+
+.. cpp:function:: boolean CBcm4343Device::Control (const char *pFormat, ...)
+
+	Sends the device specific control command ``pFormat`` with optional parameters to the WLAN device driver. Returns ``TRUE`` on success.
+
+.. cpp:function:: boolean CBcm4343Device::ReceiveScanResult (void *pBuffer, unsigned *pResultLength)
+
+	Polls for a received scan result message. ``pBuffer`` is a pointer to a buffer, where the message will be placed. The buffer must have the size :c:macro:`FRAME_BUFFER_SIZE`. ``pResultLength`` is a pointer to a variable, which receives the valid message length. Returns ``TRUE``, if a message is returned in the buffer, or ``FALSE`` if nothing has been received.
+
+.. cpp:function:: const CMACAddress *CBcm4343Device::GetBSSID (void)
+
+	Returns the BSSID of the associated AP.
+
+.. cpp:function:: boolean CBcm4343Device::JoinOpenNet (const char *pSSID)
+
+	Joins the open WLAN network with the SSID ``pSSID``. Returns ``TRUE`` on success.
+
+.. cpp:function:: boolean CBcm4343Device::CreateOpenNet (const char *pSSID, int nChannel, bool bHidden)
+
+	Creates an open WLAN network (AP mode) with the SSID ``pSSID`` on channel ``nChannel``. The SSID is hidden, if ``bHidden`` is ``TRUE``. Returns ``TRUE`` on success.
