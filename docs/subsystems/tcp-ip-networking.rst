@@ -36,7 +36,7 @@ CNetSubSystem
 
 .. note::
 
-	Setting ``DeviceType`` to ``NetDeviceTypeWLAN`` is not enough to access a WLAN. Instead you have to instantiate and initialize the classes ``CBcm4343Device`` (WLAN hardware driver), ``CNetSubSystem`` and ``CWPASupplicant`` (support task for secure WLAN access) in this order. Please see the `WLAN sample <https://github.com/rsta2/circle/tree/master/addon/wlan/sample>`_  for details!
+	Setting ``DeviceType`` to ``NetDeviceTypeWLAN`` is not enough to access a WLAN. Instead you have to instantiate and initialize the classes ``CBcm4343Device`` (WLAN hardware driver), ``CNetSubSystem`` and ``CWPASupplicant`` (support task for secure WLAN access) in this order. Please see the subsection :ref:`WLAN support` and the `WLAN sample <https://github.com/rsta2/circle/tree/master/addon/wlan/sample/hello_wlan>`_  for details!
 
 .. cpp:function:: boolean CNetSubSystem::Initialize (boolean bWaitForActivate = TRUE)
 
@@ -607,3 +607,43 @@ CMACAddress
 .. cpp:function:: void CMACAddress::Format (CString *pString) const
 
 	Sets ``*pString`` to the string representation of the MAC address.
+
+.. _WLAN support:
+
+WLAN support
+^^^^^^^^^^^^
+
+The WLAN support in Circle is based on three elements:
+
+1. Driver class :cpp:class:`CBcm4343Device` for the WLAN hardware
+2. :ref:`TCP/IP networking` subsystem, which is instantiated with the class :cpp:class:`CNetSubSystem`
+3. *WPA Supplicant* library, which is built from the submodule `hostap <https://github.com/rsta2/hostap/tree/hostap_0_7_0-circle>`_, and is instantiated via the wrapper class :cpp:class:`CWPASupplicant`
+
+To enable WLAN support in Circle, these elements have to be created and initialized in this order. This is demonstrated in the `WLAN sample <https://github.com/rsta2/circle/tree/master/addon/wlan/sample/hello_wlan>`_. The third element is only required to use secure WLAN networks.
+
+.. note::
+
+	The TCP/IP networking subsystem must be configured to use the WLAN device (``NetDeviceTypeWLAN``) and must be initialized, without waiting for an IP address from the DHCP server. Because the DHCP protocol requires *WPA Supplicant* to work, :cpp:func:`CNetSubSystem::Initialize()` would never return otherwise.
+
+CWPASupplicant
+""""""""""""""
+
+.. code-block:: cpp
+
+	#include <wlan/hostap/wpa_supplicant/wpasupplicant.h>
+
+.. cpp:class:: CWPASupplicant
+
+	This class is a wrapper for the well-known *WPA Supplicant* application, which has been ported to Circle as a library. An instance of this class is required for connecting to secure (i.e. WPA2) WLAN networks. The WLAN hardware driver :cpp:class:`CBcm4343Device` and the :ref:`TCP/IP networking` subsystem must already running, when *WPA Supplicant* is initialized.
+
+.. cpp:function:: CWPASupplicant::CWPASupplicant (const char *pConfigFile)
+
+	Creates an instance of this class. ``pConfigFile`` is the path to the configuration file (e.g. "SD:/wpa_supplicant.conf").
+
+.. cpp:function:: boolean CWPASupplicant::Initialize (void)
+
+	Initializes the *WPA Supplicant* module and automatically starts to connect to one of the WLAN networks, which have been configured in the configuration file.
+
+.. cpp:function:: boolean CWPASupplicant::IsConnected (void) const
+
+	Returns ``TRUE``, if a connection to a configured WLAN network is currently active.
