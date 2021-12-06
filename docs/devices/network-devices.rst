@@ -138,11 +138,11 @@ CBcm4343Device
 
 .. cpp:class:: CBcm4343Device : public CNetDevice
 
-	This class is a driver for the BCM4343x WLAN interface device of the Raspberry Pi 3, 4 and Zero (2) W. It has to be instantiated manually, and is normally used together with the class :cpp:class:`CNetSubSystem` from the :ref:`TCP/IP networking` subsystem and the class :cpp:class:`CWPASupplicant` from the submodule *addon/wlan/hostap*. This class provides the interface, defined in its base class :cpp:class:`CNetDevice`, and additional methods, which are needed to manage the association with a WLAN access point (AP). The following description covers only the methods, which are specific to this class.
+	This class is a driver for the BCM4343x WLAN interface device of the Raspberry Pi 3, 4 and Zero (2) W. It has to be instantiated manually, and is normally used together with the class :cpp:class:`CNetSubSystem` from the :ref:`TCP/IP networking` subsystem and the class :cpp:class:`CWPASupplicant` from the submodule `hostap <https://github.com/rsta2/hostap/tree/hostap_0_7_0-circle>`_. This class provides the interface, defined in its base class :cpp:class:`CNetDevice`, and additional methods, which are needed to manage the association with a WLAN access point (AP). The following description covers only the methods, which are specific to this class.
 
 .. cpp:function:: CBcm4343Device::CBcm4343Device (const char *pFirmwarePath)
 
-	Creates an instance of this class. ``pFirmwarePath`` points to the path, where the firmware files of the WLAN controller are provided (e.g. "SD:/firmware/").
+	Creates an instance of this class. ``pFirmwarePath`` points to the path, where the firmware files for the WLAN controller are provided (e.g. "SD:/firmware/").
 
 .. cpp:function:: boolean CBcm4343Device::Initialize (void)
 

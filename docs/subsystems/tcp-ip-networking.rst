@@ -623,7 +623,7 @@ To enable WLAN support in Circle, these elements have to be created and initiali
 
 .. note::
 
-	The TCP/IP networking subsystem must be configured to use the WLAN device (``NetDeviceTypeWLAN``) and must be initialized, without waiting for an IP address from the DHCP server. Because the DHCP protocol requires *WPA Supplicant* to work, :cpp:func:`CNetSubSystem::Initialize()` would never return otherwise.
+	The TCP/IP networking subsystem must be configured to use the WLAN device (``NetDeviceTypeWLAN``) and must be initialized, without waiting for an IP address from the DHCP server (with the parameter ``FALSE``). Because the DHCP protocol requires *WPA Supplicant* to work, :cpp:func:`CNetSubSystem::Initialize()` would never return otherwise.
 
 CWPASupplicant
 """"""""""""""
