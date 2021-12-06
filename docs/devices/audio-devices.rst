@@ -272,7 +272,7 @@ CHDMISoundBaseDevice
 
 .. cpp:class:: CHDMISoundBaseDevice : public CSoundBaseDevice
 
-	This class is a driver for HDMI displays with audio support. It directly accesses the hardware and does not require multitasking and VCHIQ support in the system. Most of the methods, available for using this class, are provided by the base class :cpp:class:`CSoundBaseDevice`. Only the constructor is specific to this class. This device has the name ``"sndhdmi"`` in the device name service (character device).
+	This class is a driver for HDMI displays with audio support. It directly accesses the hardware and does not require :ref:`Multitasking` support and the :ref:`VCHIQ driver` in the system. Most of the methods, available for using this class, are provided by the base class :cpp:class:`CSoundBaseDevice`. Only the constructor is specific to this class. This device has the name ``"sndhdmi"`` in the device name service (character device).
 
 .. note::
 
@@ -282,8 +282,66 @@ CHDMISoundBaseDevice
 
 	Constructs an instance of this class. There can be only one. ``pInterrupt`` is  a pointer to the interrupt system object. ``nSampleRate`` is the sample rate in Hz. ``nChunkSize`` is twice the number of samples (words) to be handled with one call to ``GetChunk()`` (one word per stereo channel, must be a multiple of 384). Decreasing this value also decreases the latency on this interface, but increases the IRQ load on CPU core 0.
 
-.. CVCHIQSoundBaseDevice
-.. CVCHIQSoundDevice
+CVCHIQSoundBaseDevice
+^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+	#include <vc4/sound/vchiqsoundbasedevice.h>
+
+.. cpp:class:: CVCHIQSoundBaseDevice : public CSoundBaseDevice
+
+	This class provides low-level access to the VCHIQ sound service, which is able to output sound via HDMI displays with audio support, or via the 3.5" headphone jack of Raspberry Pi models, which have it. This class requires, that the :ref:`Multitasking` support and the :ref:`VCHIQ driver` are available in the system. Most of the methods, available for using this class, are provided by the base class :cpp:class:`CSoundBaseDevice`. This class description covers only the methods, which are specific to this class. This device has the name ``"sndvchiq"`` in the device name service (character device).
+
+.. cpp:function:: CVCHIQSoundBaseDevice::CVCHIQSoundBaseDevice (CVCHIQDevice *pVCHIQDevice, unsigned nSampleRate = 44100, unsigned nChunkSize  = 4000, TVCHIQSoundDestination Destination = VCHIQSoundDestinationAuto)
+
+	Constructs an instance of this class. There can be only one. ``pVCHIQDevice`` is a pointer to the VCHIQ interface device. ``nSampleRate`` is the sample rate in Hz (44100..48000). ``nChunkSize`` is the number of samples transferred at once. ``Destination`` is the target device, the sound data is sent to (detected automatically, if equal to ``VCHIQSoundDestinationAuto``), with these possible values:
+
+.. c:enum:: TVCHIQSoundDestination
+
+	* VCHIQSoundDestinationAuto
+	* VCHIQSoundDestinationHeadphones
+	* VCHIQSoundDestinationHDMI
+	* VCHIQSoundDestinationUnknown
+
+.. cpp:function:: void CVCHIQSoundBaseDevice::SetControl (int nVolume, TVCHIQSoundDestination Destination = VCHIQSoundDestinationUnknown)
+
+	Sets the output volume to ``nVolume`` (-10000..400) and optionally the target device to ``Destination`` (not modified, if equal to ``VCHIQSoundDestinationUnknown``). This method can be called, while the sound data transmission is running. The following macros are defined for specifying the volume:
+
+.. c:macro:: VCHIQ_SOUND_VOLUME_MIN
+.. c:macro:: VCHIQ_SOUND_VOLUME_DEFAULT
+.. c:macro:: VCHIQ_SOUND_VOLUME_MAX
+
+CVCHIQSoundDevice
+^^^^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+	#include <vc4/sound/vchiqsounddevice.h>
+
+.. cpp:class:: CVCHIQSoundDevice : private CVCHIQSoundBaseDevice
+
+	This class is a VCHIQ playback device for sound data, which is available in main memory. It extents the class :cpp:class:`CVCHIQSoundBaseDevice`, but has its own interface. The sample rate is fixed at 44100 Hz.
+
+.. cpp:function:: CVCHIQSoundDevice::CVCHIQSoundDevice (CVCHIQDevice *pVCHIQDevice, TVCHIQSoundDestination Destination = VCHIQSoundDestinationAuto)
+
+	Constructs an instance of this class. There can be only one. ``pVCHIQDevice`` is a pointer to the VCHIQ interface device. ``Destination`` is the target device, the sound data is sent to (see :c:enum:`TVCHIQSoundDestination` for the available options).
+
+.. cpp:function:: boolean CVCHIQSoundDevice::Playback (void *pSoundData, unsigned nSamples, unsigned nChannels, unsigned nBitsPerSample)
+
+	Starts playback of the sound data at ``pSoundData`` via the VCHIQ sound device. ``nSamples`` is the number of samples, where for Stereo the L/R samples are count as one. ``nChannels`` is 1  for Mono or 2  for Stereo. ``nBitsPerSample`` is 8 (unsigned char sound data) or 16 (signed short sound data). Returns ``TRUE`` on success.
+
+.. cpp:function:: boolean CVCHIQSoundDevice::PlaybackActive (void) const
+
+	Returns ``TRUE``, while the playback is active.
+
+.. cpp:function:: void CVCHIQSoundDevice::CancelPlayback (void)
+
+	Cancels the playback. The operation takes affect with a short delay, after which ``PlaybackActive()`` returns ``FALSE``.
+
+.. cpp:function:: void CVCHIQSoundDevice::SetControl (int nVolume, TVCHIQSoundDestination Destination = VCHIQSoundDestinationUnknown)
+
+	See :cpp:func:`CVCHIQSoundBaseDevice::SetControl()`.
 
 CUSBMIDIDevice
 ^^^^^^^^^^^^^^
