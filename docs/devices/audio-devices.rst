@@ -1,3 +1,5 @@
+.. _Audio devices:
+
 Audio devices
 ~~~~~~~~~~~~~
 
