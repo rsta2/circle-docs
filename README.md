@@ -1,7 +1,7 @@
 circle-docs
 ===========
 
-Source code of the [Circle documentation](https://rsta2.readthedocs.io/projects/circle) on *Read the Docs*.
+Source code of the [Circle documentation](https://circle-rpi.readthedocs.io) on *Read the Docs*.
 
 Local installation
 ------------------
