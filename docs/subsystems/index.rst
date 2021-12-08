@@ -12,5 +12,5 @@ The Circle project does not provide a single centralized C++ header file. Instea
 	usb
 	filesystems
 	tcp-ip-networking
+	graphics
 	vc4
-..	graphics
