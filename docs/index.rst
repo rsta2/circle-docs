@@ -3,7 +3,7 @@ Circle - C++ bare metal environment for Raspberry Pi
 
 .. note::
 
-	This documentation is currently under construction. The information refers to the current development version on the `develop` branch.
+	The latest information refers to the current development version on the `develop` branch.
 
 .. toctree::
 	:maxdepth: 2
