@@ -22,4 +22,4 @@ Circle - C++ bare metal environment for Raspberry Pi
 
 .. note::
 
-	Raspberry Pi is a trademark of the Raspberry Pi Foundation.
+	Raspberry Pi is a trademark of Raspberry Pi Trading.
