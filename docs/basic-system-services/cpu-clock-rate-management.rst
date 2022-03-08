@@ -30,6 +30,10 @@ Circle uses the class ``CCPUThrottle`` to implement a CPU clock rate management,
 
 	``CCPUThrottle`` should not be used together with code doing I2C or SPI transfers. Because clock rate changes to the CPU clock may also effect the CORE clock, this could result in changing transfer speeds.
 
+.. note::
+
+	To keep the CPU performance at the maximum level, it is possible to use a Case Fan, which is especially available for the official Raspberry Pi 4 case. This fan has a control line, which has to be connected to a GPIO pin. To use such a fan with the class ``CCPUThrottle``, you have to add the option ``gpiofanpin=PIN`` to the file `cmdline.txt <https://github.com/rsta2/circle/blob/master/doc/cmdline.txt>`_, where PIN is the GPIO pin number (SoC number, not header position) to which the control line of the fan is connected. The CPU speed is not throttled, when this option is used.
+
 CCPUThrottle
 ^^^^^^^^^^^^
 
