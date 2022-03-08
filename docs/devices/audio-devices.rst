@@ -274,15 +274,29 @@ CHDMISoundBaseDevice
 
 .. cpp:class:: CHDMISoundBaseDevice : public CSoundBaseDevice
 
-	This class is a driver for HDMI displays with audio support. It directly accesses the hardware and does not require :ref:`Multitasking` support and the :ref:`VCHIQ driver` in the system. Most of the methods, available for using this class, are provided by the base class :cpp:class:`CSoundBaseDevice`. Only the constructor is specific to this class. This device has the name ``"sndhdmi"`` in the device name service (character device).
+	This class is a driver for HDMI displays with audio support. It directly accesses the hardware and does not require :ref:`Multitasking` support and the :ref:`VCHIQ driver` in the system. Most of the methods, available for using this class, are provided by the base class :cpp:class:`CSoundBaseDevice`. This device has the name ``"sndhdmi"`` in the device name service (character device).
 
 .. note::
 
 	This driver does not support HDMI1 on the Raspberry Pi 4 and 400 (HDMI0 only).
 
+	This driver supports a DMA and a polling mode. The latter is intended for very time critical and cache-sensitive applications, which cannot use interrupts.
+
 .. cpp:function:: CHDMISoundBaseDevice::CHDMISoundBaseDevice (CInterruptSystem *pInterrupt, unsigned nSampleRate = 48000, unsigned nChunkSize = 384 * 10)
 
-	Constructs an instance of this class. There can be only one. ``pInterrupt`` is  a pointer to the interrupt system object. ``nSampleRate`` is the sample rate in Hz. ``nChunkSize`` is twice the number of samples (words) to be handled with one call to ``GetChunk()`` (one word per stereo channel, must be a multiple of 384). Decreasing this value also decreases the latency on this interface, but increases the IRQ load on CPU core 0.
+	Constructs an instance of this class to work in DMA mode. There can be only one. ``pInterrupt`` is  a pointer to the interrupt system object. ``nSampleRate`` is the sample rate in Hz. ``nChunkSize`` is twice the number of samples (words) to be handled with one call to ``GetChunk()`` (one word per stereo channel, must be a multiple of 384). Decreasing this value also decreases the latency on this interface, but increases the IRQ load on CPU core 0.
+
+.. cpp:function:: CHDMISoundBaseDevice::CHDMISoundBaseDevice (unsigned nSampleRate = 48000)
+
+	Constructs an instance of this class to work in polling mode.  There can be only one. ``nSampleRate`` is the sample rate in Hz.
+
+.. cpp:function:: boolean CHDMISoundBaseDevice::IsWritable (void)
+
+	Returns if the data FIFO has room for at least one sample to be written? This method can be called in polling mode only.
+
+.. cpp:function:: void CHDMISoundBaseDevice::WriteSample (s32 nSample)
+
+	Writes one sample to the data FIFO. ``nSample`` is the 24-bit signed sample to be written. This method can be called in polling mode only and only, when :cpp:func:`IsWritable()` returned ``TRUE`` before. Must be called twice for each frame (for left and right channel).
 
 CVCHIQSoundBaseDevice
 ^^^^^^^^^^^^^^^^^^^^^
