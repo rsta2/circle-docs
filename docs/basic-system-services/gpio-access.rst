@@ -399,15 +399,15 @@ GPIO0 and GPIO1 are normally reserved for the ID EEPROM of hat boards.
 
 .. cpp:function:: int CSPIMaster::Read (unsigned nChipSelect, void *pBuffer, unsigned nCount)
 
-	Reads ``nCount`` bytes into ``pBuffer``. Activates chip select ``nChipSelect`` (CE#, 0 or 1). Returns the number of read bytes or < 0 on failure.
+	Reads ``nCount`` bytes into ``pBuffer``. Activates chip select ``nChipSelect`` (CE#, 0, 1 or ``ChipSelectNone``). Returns the number of read bytes or < 0 on failure.
 
 .. cpp:function:: int CSPIMaster::Write (unsigned nChipSelect, const void *pBuffer, unsigned nCount)
 
-	Writes ``nCount`` bytes from ``pBuffer``. Activates chip select ``nChipSelect`` (CE#, 0 or 1). Returns the number of written bytes or < 0 on failure.
+	Writes ``nCount`` bytes from ``pBuffer``. Activates chip select ``nChipSelect`` (CE#, 0, 1 or ``ChipSelectNone``). Returns the number of written bytes or < 0 on failure.
 
 .. cpp:function:: int CSPIMaster::WriteRead (unsigned nChipSelect, const void *pWriteBuffer, void *pReadBuffer, unsigned nCount)
 
-	Simultaneous writes and reads ``nCount`` bytes from ``pWriteBuffer`` and to ``pReadBuffer``. Activates chip select ``nChipSelect`` (CE#, 0 or 1). Returns the number of transferred bytes or < 0 on failure.
+	Simultaneous writes and reads ``nCount`` bytes from ``pWriteBuffer`` and to ``pReadBuffer``. Activates chip select ``nChipSelect`` (CE#, 0, 1 or ``ChipSelectNone``). Returns the number of transferred bytes or < 0 on failure.
 
 CSPIMasterAUX
 ^^^^^^^^^^^^^
@@ -497,11 +497,11 @@ GPIO9	GPIO10	GPIO11	GPIO8	GPIO7
 
 .. cpp:function:: void CSPIMasterDMA::StartWriteRead (unsigned nChipSelect, const void *pWriteBuffer, void *pReadBuffer, unsigned nCount)
 
-	Starts a simultaneous write and read transfer of ``nCount`` bytes from ``pWriteBuffer`` and to ``pReadBuffer``. Chip select ``nChipSelect`` (CE#, 0 or 1) will be activated during the transfer. The buffers must be aligned to the size of a data-cache-line (see :ref:`dma-buffers`).
+	Starts a simultaneous write and read transfer of ``nCount`` bytes from ``pWriteBuffer`` and to ``pReadBuffer``. Chip select ``nChipSelect`` (CE#, 0, 1 or ``ChipSelectNone``) will be activated during the transfer. The buffers must be aligned to the size of a data-cache-line (see :ref:`dma-buffers`).
 
 .. cpp:function:: int CSPIMasterDMA::WriteReadSync (unsigned nChipSelect, const void *pWriteBuffer, void *pReadBuffer, unsigned nCount)
 
-	Simultaneous writes and reads ``nCount`` bytes from ``pWriteBuffer`` and to ``pReadBuffer``. Activates chip select ``nChipSelect`` (CE#, 0 or 1). Returns the number of transferred bytes or < 0 on failure. Synchronous (polled) operation for small amounts of data.
+	Simultaneous writes and reads ``nCount`` bytes from ``pWriteBuffer`` and to ``pReadBuffer``. Activates chip select ``nChipSelect`` (CE#, 0, 1 or ``ChipSelectNone``). Returns the number of transferred bytes or < 0 on failure. Synchronous (polled) operation for small amounts of data.
 
 CActLED
 ^^^^^^^
