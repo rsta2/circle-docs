@@ -27,6 +27,7 @@ CDMAChannel
 * DREQSourceNone (no wait)
 * DREQSourceEMMC
 * DREQSourcePCMRX
+* DREQSourceSMI
 * DREQSourceSPIRX
 * DREQSourceUARTRX
 
@@ -39,6 +40,7 @@ CDMAChannel
 * DREQSourcePCMTX
 * DREQSourcePWM
 * DREQSourcePWM1 (on Raspberry Pi 4 only)
+* DREQSourceSMI
 * DREQSourceSPITX
 * DREQSourceUARTTX
 
