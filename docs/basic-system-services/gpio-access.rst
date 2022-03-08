@@ -503,6 +503,67 @@ GPIO9	GPIO10	GPIO11	GPIO8	GPIO7
 
 	Simultaneous writes and reads ``nCount`` bytes from ``pWriteBuffer`` and to ``pReadBuffer``. Activates chip select ``nChipSelect`` (CE#, 0, 1 or ``ChipSelectNone``). Returns the number of transferred bytes or < 0 on failure. Synchronous (polled) operation for small amounts of data.
 
+CSMIMaster
+^^^^^^^^^^
+
+The class ``CSMIMaster`` is a driver for the `Secondary Memory Interface (SMI) <https://iosoft.blog/category/secondary-memory-interface/>`_ device of the Raspberry Pi. It supports the following features:
+
+* Drives any combination of SMI data lines (GPIO8 to GPIO25)
+* May also drive SMI address lines (GPIO0 to GPIO5)
+* Does not use SOE / SWE lines on GPIO6 / GPIO7
+* Read / Write operation in direct mode, or Write-only in DMA mode
+
+.. note::
+
+	One must first call :cpp:func:`CSMIMaster::SetupTiming()` with suitable timing information. The device bank to use and the address to assert on the `SAx` lines may then optionally be set with :cpp:func:`CSMIMaster::SetDeviceAndAddress()`. Then direct mode may be used with :cpp:func:`CSMIMaster::Read()` or  :cpp:func:`CSMIMaster::Write()`, or for DMA mode one must first call :cpp:func:`CSMIMaster::SetupDMA()` with a suitable buffer, then :cpp:func:`CSMIMaster::WriteDMA()` to flush the buffer to SMI.
+
+.. code-block:: c++
+
+	#include <circle/smimaster.h>
+
+.. cpp:class:: CSMIMaster
+
+.. cpp:function:: CSMIMaster::CSMIMaster (unsigned nSDLinesMask = 0x3FFFF, boolean bUseAddressPins = TRUE)
+
+	Creates a ``CSMIMaster`` object. There can be only one. ``nSDLinesMask`` is a bit mask, which determines which `SDx` lines should be driven. For example ``(1 << 0) | (1 << 5)`` for SD0 (GPIO8) and SD5 (GPIO13). ``bUseAddressPins`` enables the use of the address pins GPIO0 to GPIO5, if it is set to ``TRUE``.
+
+.. cpp:function:: unsigned CSMIMaster::GetSDLinesMask (void)
+
+	Returns the ``nSDLinesMask``, handed over to the constructor.
+
+.. cpp:function:: void CSMIMaster::SetupTiming (TSMIDataWidth Width, unsigned nCycle_ns, unsigned nSetup, unsigned nStrobe, unsigned nHold, unsigned nPace, unsigned nDevice = 0)
+
+	Sets up the SMI cycle. ``nWidth`` is the length of the data bus (see below). ``nCycle_ns`` is the clock period for the setup/strobe/hold cycle (in nanoseconds). ``nSetup`` is the setup time, that is used to decode the address value (in units of ``nCycle_ns``). ``nStrobe`` is the width of the strobe pulse, that triggers the transfer (in units of ``nCycle_ns``). ``nHold`` is the hold time, that keeps the signals stable after the transfer (in units of ``nCycle_ns``). ``nPace`` is the pace time in between two cycles (in units of ``nCycle_ns``). ``nDevice`` is the settings bank to use (0 .. 3).
+
+.. c:enum:: TSMIDataWidth
+
+	Values for specifying the width of the SMI data bus:
+
+	* SMI8Bits
+	* SMI9Bits
+	* SMI16Bits
+	* SMI18Bits
+
+.. cpp:function:: void CSMIMaster::SetupDMA (void *pDMABuffer, unsigned nLength)
+
+	Sets up DMA for (potentially multiple) SMI cycles of data from the buffer ``pDMABuffer`` (must be DMA-aligned). ``nLength`` is the length of the buffer in bytes.
+
+.. cpp:function:: void CSMIMaster::SetDeviceAndAddress (unsigned nDevice, unsigned nAddr)
+
+	Defines the device and address to use for the next Read/Write operation. ``nDevice`` is the settings bank to use (0 .. 3). ``nAddr`` is the value to be asserted on the address pins `SAx`.
+
+.. cpp:function:: unsigned CSMIMaster::Read (void)
+
+	Issues a single SMI read cycle from the `SDx` lines, and returns the read value.
+
+.. cpp:function:: void CSMIMaster::Write (unsigned nValue)
+
+	Issues a single SMI write cycle, i.e. writes the value ``nValue`` to the (enabled) `SDx` lines.
+
+.. cpp:function:: void CSMIMaster::WriteDMA (boolean bWaitForCompletion)
+
+	Triggers a DMA transfer of a few cycles with the buffer/length specified in :cpp:func:`SetupDMA()`. ``bWaitForCompletion`` specifies whether to wait for DMA completion before returning.
+
 CActLED
 ^^^^^^^
 
