@@ -6,4 +6,5 @@ Appendices
 
 	libraries
 	system-data-types
+	macros
 	analyzing-exceptions
