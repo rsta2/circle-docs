@@ -394,3 +394,7 @@ CUSBMIDIDevice
 .. cpp:function:: boolean CUSBMIDIDevice::SendPlainMIDI (unsigned nCable, const u8 *pData, unsigned nLength)
 
 	Sends one or more messages in plain MIDI message format. ``nCable`` is the number of the virtual MIDI cable (0..15). ``pData`` is a pointer to the message buffer. ``nLength`` is the length of the message buffer in bytes. Returns ``TRUE``, if the operation has been successful. This function fails, if the message format is invalid or the send function is not supported.
+
+.. cpp:function:: void CUSBMIDIDevice::SetAllSoundOffOnUSBError (boolean bEnable)
+
+	If this method has been called with ``bEnable`` equal to ``TRUE``, the driver generates MIDI Control Change "All Sound Off" (120) messages for each MIDI channel (1-16) on MIDI cable 0, when an USB error is detected by the driver.
