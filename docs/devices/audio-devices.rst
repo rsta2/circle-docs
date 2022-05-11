@@ -283,6 +283,10 @@ CHDMISoundBaseDevice
 
 	This driver supports a DMA and a polling mode. The latter is intended for very time critical and cache-sensitive applications, which cannot use interrupts.
 
+.. note::
+
+	In Circle releases before 44.5, this driver swapped the channels of the Stereo signal. This has been corrected in this and later releases.
+
 .. cpp:function:: CHDMISoundBaseDevice::CHDMISoundBaseDevice (CInterruptSystem *pInterrupt, unsigned nSampleRate = 48000, unsigned nChunkSize = 384 * 10)
 
 	Constructs an instance of this class to work in DMA mode. There can be only one. ``pInterrupt`` is  a pointer to the interrupt system object. ``nSampleRate`` is the sample rate in Hz. ``nChunkSize`` is twice the number of samples (words) to be handled with one call to ``GetChunk()`` (one word per stereo channel, must be a multiple of 384). Decreasing this value also decreases the latency on this interface, but increases the IRQ load on CPU core 0.
