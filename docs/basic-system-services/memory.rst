@@ -100,7 +100,7 @@ Before an instance of your class can be created, one of these (macro-) functions
 
 	INIT_PROTECTED_CLASS_ALLOCATOR (CMyClass, Number, Level);
 
-The second variant initializes a class-specific allocator, which is protected with a spin-lock for concurrent use. *Number* is the number of pre-allocated memory blocks and *Level* the maximum execution level, from which ``new`` or ``delete`` for this class will be called. [#el]_
+The second variant initializes a class-specific allocator, which is protected with a spin-lock for concurrent use. *Number* is the number of pre-allocated memory blocks and *Level* the maximum execution level, from which ``new`` or ``delete`` for this class will be called. [#el]_ This variant can be called multiple times with the same *Level* parameter. The class store will be extended then by the given number of objects.
 
 C functions
 ^^^^^^^^^^^
