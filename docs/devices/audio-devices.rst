@@ -254,12 +254,13 @@ CI2SSoundBaseDevice
 	* PiFi DAC+ v2.0 (with PCM5122 DAC)
 	* `Adafruit I2S Audio Bonnet <https://www.adafruit.com/product/4037>`_ (with UDA1334A DAC)
 	* `Adafruit I2S 3W Class D Amplifier Breakout <https://www.adafruit.com/product/3006>`_ (with MAX98357A DAC)
+	* `Waveshare WM8960 Audio HAT <https://www.waveshare.com/wm8960-audio-hat.htm>`_ (with WM8960 DAC)
 
 .. cpp:function:: CI2SSoundBaseDevice::CI2SSoundBaseDevice (CInterruptSystem *pInterrupt, unsigned nSampleRate = 192000, unsigned nChunkSize = 8192, boolean bSlave = FALSE, CI2CMaster *pI2CMaster = 0, u8 ucI2CAddress = 0, TDeviceMode DeviceMode  = DeviceModeTXOnly)
 
 	Constructs an instance of this class. There can be only one. ``pInterrupt`` is  a pointer to the interrupt system object. ``nSampleRate`` is the sample rate in Hz. ``nChunkSize`` is twice the number of samples (words) to be handled with one call to ``GetChunk()`` (one word per stereo channel). Decreasing this value also decreases the latency on this interface, but increases the IRQ load on CPU core 0.
 
-	``bSlave`` enables the slave mode (PCM clock and FS clock are inputs). ``pI2CMaster`` is a pointer to an I2C master object (0 if no I2C DAC initialization is required). ``ucI2CAddress`` is the I2C slave address of the DAC (0 for auto probing the addresses 0x4C and 0x4D). ``DeviceMode`` selects, which transfer direction will be used, with this supported values:
+	``bSlave`` enables the slave mode (PCM clock and FS clock are inputs). ``pI2CMaster`` is a pointer to an I2C master object (0 if no I2C DAC initialization is required). ``ucI2CAddress`` is the I2C slave address of the DAC (0 for auto probing the addresses 0x4C, 0x4D and 0x1A). ``DeviceMode`` selects, which transfer direction will be used, with this supported values:
 
 	* DeviceModeTXOnly (output)
 	* DeviceModeRXOnly (input)
