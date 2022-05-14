@@ -182,6 +182,21 @@ This class implements a linked list of pointers. The methods of this class are n
 
 	Searches the element, whose pointer is equal to ``pPtr`` and returns it, or 0 if ``pPtr`` was not found.
 
+CPtrListFIQ
+^^^^^^^^^^^
+
+.. code-block:: cpp
+
+	#include <circle/ptrlistfiq.h>
+
+.. cpp:class:: CPtrListFIQ
+
+	Same as :cpp:class:`CPtrList`, but can be used from ``FIQ_LEVEL``.
+
+.. cpp:function:: CPtrListFIQ::CPtrListFIQ (unsigned nMaxElements)
+
+	Creates a pointer list with up to ``nMaxElements`` elements.
+
 CNumberPool
 ^^^^^^^^^^^
 
