@@ -13,7 +13,7 @@ The Circle project can be downloaded using *Git* as follows:
 	cd /path/to/your/projects
 	git clone https://github.com/rsta2/circle.git
 
-The recommended toolchains for building Circle applications can be downloaded from `here <https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/gnu-a/downloads>`_. Please note that there are different toolchains for 32-bit (AArch32, normally *arm-none-eabi-*) and for 64-bit (AArch64, normally *aarch64-none-elf-*) targets.
+The recommended toolchains for building Circle applications can be downloaded from `here <https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads>`_. Please note that there are different toolchains for 32-bit (AArch32, normally *arm-none-eabi-*) and for 64-bit (AArch64, normally *aarch64-none-elf-*) targets.
 
 Configuration
 ~~~~~~~~~~~~~
