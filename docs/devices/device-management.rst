@@ -31,19 +31,27 @@ CDevice
 
 .. cpp:function:: virtual u64 CDevice::Seek (u64 ullOffset)
 
-	Sets the position of the read/write pointer of a device to the byte offset ``ullOffset``. Returns the resulting offset, or ``(u64) -1`` on failure. This method is only implemented by block devices, character devices always return failure.
+	Sets the position of the read/write pointer of a device to the byte offset ``ullOffset``. Returns the resulting offset, or ``(u64) -1`` on failure. This method is only implemented for block devices, character devices always return failure.
+
+.. cpp:function:: virtual u64 CDevice::GetSize (void) const
+
+	Returns the total byte size of a block device, or ``(u64) -1`` on failure. This method is only implemented for block devices, character devices always return failure.
 
 .. cpp:function:: virtual boolean CDevice::RemoveDevice (void)
 
 	Requests the remove of a device from the system for pseudo plug-and-play. This is only implemented for USB devices (e.g. for USB mass-storage devices). Returns ``TRUE`` on the successful removal of the device.
 
-.. cpp:function:: void RegisterRemovedHandler (TDeviceRemovedHandler *pHandler, void *pContext = 0)
+.. cpp:function:: CDevice::TRegistrationHandle CDevice::RegisterRemovedHandler (TDeviceRemovedHandler *pHandler, void *pContext = 0)
 
-	Registers a callback, which is invoked, when this device is removed from the system in terms of hot-plugging. ``pHandler`` gets called, before the device object is deleted. ``pHandler`` can be 0 to unregister a previously set handler. ``pContext`` is a user pointer, which is handed over to the handler.
+	Registers a callback, which is invoked, when this device is removed from the system in terms of hot-plugging. ``pHandler`` gets called, before the device object is deleted. ``pContext`` is a user pointer, which is handed over to the handler. Returns a handle to be handed over to :cpp:func:`CDevice::UnregisterRemovedHandler()`. This method can be called multiple times for a specific device, where the registered handlers will be called in reverse order. Calling this method with ``pHandler = 0`` to unregister is not supported any more.
 
 .. code-block:: c++
 
 	void TDeviceRemovedHandler (CDevice *pDevice, void *pContext);
+
+.. cpp:function:: void CDevice::UnregisterRemovedHandler (TRegistrationHandle hRegistration)
+
+	Undo the registration of a device removed handler. ``hRegistration`` is the handle, which has been returned by :cpp:func:`CDevice::RegisterRemovedHandler()`.
 
 .. note::
 
