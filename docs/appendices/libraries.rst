@@ -14,13 +14,18 @@ The base libraries will be built using ``./makeall`` from Circle's project root.
 Library lib/...		Description					Depends on lib
 ======================	==============================================	=================
 libcircle.a		Basic system services and drivers
-usb/libusb.a		USB host controller and class drivers		circle, input, fs
+usb/libusb.a		USB host controller and class drivers		circle, input, fs, (sched)
 input/libinput.a	Generic input device services			circle
 fs/libfs.a		Basic file system services (partition manager)	circle
 fs/fat/libfatfs.a	FAT file system driver [#fs]_			circle, fs
 sched/libsched.a	Cooperative multi-tasking support		circle
 net/libnet.a		TCP/IP networking				circle, sched
+sound/libsound.a	Sound drivers					circle, usb, (sched)
 ======================	==============================================	=================
+
+.. note::
+
+	The USB and sound libraries depend on the scheduler library only, when the system option ``NO_BUSY_WAIT`` is defined.
 
 Add-on libraries
 ^^^^^^^^^^^^^^^^

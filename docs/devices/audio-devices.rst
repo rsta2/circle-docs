@@ -3,7 +3,7 @@
 Audio devices
 ~~~~~~~~~~~~~
 
-Circle supports the generation of sound via several hardware (PWM, I2S, HDMI) and software (VCHIQ) interfaces. It allows to capture sound data via the I2S hardware interface. Furthermore it is able to exchange MIDI data via USB and via a serial interface (UART). The latter has to be implemented in the application using the class :cpp:class:`CSerialDevice`.
+Circle supports the generation of sound via several hardware (PWM, I2S, HDMI, USB) and software (VCHIQ) interfaces. It allows to capture sound data via the I2S hardware interface and via USB audio streaming devices (Raspberry Pi 4 only). Furthermore it is able to exchange MIDI data via USB and via a serial interface (UART). The latter has to be implemented in the application using the class :cpp:class:`CSerialDevice`.
 
 The base class of all sound generating and capturing devices is ``CSoundBaseDevice``. The following table lists the provided classes for the different interfaces. The higher level support provides an additional conversion function for sound data in different formats as an example, which can be easily adapted for other sound classes.
 
@@ -13,25 +13,31 @@ Interface	Connector		Low level support	Higher level support
 PWM		3.5" headphone jack	CPWMSoundBaseDevice	CPWMSoundDevice
 I2S		GPIO header		CI2SSoundBaseDevice
 HDMI		HDMI(0)			CHDMISoundBaseDevice
+USB		Jack of USB device	CUSBSoundBaseDevice
 VCHIQ		HDMI or headphone jack	CVCHIQSoundBaseDevice	CVCHIQSoundDevice
 ==============	======================	======================	====================
+
+.. note::
+
+	The class ``CUSBSoundBaseDevice`` depends on more lower level drivers (e.g. class ``CUSBAudioStreamingDevice``) in the USB library, which are normally not accessed directly by an application. Technical details of the USB audio streaming architecture are described in the file *lib/usb/usbaudiostreaming.cpp*.
 
 Several sample programs demonstrate functions of the different audio devices:
 
 * sample/12-pwmsound (playback a short sound sample using the PWM sound device)
-* sample/29-miniorgan (using the PWM, HDMI or I2S sound device, USB or serial MIDI)
+* sample/29-miniorgan (using the PWM, HDMI, I2S or USB sound device, USB or serial MIDI, using sound controller to modify volume)
 * sample/34-sounddevices (integrating multiple sound devices in one application)
-* sample/42-i2sinput (I2S to PWM sound data converter)
+* sample/42-soundinput (I2S or USB to PWM sound data converter and recorder)
 * addon/vc4/sound/sample (HDMI or PWM sound support via VCHIQ interface)
+* test/sound-controller (set controls of a sound controller of several sound devices)
 
-The separate project `MiniSynth Pi <https://github.com/rsta2/minisynth>`_ is a more extensive example for an application, which generates sound via the PWM or I2S interfaces in a multi-core environment, controlled with an USB or serial MIDI stream.
+The separate project `MiniSynth Pi <https://github.com/rsta2/minisynth>`_ is a more extensive example for an application, which generates sound via the PWM, I2S or USB interfaces in a multi-core environment, controlled with an USB or serial MIDI stream.
 
 CSoundBaseDevice
 ^^^^^^^^^^^^^^^^
 
 .. code-block:: cpp
 
-	#include <circle/soundbasedevice.h>
+	#include <circle/sound/soundbasedevice.h>
 
 .. cpp:class:: CSoundBaseDevice : public CDevice
 
@@ -149,6 +155,7 @@ Interface	Format			Remarks
 PWM		SoundFormatUnsigned32	range max. depends on sample rate and PWM clock rate
 I2S		SoundFormatSigned24_32	occupies 4 bytes
 HDMI		SoundFormatIEC958	special frame format (S/PDIF)
+USB		SoundFormatSigned16
 VCHIQ		SoundFormatSigned16	occupies 4 bytes
 ==============	======================	====================================================
 
@@ -166,20 +173,115 @@ VCHIQ		SoundFormatSigned16	occupies 4 bytes
 
 	You may override one of these methods to provide the sound samples. The first method is used for the VCHIQ interface, the second for all other interfaces. ``pBuffer`` is a pointer to the buffer, where the samples have to be placed. ``nChunkSize`` is the size of the buffer in words. Returns the number of words written to the buffer, which is normally ``nChunkSize``, or 0 to stop the transfer. Each sample consists of two words (left channel, right channel), where each word must be between ``GetRangeMin()`` and ``GetRangeMax()``. The HDMI interface requires a special frame format here, which can be applied using ``ConvertIEC958Sample()``.
 
+.. cpp:function:: virtual void CSoundBaseDevice::PutChunk (const s16 *pBuffer, unsigned nChunkSize)
 .. cpp:function:: virtual void CSoundBaseDevice::PutChunk (const u32 *pBuffer, unsigned nChunkSize)
 
-	You may override this method to consume the received sound samples. ``pBuffer`` is a pointer to the buffer, where the samples have been placed. ``nChunkSize`` is the size of the buffer in words. Each sample consists of two words (left channel, right channel).
+	You may override this method to consume the received sound samples. The first method is used for the USB interface, the second for I2S. ``pBuffer`` is a pointer to the buffer, where the samples have been placed. ``nChunkSize`` is the size of the buffer in words. Each sample consists of two words (left channel, right channel).
 
 .. cpp:function:: u32 CSoundBaseDevice::ConvertIEC958Sample (u32 nSample, unsigned nFrame)
 
 	This method can be called from ``GetChunk()`` to apply the framing on IEC958 (S/PDIF) samples. ``nSample`` is a 24-bit signed sample value as ``u32``, where upper bits don't care. ``nFrame`` is the number of the IEC958 frame, this sample belongs to (0..191).
+
+.. _Sound controller:
+
+Sound controller
+""""""""""""""""
+
+A sound device can optionally provide a sound controller, which offers the following functions:
+
+* Return information about the output and input properties of the device.
+* Enable a specific jack of sound devices with multiple connectors or connector configurations.
+* Disable a specific jack (with multi-jack operation only).
+* Return information about audio controls (e.g. volume), which influence the output or input of sound.
+* Set a specific value of an audio control (e.g. mute off/on).
+
+.. cpp:function:: virtual CSoundController *CSoundBaseDevice::GetController (void)
+
+	This method returns a pointer to the sound controller object of a sound device or ``nullptr``, if a sound controller is not supported or not (yet) available. The sound controller is only available, after :cpp:func:`CSoundBaseDevice::Start()` has been called for the sound device, and only while the device is active.
+
+.. code-block:: cpp
+
+	#include <circle/sound/soundcontroller.h>
+
+.. cpp:class:: CSoundController
+
+	This class represents the interface of a sound controller to an application. A pointer to a sound controller object can be fetched by calling :cpp:func:`CSoundBaseDevice::GetController()` on a created driver object for a sound device.
+
+	Please note that the enum values, given below, are valid in the name space of the class ``CSoundController`` only, so you have to use the prefix ``CSoundController::`` on them.
+
+.. cpp:function:: u32 CSoundController::GetOutputProperties (void) const
+.. cpp:function:: u32 CSoundController::GetInputProperties (void) const
+
+	Returns a bit-mask with values defined in :cpp:enum:`CSoundController::TProperty` or'ed together. The first method returns the properties of the output direction of the controlled sound device, the second method the properties of the input direction of the device.
+
+.. cpp:enum:: CSoundController::TProperty
+
+	The follwing values are defined:
+
+	* PropertyDirectionSupported (Is the respective output / input direction supported?)
+	* PropertyMultiJackOperation (Is it possible to enable multiple jacks at once for this direction?)
+
+.. cpp:function:: boolean CSoundController::EnableJack (TJack Jack)
+
+	Enables the specified ``Jack`` of the sound device. Returns ``TRUE`` on success. This method can be called multiple times for different jacks, if ``PropertyMultiJackOperation`` is available. Otherwise a call to this method automatically disables the previously active jack.
+
+.. cpp:enum:: CSoundController::TJack
+
+	Output jacks:
+
+	* JackDefaultOut (default or currently active output jack)
+	* JackLineOut
+	* JackSpeaker
+	* JackHeadphone
+	* JackHDMI
+	* JackSPDIFOut
+
+	Input jacks:
+
+	* JackDefaultIn (default or currently active input jack)
+	* JackLineIn
+	* JackMicrophone
+
+.. cpp:function:: boolean CSoundController::DisableJack (TJack Jack)
+
+	Disables a specific ``Jack`` of the sound device. Returns ``TRUE`` on success. This method always fails without ``PropertyMultiJackOperation`` available.
+
+.. cpp:function:: const CSoundController::TControlInfo CSoundController::GetControlInfo (TControl Control, TJack Jack, TChannel Channel) const
+
+	Returns information about a specific ``Control`` of a specific ``Jack`` and ``Channel`` of a sound device. Please note that a control may be supported for ``ChannelAll``, but not for ``ChannelLeft`` and ``ChannelRight``.
+
+.. cpp:enum:: CSoundController::TControl
+
+	* ControlMute (mute value is 0 (disable) or 1 (enable))
+	* ControlVolume (volume value in dB)
+
+.. cpp:enum:: CSoundController::TChannel
+
+	* ChannelAll (both channels)
+	* ChannelLeft
+	* ChannelRight
+
+.. cpp:struct:: CSoundController::TControlInfo
+
+.. code:: c++
+
+	struct TControlInfo
+	{
+		boolean	Supported;	// Is control supported?
+		int	RangeMin;	// Minimum allowed value
+		int	RangeMax;	// Maximum allowed value
+	};
+
+.. cpp:function:: boolean CSoundController::SetControl (TControl Control, TJack Jack, TChannel Channel, int nValue)
+
+	Sets the value ``nValue`` of a specific ``Control`` of a specific ``Jack`` and affected ``Channel`` of a sound device. Returns ``TRUE`` on success.
 
 CPWMSoundBaseDevice
 ^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: cpp
 
-	#include <circle/pwmsoundbasedevice.h>
+	#include <circle/sound/pwmsoundbasedevice.h>
 
 .. cpp:class:: CPWMSoundBaseDevice : public CSoundBaseDevice
 
@@ -198,7 +300,7 @@ CPWMSoundDevice
 
 .. code-block:: cpp
 
-	#include <circle/pwmsounddevice.h>
+	#include <circle/sound/pwmsounddevice.h>
 
 .. cpp:class:: CPWMSoundDevice : public CPWMSoundBaseDevice
 
@@ -225,7 +327,7 @@ CI2SSoundBaseDevice
 
 .. code-block:: cpp
 
-	#include <circle/i2ssoundbasedevice.h>
+	#include <circle/sound/i2ssoundbasedevice.h>
 
 .. cpp:class:: CI2SSoundBaseDevice : public CSoundBaseDevice
 
@@ -260,18 +362,51 @@ CI2SSoundBaseDevice
 
 	Constructs an instance of this class. There can be only one. ``pInterrupt`` is  a pointer to the interrupt system object. ``nSampleRate`` is the sample rate in Hz. ``nChunkSize`` is twice the number of samples (words) to be handled with one call to ``GetChunk()`` (one word per stereo channel). Decreasing this value also decreases the latency on this interface, but increases the IRQ load on CPU core 0.
 
-	``bSlave`` enables the slave mode (PCM clock and FS clock are inputs). ``pI2CMaster`` is a pointer to an I2C master object (0 if no I2C DAC initialization is required). ``ucI2CAddress`` is the I2C slave address of the DAC (0 for auto probing the addresses 0x4C, 0x4D and 0x1A). ``DeviceMode`` selects, which transfer direction will be used, with this supported values:
+	``bSlave`` enables the slave mode (PCM clock and FS clock are inputs). ``pI2CMaster`` is a pointer to an I2C master object (0 if no I2C DAC initialization is required). ``ucI2CAddress`` is the I2C slave address of the DAC (0 for auto probing the addresses 0x4C, 0x4D and 0x1A). ``DeviceMode`` selects, which transfer direction will be used, with these supported values:
 
 	* DeviceModeTXOnly (output)
 	* DeviceModeRXOnly (input)
 	* DeviceModeTXRX (output and input)
+
+CUSBSoundBaseDevice
+^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+	#include <circle/sound/usbsoundbasedevice.h>
+
+.. cpp:class:: CUSBSoundBaseDevice : public CSoundBaseDevice
+
+	This class is a driver for USB audio streaming devices. Most of the methods, available for using this class, are provided by the base class :cpp:class:`CSoundBaseDevice`. Only the constructor is specific to this class. The first device has the name ``"sndusb"`` in the device name service (character device). If there are multiple instances of this class, the second instance has the name ``"sndusb1"`` on so on.
+
+.. important::
+
+	For using the USB audio streaming support on the Raspberry Pi 1-3 and Zero it is recommended to enable the system option ``USE_USB_FIQ`` to have a more accurate USB timing. Unfortunately the FIQ cannot be used for other devices (e.g. the serial device) then. The system option ``USE_USB_SOF_INTR`` is required in any case for USB audio operation on these Raspberry Pi models (default setting).
+
+.. note::
+
+	Circle currently supports only USB audio streaming devices with two PCM channels (Stereo) and 16-bit resolution for sound output. For input (Raspberry Pi 4 only) also Mono interfaces are supported.
+
+.. cpp:function:: CUSBSoundBaseDevice::CUSBSoundBaseDevice (unsigned nSampleRate = 48000, TDeviceMode DeviceMode = DeviceModeTXOnly, unsigned nDevice = 0)
+
+	Constructs an instance of this class. ``nSampleRate`` is the sample rate in Hz. The selected value must be supported by the attached USB audio streaming device (48000 should work with most devices). ``DeviceMode`` selects, which transfer direction will be used, with these supported values:
+
+	* DeviceModeTXOnly (output)
+	* DeviceModeRXOnly (input)
+	* DeviceModeTXRX (output and input)
+
+	Theoretically there may be multiple instances of this class at once. ``nDevice`` selects the attached USB audio streaming device to be accessed (0 is the first one found in USB device enumeration).
+
+.. note::
+
+	USB sound input is currently only supported on the Raspberry Pi 4, 400 and Compute Module 4.
 
 CHDMISoundBaseDevice
 ^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: cpp
 
-	#include <circle/hdmisoundbasedevice.h>
+	#include <circle/sound/hdmisoundbasedevice.h>
 
 .. cpp:class:: CHDMISoundBaseDevice : public CSoundBaseDevice
 
@@ -327,11 +462,15 @@ CVCHIQSoundBaseDevice
 
 .. cpp:function:: void CVCHIQSoundBaseDevice::SetControl (int nVolume, TVCHIQSoundDestination Destination = VCHIQSoundDestinationUnknown)
 
-	Sets the output volume to ``nVolume`` (-10000..400) and optionally the target device to ``Destination`` (not modified, if equal to ``VCHIQSoundDestinationUnknown``). This method can be called, while the sound data transmission is running. The following macros are defined for specifying the volume:
+	Sets the output volume to ``nVolume`` (-10000..400, in 1/100 dB) and optionally the target device to ``Destination`` (not modified, if equal to ``VCHIQSoundDestinationUnknown``). This method can be called, while the sound data transmission is running. The following macros are defined for specifying the volume:
 
 .. c:macro:: VCHIQ_SOUND_VOLUME_MIN
 .. c:macro:: VCHIQ_SOUND_VOLUME_DEFAULT
 .. c:macro:: VCHIQ_SOUND_VOLUME_MAX
+
+.. note::
+
+	The :ref:`Sound controller` provides a more generic solution for setting controls of a sound device.
 
 CVCHIQSoundDevice
 ^^^^^^^^^^^^^^^^^
