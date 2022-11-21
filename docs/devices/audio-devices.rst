@@ -209,6 +209,10 @@ A sound device can optionally provide a sound controller, which offers the follo
 
 	Please note that the enum values, given below, are valid in the name space of the class ``CSoundController`` only, so you have to use the prefix ``CSoundController::`` on them.
 
+.. important::
+
+	Methods of the sound controller can be called only at ``TASK_LEVEL``.
+
 .. cpp:function:: u32 CSoundController::GetOutputProperties (void) const
 .. cpp:function:: u32 CSoundController::GetInputProperties (void) const
 
