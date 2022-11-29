@@ -3,7 +3,11 @@
 Audio devices
 ~~~~~~~~~~~~~
 
-Circle supports the generation of sound via several hardware (PWM, I2S, HDMI, USB) and software (VCHIQ) interfaces. It allows to capture sound data via the I2S hardware interface and via USB audio streaming devices (Raspberry Pi 4 only). Furthermore it is able to exchange MIDI data via USB and via a serial interface (UART). The latter has to be implemented in the application using the class :cpp:class:`CSerialDevice`.
+Circle supports the generation of sound via several hardware (PWM, I2S, HDMI, USB) and software (VCHIQ) interfaces. It allows to capture sound data via the I2S hardware interface and via USB audio streaming devices. Furthermore it is able to exchange MIDI data via USB and via a serial interface (UART). The latter has to be implemented in the application using the class :cpp:class:`CSerialDevice`.
+
+.. important::
+
+	The support for USB audio streaming devices is only available on the Raspberry Pi 4, 400 and Compute Module 4.
 
 The base class of all sound generating and capturing devices is ``CSoundBaseDevice``. The following table lists the provided classes for the different interfaces. The higher level support provides an additional conversion function for sound data in different formats as an example, which can be easily adapted for other sound classes.
 
@@ -385,11 +389,11 @@ CUSBSoundBaseDevice
 
 .. important::
 
-	For using the USB audio streaming support on the Raspberry Pi 1-3 and Zero it is recommended to enable the system option ``USE_USB_FIQ`` to have a more accurate USB timing. Unfortunately the FIQ cannot be used for other devices (e.g. the serial device) then. The system option ``USE_USB_SOF_INTR`` is required in any case for USB audio operation on these Raspberry Pi models (default setting).
+	The support for USB audio streaming devices is only available on the Raspberry Pi 4, 400 and Compute Module 4.
 
 .. note::
 
-	Circle currently supports only USB audio streaming devices with two PCM channels (Stereo) and 16-bit resolution for sound output. For input (Raspberry Pi 4 only) also Mono interfaces are supported.
+	Circle currently supports only USB audio streaming devices with two PCM channels (Stereo) and 16-bit resolution for sound output. For input also Mono interfaces are supported.
 
 .. cpp:function:: CUSBSoundBaseDevice::CUSBSoundBaseDevice (unsigned nSampleRate = 48000, TDeviceMode DeviceMode = DeviceModeTXOnly, unsigned nDevice = 0)
 
@@ -400,10 +404,6 @@ CUSBSoundBaseDevice
 	* DeviceModeTXRX (output and input)
 
 	Theoretically there may be multiple instances of this class at once. ``nDevice`` selects the attached USB audio streaming device to be accessed (0 is the first one found in USB device enumeration).
-
-.. note::
-
-	USB sound input is currently only supported on the Raspberry Pi 4, 400 and Compute Module 4.
 
 CHDMISoundBaseDevice
 ^^^^^^^^^^^^^^^^^^^^
