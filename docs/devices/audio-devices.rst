@@ -53,6 +53,17 @@ CSoundBaseDevice
 
 	In a multi-core environment all methods, except if otherwise noted, have to be called or will be called (for callbacks) on CPU core 0.
 
+Device information
+""""""""""""""""""
+
+.. cpp:function:: unsigned CSoundBaseDevice::GetHWTXChannels (void) const
+
+	Returns the number of hardware output channels. This method can be called on any CPU core.
+
+.. cpp:function:: unsigned CSoundBaseDevice::GetHWRXChannels (void) const
+
+	Returns the number of hardware input channels. This method can be called on any CPU core.
+
 Device activation
 """""""""""""""""
 
@@ -83,7 +94,7 @@ These methods are used to output sound using a write queue. They are not used, i
 
 .. cpp:function:: void CSoundBaseDevice::SetWriteFormat (TSoundFormat Format, unsigned nChannels = 2)
 
-	Sets the format of sound data provided to ``Write()`` to ``Format``. ``nChannels`` must be 1 (Mono) or 2 (Stereo). The following (interleaved little endian) write formats are allowed:
+	Sets the format of sound data provided to ``Write()`` to ``Format``. ``nChannels`` is the number of logical channels and can be 1 to 32. If an audio device supports more hardware channels than the given value, the remaining channels will send null level. If an audio device supports less hardware channels than the given value, the remaining written audio samples will be ignored. The following (interleaved little endian) write formats are allowed:
 
 	* SoundFormatUnsigned8
 	* SoundFormatSigned16
@@ -125,7 +136,7 @@ These methods are used to input sound data using a read queue. They are not used
 
 .. cpp:function:: void CSoundBaseDevice::SetReadFormat (TSoundFormat Format, unsigned nChannels = 2, boolean bLeftChannel = TRUE)
 
-	Sets the format of sound data returned from ``Read()`` to ``Format``. ``nChannels`` must be 1 (Mono) or 2 (Stereo). If ``bLeftChannel`` is ``TRUE``, ``Read()`` returns the left channel, if ``nChannels == 1``. The following (interleaved little endian) read formats are allowed:
+	Sets the format of sound data returned from ``Read()`` to ``Format``. ``nChannels`` is the number of logical channels and can be 1 to 32. If an audio device supports more hardware channels than the given value, the remaining channels will be ignored. If an audio device supports less hardware channels than the given value, the remaining read audio samples will return null level. If ``bLeftChannel`` is ``TRUE``, ``Read()`` returns the left channel, if ``nChannels == 1``. The following (interleaved little endian) read formats are allowed:
 
 	* SoundFormatUnsigned8
 	* SoundFormatSigned16
@@ -159,7 +170,8 @@ Interface	Format			Remarks
 PWM		SoundFormatUnsigned32	range max. depends on sample rate and PWM clock rate
 I2S		SoundFormatSigned24_32	occupies 4 bytes
 HDMI		SoundFormatIEC958	special frame format (S/PDIF)
-USB		SoundFormatSigned16
+USB		SoundFormatSigned16 or
+		SoundFormatSigned24
 VCHIQ		SoundFormatSigned16	occupies 4 bytes
 ==============	======================	====================================================
 
@@ -175,12 +187,12 @@ VCHIQ		SoundFormatSigned16	occupies 4 bytes
 .. cpp:function:: virtual unsigned CSoundBaseDevice::GetChunk (s16 *pBuffer, unsigned nChunkSize)
 .. cpp:function:: virtual unsigned CSoundBaseDevice::GetChunk (u32 *pBuffer, unsigned nChunkSize)
 
-	You may override one of these methods to provide the sound samples. The first method is used for the VCHIQ interface, the second for all other interfaces. ``pBuffer`` is a pointer to the buffer, where the samples have to be placed. ``nChunkSize`` is the size of the buffer in words. Returns the number of words written to the buffer, which is normally ``nChunkSize``, or 0 to stop the transfer. Each sample consists of two words (left channel, right channel), where each word must be between ``GetRangeMin()`` and ``GetRangeMax()``. The HDMI interface requires a special frame format here, which can be applied using ``ConvertIEC958Sample()``.
+	You may override one of these methods to provide the sound samples. The first method is used for the VCHIQ interface and the USB interface, the second for all other interfaces (including USB for 24-bit resolution, each sample occupies 3 bytes here). ``pBuffer`` is a pointer to the buffer, where the samples have to be placed. ``nChunkSize`` is the size of the buffer in words. Returns the number of words written to the buffer, which is normally ``nChunkSize``, or 0 to stop the transfer. Each sample consists of ``GetHWTXChannels()`` words, where each word must be between ``GetRangeMin()`` and ``GetRangeMax()``. The HDMI interface requires a special frame format here, which can be applied using ``ConvertIEC958Sample()``.
 
 .. cpp:function:: virtual void CSoundBaseDevice::PutChunk (const s16 *pBuffer, unsigned nChunkSize)
 .. cpp:function:: virtual void CSoundBaseDevice::PutChunk (const u32 *pBuffer, unsigned nChunkSize)
 
-	You may override this method to consume the received sound samples. The first method is used for the USB interface, the second for I2S. ``pBuffer`` is a pointer to the buffer, where the samples have been placed. ``nChunkSize`` is the size of the buffer in words. Each sample consists of two words (left channel, right channel).
+	You may override this method to consume the received sound samples. The first method is used for the USB interface, the second for I2S (or USB for 24-bit resolution, each sample occupies 3 bytes here). ``pBuffer`` is a pointer to the buffer, where the samples have been placed. ``nChunkSize`` is the size of the buffer in words. Each sample consists of ``GetHWRXChannels()`` words.
 
 .. cpp:function:: u32 CSoundBaseDevice::ConvertIEC958Sample (u32 nSample, unsigned nFrame)
 
@@ -265,9 +277,12 @@ A sound device can optionally provide a sound controller, which offers the follo
 
 .. cpp:enum:: CSoundController::TChannel
 
-	* ChannelAll (both channels)
-	* ChannelLeft
-	* ChannelRight
+	* ChannelAll (all channels)
+	* ChannelLeft = Channel1
+	* ChannelRight = Channel2
+	* Channel3
+	* ...
+	* Channel32
 
 .. cpp:struct:: CSoundController::TControlInfo
 
@@ -393,7 +408,7 @@ CUSBSoundBaseDevice
 
 .. note::
 
-	Circle currently supports only USB audio streaming devices with two PCM channels (Stereo) and 16-bit resolution for sound output. For input also Mono interfaces are supported.
+	Circle supports USB audio streaming devices with up to 32 PCM channels and 16-bit (default) or 24-bit resolution. For the latter the option ``soundopt=24`` has to be specified in the file *cmdline.txt*. The number of channels has to be selected with the option `usbsoundchannels=TX,RX <https://github.com/rsta2/circle/blob/master/doc/cmdline.txt#L37>`_ in the same file.
 
 .. cpp:function:: CUSBSoundBaseDevice::CUSBSoundBaseDevice (unsigned nSampleRate = 48000, TDeviceMode DeviceMode = DeviceModeTXOnly, unsigned nDevice = 0)
 
@@ -404,6 +419,10 @@ CUSBSoundBaseDevice
 	* DeviceModeTXRX (output and input)
 
 	Theoretically there may be multiple instances of this class at once. ``nDevice`` selects the attached USB audio streaming device to be accessed (0 is the first one found in USB device enumeration).
+
+.. important::
+
+	The class ``CUSBSoundBaseDevice`` must be instantiated, when the USB host controller is initialized already. Therefore it cannot be a class member of the class ``CKernel``. Use a pointer to the driver object instead and create it with the ``new`` operator.
 
 CHDMISoundBaseDevice
 ^^^^^^^^^^^^^^^^^^^^
@@ -417,6 +436,8 @@ CHDMISoundBaseDevice
 	This class is a driver for HDMI displays with audio support. It directly accesses the hardware and does not require :ref:`Multitasking` support and the :ref:`VCHIQ driver` in the system. Most of the methods, available for using this class, are provided by the base class :cpp:class:`CSoundBaseDevice`. This device has the name ``"sndhdmi"`` in the device name service (character device).
 
 .. note::
+
+	This driver supports only two channels (Stereo).
 
 	This driver does not support HDMI1 on the Raspberry Pi 4 and 400 (HDMI0 only).
 
