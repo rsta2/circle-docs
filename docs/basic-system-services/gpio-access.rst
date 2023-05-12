@@ -262,17 +262,17 @@ CI2CMaster
 
 This class is a driver for the I2C master devices of the Raspberry Pi computer. The GPIO pin mapping for the I2C master devices is as follows:
 
-=======	=======================	=======================	===================
-nDevice	nConfig 0 (SDA SCL)	nConfig 1 (SDA SCL)	Raspberry Pi boards
-=======	=======================	=======================	===================
-0	GPIO0	GPIO1					Rev. 1
-1	GPIO2	GPIO3					All other
-2							None
-3	GPIO2	GPIO3		GPIO4	GPIO5		Raspberry Pi 4 only
-4	GPIO6	GPIO7		GPIO8	GPIO9		Raspberry Pi 4 only
-5	GPIO10	GPIO11		GPIO12	GPIO13		Raspberry Pi 4 only
-6	GPIO22	GPIO23					Raspberry Pi 4 only
-=======	=======================	=======================	===================
+=======	=======================	=======================	=======================	===================
+nDevice	nConfig 0 (SDA SCL)	nConfig 1 (SDA SCL)	nConfig 2 (SDA SCL)	Raspberry Pi boards
+=======	=======================	=======================	=======================	===================
+0	GPIO0	GPIO1		GPIO28	GPIO29		GPIO44	GPIO45		Rev. 1, other
+1	GPIO2	GPIO3								All other
+2										None
+3	GPIO2	GPIO3		GPIO4	GPIO5		GPIO4	GPIO5		Raspberry Pi 4 only
+4	GPIO6	GPIO7		GPIO8	GPIO9		GPIO8	GPIO9		Raspberry Pi 4 only
+5	GPIO10	GPIO11		GPIO12	GPIO13		GPIO12	GPIO13		Raspberry Pi 4 only
+6	GPIO22	GPIO23								Raspberry Pi 4 only
+=======	=======================	=======================	=======================	===================
 
 The ``Read()`` and ``Write()`` methods (see below) may return the following error codes as a negative value:
 
