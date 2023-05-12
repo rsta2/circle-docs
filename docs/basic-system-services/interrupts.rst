@@ -52,4 +52,4 @@ The class ``CInterruptSystem`` is the provider of hardware-interrupt support in 
 
 .. important::
 
-	If one or more IRQ handlers in a system make use of floating point registers, the system option ``SAVE_VFP_REGS_ON_IRQ`` has to be enabled. The same applies accordingly to ``SAVE_VFP_REGS_ON_FIQ`` for FIQ handlers.
+	If one or more IRQ handlers in a system make use of floating point registers, the system option ``SAVE_VFP_REGS_ON_IRQ`` has to be enabled. The same applies accordingly to ``SAVE_VFP_REGS_ON_FIQ`` for FIQ handlers. These system options are enabled by default, when a toolchain is used to build Circle, which is based on GNU-C 12.1 or later.
