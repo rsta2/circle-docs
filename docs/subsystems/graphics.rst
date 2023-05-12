@@ -80,6 +80,16 @@ The class ``C2DGraphics`` is part of the Circle base library and can be used to 
 
 	If you need to draw a lot of pixels, consider using :cpp:func:`C2DGraphics::GetBuffer()` for better speed.
 
+.. cpp:function:: void C2DGraphics::DrawText (unsigned nX, unsigned nY, TScreenColor Color, const char *pText, TTextAlign Align = AlignLeft)
+
+	Draws a horizontal ISO8859-1 text string, using the 8x16 system font. ``nX`` is the text X coordinate. ``nY`` is the text Y coordinate. ``Color`` is the text color. The background is transparent. ``pText`` is a zero-terminated C-string. ``Align`` specifies the horizontal text alignment, with these possible values:
+
+.. cpp:enum:: C2DGraphics::TTextAlign
+
+	* AlignLeft
+	* AlignRight
+	* AlignCenter
+
 .. cpp:function:: TScreenColor *C2DGraphics::GetBuffer (void)
 
 	Gets raw access to the drawing buffer. Returns a pointer to the buffer.
@@ -91,7 +101,7 @@ The class ``C2DGraphics`` is part of the Circle base library and can be used to 
 LVGL
 ^^^^
 
-The `Light and Versatile Graphics Library <https://lvgl.io/>`_ (LVGL) v8.3.3 can be used with Circle. This library provides an API, which is based on the C language. See the `LVGL documentation <https://docs.lvgl.io/8.3/>`_ for details.
+The `Light and Versatile Graphics Library <https://lvgl.io/>`_ (LVGL) v8.3.7 can be used with Circle. This library provides an API, which is based on the C language. See the `LVGL documentation <https://docs.lvgl.io/8.3/>`_ for details.
 
 .. code-block:: cpp
 
