@@ -90,9 +90,9 @@ Installation
 
 Copy the Raspberry Pi firmware (from *boot/* subdirectory, do ``make`` there to get them) files along with the *kernel\*.img* (from *sample/* subdirectory) to a SD card with FAT file system.
 
-The *config32.txt* file, provided in the *boot/* subdirectory, is needed to enable FIQ use in 32-bit mode on the Raspberry Pi 4 and has to be copied to the SD card in this case (rename it to *config.txt*). Furthermore the additional file *armstub7-rpi4.bin* is required on the SD card then. Please see `boot/README <https://github.com/rsta2/circle/blob/master/boot/README>`_ for information on how to build this file.
+It is now always recommended to copy the file *config32.txt* (for 32-bit operation, AArch32) or *config64.txt* (for 64-bit operation, AArch64) from the *boot/* subdirectory to the SD card and to rename it to *config.txt* there.
 
-The *config64.txt* file, provided in the *boot/* directory, is needed to enable 64-bit mode and has to be copied to the SD card in this case (rename it to *config.txt*). FIQ support for 64-bit mode on the Raspberry Pi 4 requires an additional file *armstub8-rpi4.bin* on the SD card. Please see `boot/README <https://github.com/rsta2/circle/blob/master/boot/README>`_ for information on how to build this file.
+If you want to use the FIQ on a Raspberry Pi 4, you need an additional Circle-specific ARM stub file (*armstub7-rpi4.bin* for 32-bit operation or *armstub8-rpi4.bin* for 64-bit operation), which will be loaded by the firmware. This ARM stub can be built in the *boot/* subdirectory. Please see `boot/README <https://github.com/rsta2/circle/blob/master/boot/README>`_ for information on how to build these files.
 
 Put the SD card into your Raspberry Pi and power it on.
 
