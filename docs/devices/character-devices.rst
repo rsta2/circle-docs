@@ -252,6 +252,14 @@ CUSBKeyboardDevice
 	\\E[19~		F8
 	\\E[20~		F9
 	\\E[G		KP_Center
+	\\E[1;5A	Ctrl-Up
+	\\E[1;5B	Ctrl-Down
+	\\E[1;5D	Ctrl-Left
+	\\E[1;5C	Ctrl-Right
+	\\E[1;5H	Ctrl-Home
+	\\E[1;5F	Ctrl-End
+	\\E[5;5~	Ctrl-PageUp
+	\\E[6;5~	Ctrl-PageDown
 	==============	=========
 
 	^X = Control character, \\E = Escape (\\x1b), \\nnn = Octal code
@@ -306,6 +314,10 @@ CUSBKeyboardDevice
 	* RSHIFT
 	* ALTGR
 	* RWIN
+
+.. cpp:function:: void CUSBKeyboardDevice::UnregisterKeyStatusHandlerRaw (void)
+
+	Remove registration of a previously registered raw mode keyboard status handler.
 
 CMouseDevice
 ^^^^^^^^^^^^
@@ -568,7 +580,7 @@ CUSBSerialDevice
 
 .. note::
 
-	Circle currently supports USB serial devices, which are compatible with the USB CDC-class specification (interfaces 2-2-0 and 2-2-1) and other devices, which use the following controllers: CH341, CP2102, FT231x, PL2303.
+	Circle currently supports USB serial devices, which are compatible with the USB CDC-class specification (interfaces 2-2-0 and 2-2-1) and other devices, which use the following controllers: CH341, CP210x, FT231x, PL2303.
 
 	There are many different combinations of USB vendor and device IDs for these devices and Circle supports only a small subset of these combinations, which were available for tests. If you have a USB serial device, which is not detected, there is still some chance, that the device can work with a Circle driver. You have to add the vendor/device ID combination of your device to the array ``DeviceIDTable[]`` at the end of the respective source file *lib/usb/usbserial\*.cpp* and test it. Please report newly found vendor/device ID combinations and the used driver!
 
