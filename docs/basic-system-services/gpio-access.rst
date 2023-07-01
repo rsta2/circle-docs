@@ -341,6 +341,10 @@ Raspberry Pi	SDA	SCL
 
 	Reads ``nCount`` bytes from the I2C master into ``pBuffer``. Returns the number of read bytes or < 0 on failure.
 
+.. note::
+
+	Broadcasts to the General Call Address 0 will not be received.
+
 .. cpp:function:: int CI2CSlave::Write (const void *pBuffer, unsigned nCount)
 
 	Writes ``nCount`` bytes to the I2C master from ``pBuffer``. Returns the number of written bytes or < 0 on failure.
