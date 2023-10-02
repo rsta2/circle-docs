@@ -344,6 +344,10 @@ CMouseDevice
 
 	Setup mouse device in cooked mode. ``nScreenWidth`` and ``nScreenHeight`` are the width and height of the screen in pixels. Returns ``FALSE`` on failure. This method must be called first in the setup process for a mouse in cooked mode.
 
+.. cpp:function:: void CMouseDevice::Release (void)
+
+	Undo ``Setup()``. Call this before resizing the screen!
+
 .. cpp:function:: void CMouseDevice::RegisterEventHandler (TMouseEventHandler *pEventHandler)
 
 	Registers an mouse event handler in cooked mode. ``pEventHandler`` is a pointer to the event handler with the following prototype:
