@@ -99,6 +99,10 @@ CDeviceNameService
 
 	Generates a textual device name listing and writes it to the device ``pTarget``.
 
+.. cpp:function:: boolean CDeviceNameService::EnumerateDevices (boolean (*pCallback) (CDevice *pDevice, const char *pName, boolean bBlockDevice, void *pParam), void *pParam)
+
+	Enumerates all devices and invokes ``pCallback`` for each device. ``pParam`` is a user defined pointer that will back passed to the callback. Returns ``FALSE`` if the enumeration was canceled from the callback returning ``FALSE``.
+
 .. cpp:function:: void CDeviceNameService::AddDevice (const char *pName, CDevice *pDevice, boolean bBlockDevice)
 
 	Adds the pointer ``pDevice`` to a device object with the name ``pName`` to the device name registry. ``bBlockDevice`` is ``TRUE``, if this is a block device, otherwise it is a character device. This method is usually only used by device driver classes.
