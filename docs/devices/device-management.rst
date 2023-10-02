@@ -37,6 +37,10 @@ CDevice
 
 	Returns the total byte size of a block device, or ``(u64) -1`` on failure. This method is only implemented for block devices, character devices always return failure.
 
+.. cpp:function:: virtual int CDevice::IOCtl (unsigned long ulCmd, void *pData)
+
+	Invokes the I/O control command ``ulCmd`` of the device with the command specific data ``pData``. ``pData`` can be used to return command specific data too. Returns zero on success, or an error code on failure. This method is currently not used in Circle itself, and has been defined for user extensions.
+
 .. cpp:function:: virtual boolean CDevice::RemoveDevice (void)
 
 	Requests the remove of a device from the system for pseudo plug-and-play. This is only implemented for USB devices (e.g. for USB mass-storage devices). Returns ``TRUE`` on the successful removal of the device.
