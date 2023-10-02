@@ -60,6 +60,10 @@ CExceptionHandler
 
 	This class handles abort exceptions, which occur on different program errors. The exception handler displays a stack trace and logs some important register values. An instance of this class should be added to each more complex program, which includes a ``CLogger`` instance too. Usually it will be added as a member to ``CKernel``. This class does not have methods, which can be called from application code.
 
+.. note::
+
+	You can override the ``Throw()`` methods in a custom exception handler class, if you have specific requirements for exception handling, and instantiate this class instead of ``CExceptionHandler``.
+
 CTracer
 ^^^^^^^
 
