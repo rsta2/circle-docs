@@ -180,3 +180,11 @@ The class ``CKernelOptions`` provides the values of runtime options, which can b
 .. cpp:function:: const unsigned *CKernelOptions::GetTouchScreen (void) const
 
 	Returns the calibration parameters for the touchscreen. The returned pointer refers to an array with four elements (min-x, max-x, min-y, max-y). It is ``nullptr``, if the option ``touchscreen=`` is not set.
+
+.. cpp:function:: const char *CKernelOptions::GetAppOptionString (const char *pOption, const char *pDefault = nullptr) const
+
+	Returns the value of the application-defined option ``pOption`` as a pointer to a C-string, or ``pDefault`` if the option is not found in the command line.
+
+.. cpp:function:: unsigned CKernelOptions::GetAppOptionDecimal (const char *pOption, unsigned nDefault = -1) const
+
+	Returns the value of the application-defined option ``pOption`` as a number, or ``nDefault`` if the option is not found in the command line.
