@@ -319,6 +319,12 @@ CUSBKeyboardDevice
 	* ALTGR
 	* RWIN
 
+.. cpp:function:: void CUSBKeyboardDevice::RegisterKeyStatusHandlerRaw (TKeyStatusHandlerRawEx *pKeyStatusHandlerRaw, boolean bMixedMode, void *pArg)
+
+	Alternative version of ``RegisterKeyStatusHandlerRaw()``, which gets an additional user argument, which is handed over to this raw mode keyboard status handler:
+
+.. c:type:: void TKeyStatusHandlerRawEx (unsigned char	ucModifiers, const unsigned char RawKeys[6], void *pArg)
+
 .. cpp:function:: void CUSBKeyboardDevice::UnregisterKeyStatusHandlerRaw (void)
 
 	Remove registration of a previously registered raw mode keyboard status handler.
@@ -397,6 +403,12 @@ CMouseDevice
 
 .. c:macro:: MOUSE_DISPLACEMENT_MIN
 .. c:macro:: MOUSE_DISPLACEMENT_MAX
+
+.. cpp:function:: void CMouseDevice::RegisterStatusHandler (TMouseStatusHandlerEx *pStatusHandler, void *pArg)
+
+	Alternative version of ``RegisterStatusHandler()``, which gets an additional user argument, which is handed over to this raw mode mouse status handler:
+
+.. c:type:: void TMouseStatusHandlerEx (unsigned nButtons, int nDisplacementX, int nDisplacementY, int nWheelMove, void *pArg)
 
 .. cpp:function:: unsigned CMouseDevice::GetButtonCount (void) const
 
