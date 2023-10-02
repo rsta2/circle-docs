@@ -468,6 +468,23 @@ CTFTPDaemon
 
 	Virtual method entered to write ``nCount`` bytes from ``pBuffer`` into the currently open file. Returns the number of bytes written, or < 0 on error.
 
+.. cpp:function:: virtual void CTFTPDaemon::UpdateStatus (TStatus Status, const char *pFileName)
+
+	Virtual method entered to inform the derived class about the progress of an ongoing transfer. ``pFileName`` is the name of the transferred file, if available. ``Status`` can have the following values:
+
+.. code-block:: cpp
+
+	enum TStatus
+	{
+		StatusIdle,		// pFileName not available
+		StatusReadInProgress,
+		StatusWriteInProgress,
+		StatusReadCompleted,
+		StatusWriteCompleted,
+		StatusReadAborted,
+		StatusWriteAborted
+	};
+
 Utilities
 ^^^^^^^^^
 
