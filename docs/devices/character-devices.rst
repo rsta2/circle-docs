@@ -26,6 +26,10 @@ CScreenDevice
 
 	Initializes the instance of ``CScreenDevice`` and clears the screen. Returns ``TRUE`` on success.
 
+.. cpp:function:: boolean CScreenDevice::Resize (unsigned nWidth, unsigned nHeight)
+
+	Initializes the instance of ``CScreenDevice`` with a new size again and clears the screen. ``nWidth`` is the new screen width and ``nHeight`` the new screen height in number of pixels. Returns ``TRUE`` on success. When ``FALSE`` is returned, the width and/or height are not supported. The object is in an uninitialized state then and must not be used, but ``Resize()`` can be called again with other parameters.
+
 .. cpp:function:: unsigned CScreenDevice::GetWidth (void) const
 
 	Returns the screen width in number of pixels.
