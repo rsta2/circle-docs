@@ -551,6 +551,12 @@ CUSBMIDIDevice
 
 	``nCable`` is the number of the virtual MIDI cable (0..15). ``pPacket`` is a pointer to one received MIDI packet. ``nLength`` is the number of valid bytes in the packet (1..3).
 
+.. cpp:function:: void CUSBMIDIDevice::RegisterPacketHandler (TMIDIPacketHandlerEx *pPacketHandler, void *pParam)
+
+	Alternative version of ``RegisterPacketHandler()``, which gets an additional user parameter, which is handed over to this callback function:
+
+.. c:type:: void TMIDIPacketHandlerEx (unsigned nCable, u8 *pPacket, unsigned nLength, unsigned nDevice, void *pParam)
+
 .. cpp:function:: boolean CUSBMIDIDevice::SendEventPackets (const u8 *pData, unsigned nLength)
 
 	Sends one or more packets in the encoded USB MIDI event packet format. ``pData`` is a pointer to the packet buffer. ``nLength`` is the length of the packet buffer in bytes, which must be a multiple of 4. Returns ``TRUE``, if the operation has been successful. This function fails, if ``nLength`` is not a multiple of 4 or the send function is not supported. The format of the USB MIDI event packets is not validated.
