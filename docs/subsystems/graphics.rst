@@ -24,6 +24,10 @@ The class ``C2DGraphics`` is part of the Circle base library and can be used to 
 
 	Initializes the screen. Returns ``TRUE`` on success.
 
+.. cpp:function:: boolean C2DGraphics::Resize (unsigned nWidth, unsigned nHeight)
+
+	Initializes the screen again with a new size. ``nWidth`` is the new screen width and ``nHeight`` the new screen height in number of pixels. Returns ``TRUE`` on success. When ``FALSE`` is returned, the width and/or height are not supported. The object is in an uninitialized state then and must not be used, but ``Resize()`` can be called again with other parameters.
+
 .. cpp:function:: unsigned C2DGraphics::GetWidth (void) const
 
 	Returns the screen width in pixels.
