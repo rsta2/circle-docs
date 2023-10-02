@@ -311,6 +311,10 @@ I2C_MASTER_DATA_LEFT	Not all data has been sent / received
 
 	Writes ``nCount`` bytes to the I2C slave device with address ``ucAddress`` from ``pBuffer``. Returns the number of written bytes or < 0 on failure. See the error codes above.
 
+.. cpp:function:: int CI2CMaster::WriteReadRepeatedStart (u8 ucAddress, const void *pWriteBuffer, unsigned nWriteCount, void *pReadBuffer, unsigned nReadCount)
+
+	Performs a consecutive write and read operation with repeated start. At first writes ``nWriteCount`` bytes (1-16) to the I2C slave device with address ``ucAddress`` from ``pWriteBuffer``. Then reads ``nReadCount`` bytes from the I2C slave device with the same address into ``pReadBuffer``. Returns the number of read bytes or < 0 on failure. See the error codes above.
+
 CI2CSlave
 ^^^^^^^^^
 
