@@ -535,9 +535,9 @@ CUSBMIDIDevice
 
 	#include <circle/usb/usbmidi.h>
 
-.. cpp:class:: CUSBMIDIDevice : public CUSBFunction
+.. cpp:class:: CUSBMIDIDevice : public CDevice
 
-	This class is a driver for USB Audio Class MIDI 1.0 devices. An instance of this class is automatically created, when a compatible device is found in the USB device enumeration process. Therefore only the class methods needed to use an USB MIDI device by an application are described here, not the methods used for initialization. This device has the name ``"umidiN"`` (N >= 1) in the device name service (character device).
+	This class is an interface device for USB Audio Class MIDI 1.0 devices. An instance of this class is automatically created, when a compatible device is found in the USB device enumeration process. Therefore only the class methods needed to use an USB MIDI device by an application are described here, not the methods used for initialization. This device has the name ``"umidiN"`` (N >= 1) in the device name service (character device).
 
 .. note::
 

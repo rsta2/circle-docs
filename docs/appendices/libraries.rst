@@ -10,18 +10,19 @@ Base libraries
 
 The base libraries will be built using ``./makeall`` from Circle's project root.
 
-======================	==============================================	=================
-Library lib/...		Description					Depends on lib
-======================	==============================================	=================
-libcircle.a		Basic system services and drivers
-usb/libusb.a		USB host controller and class drivers		circle, input, fs, (sched)
-input/libinput.a	Generic input device services			circle
-fs/libfs.a		Basic file system services (partition manager)	circle
-fs/fat/libfatfs.a	FAT file system driver [#fs]_			circle, fs
-sched/libsched.a	Cooperative multi-tasking support		circle
-net/libnet.a		TCP/IP networking				circle, sched
-sound/libsound.a	Sound drivers					circle, usb, (sched)
-======================	==============================================	=================
+==============================	==============================================	=================
+Library lib/...			Description					Depends on lib
+==============================	==============================================	=================
+libcircle.a			Basic system services and drivers
+usb/libusb.a			USB host controller and class drivers		circle, input, fs, (sched)
+usb/gadget/libusbgadget.a	USB gadget drivers				circle, usb
+input/libinput.a		Generic input device services			circle
+fs/libfs.a			Basic file system services (partition manager)	circle
+fs/fat/libfatfs.a		FAT file system driver [#fs]_			circle, fs
+sched/libsched.a		Cooperative multi-tasking support		circle
+net/libnet.a			TCP/IP networking				circle, sched
+sound/libsound.a		Sound drivers					circle, usb, (sched)
+==============================	==============================================	=================
 
 .. note::
 
