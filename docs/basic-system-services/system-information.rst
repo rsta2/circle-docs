@@ -44,6 +44,7 @@ Model information
 * MachineModel4B
 * MachineModel400
 * MachineModelCM4
+* MachineModelCM4S
 * MachineModelUnknown
 
 .. cpp:function:: const char *CMachineInfo::GetMachineName (void) const
