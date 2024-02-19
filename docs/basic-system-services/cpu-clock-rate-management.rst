@@ -18,6 +18,7 @@ Zero 2		1000 MHz		600 MHz
 3 Model A+/B+	1400 MHz		600 MHz
 4		1500 MHz		600 MHz			Rev. 1.4: 1800 MHz
 400		1800 MHz		600 MHz			Head sink included
+5		2400 MHz		1500 MHz
 ==============	======================	======================	======================
 
 Circle uses the class ``CCPUThrottle`` to implement a CPU clock rate management, which is described below. The sample program `26-cpustress` demonstrates its usage.
@@ -33,6 +34,8 @@ Circle uses the class ``CCPUThrottle`` to implement a CPU clock rate management,
 .. note::
 
 	To keep the CPU performance at the maximum level, it is possible to use a Case Fan, which is especially available for the official Raspberry Pi 4 case. This fan has a control line, which has to be connected to a GPIO pin. To use such a fan with the class ``CCPUThrottle``, you have to add the option ``gpiofanpin=PIN`` to the file `cmdline.txt <https://github.com/rsta2/circle/blob/master/doc/cmdline.txt>`_, where PIN is the GPIO pin number (SoC number, not header position) to which the control line of the fan is connected. The CPU speed is not throttled, when this option is used.
+
+	The Raspberry Pi 5 has a dedicated PWM fan connector, which can be used with the official Case for Raspberry Pi 5 or with the Active Cooler solution. Both include a cooling fan. When you use one of these solutions, you should specify the option ``gpiofanpin=45`` in the file `cmdline.txt <https://github.com/rsta2/circle/blob/master/doc/cmdline.txt>`_. Like the case fan of the Raspberry Pi 4, the class ``CCPUThrottle`` switches the fan on or off, depending on the current SoC temperature. It does not use PWM yet.
 
 CCPUThrottle
 ^^^^^^^^^^^^
