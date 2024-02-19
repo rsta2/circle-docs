@@ -37,6 +37,10 @@ There is exactly one or no instance of this class in the system. Only relatively
 
 	Returns the current value of the fine grained, consecutive system tick counter in microseconds. It does not necessarily start at zero and may overrun after a while. It continues to count from zero then.
 
+.. cpp:function:: static u64 CTimer::GetClockTicks64 (void)
+
+	Returns the current value of the fine grained, consecutive system tick counter in microseconds. It does not necessarily start at zero, but does not wrap.
+
 .. c:macro:: CLOCKHZ
 
 	Frequency of the fine grained, consecutive system tick counter (1000000).
