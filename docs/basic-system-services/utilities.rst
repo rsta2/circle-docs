@@ -154,15 +154,15 @@ This class implements a linked list of pointers. The methods of this class are n
 
 	Opaque type definition.
 
-.. cpp:function:: TPtrListElement *CPtrList::GetFirst (void)
+.. cpp:function:: TPtrListElement *CPtrList::GetFirst (void) const
 
 	Returns the first element, or 0 if list is empty.
 
-.. cpp:function:: TPtrListElement *CPtrList::GetNext (TPtrListElement *pElement)
+.. cpp:function:: TPtrListElement *CPtrList::GetNext (TPtrListElement *pElement) const
 
 	Returns the next element following ``pElement``, or 0 if nothing follows.
 
-.. cpp:function:: void *CPtrList::GetPtr (TPtrListElement *pElement)
+.. cpp:function:: static void *CPtrList::GetPtr (TPtrListElement *pElement)
 
 	Returns the pointer for ``pElement``.
 
@@ -178,7 +178,7 @@ This class implements a linked list of pointers. The methods of this class are n
 
 	Removes the element ``pElement`` from the list.
 
-.. cpp:function:: TPtrListElement *CPtrList::Find (void *pPtr)
+.. cpp:function:: TPtrListElement *CPtrList::Find (void *pPtr) const
 
 	Searches the element, whose pointer is equal to ``pPtr`` and returns it, or 0 if ``pPtr`` was not found.
 
