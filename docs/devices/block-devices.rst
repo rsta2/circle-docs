@@ -24,6 +24,10 @@ CEMMCDevice
 
 	This class has drivers for two different interfaces, the SDHOST interface and the EMMC interface. The SDHOST interface is enabled by default on the Raspberry Pi 1-3 and Zero, when the system option ``REALTIME`` is not enabled. On the Raspberry Pi 4 the EMMC interface is used in any case, but can be used on the earlier models with the system option ``NO_SDHOST`` too.  This is not possible, when you want to access the on-board WLAN device at the same time. To access the embedded MMC on the Compute Module 4, the system option ``USE_EMBEDDED_MMC_CM4`` has to be enabled.
 
+.. note::
+
+	On the Raspberry Pi 5 the SDHOST interface is currently not supported by Circle.
+
 .. cpp:function:: CEMMCDevice::CEMMCDevice (CInterruptSystem *pInterruptSystem, CTimer *pTimer, CActLED *pActLED = 0)
 
 	Creates the instance of this class. ``pInterruptSystem`` is a pointer to the system interrupt object. ``pTimer`` is a pointer to the system timer object. ``pActLED`` can be specified to use the green Activity LED to inform the user, when the SD card is currently accessed. This is optional.

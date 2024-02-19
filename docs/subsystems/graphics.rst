@@ -102,6 +102,8 @@ The class ``C2DGraphics`` is part of the Circle base library and can be used to 
 
 	Once everything has been drawn, updates the display to show the contents on screen. If VSync is enabled, this method is blocking until the screen refresh signal is received (every 16ms for 60 FPS refresh rate).
 
+.. _LVGL:
+
 LVGL
 ^^^^
 

@@ -3,6 +3,10 @@ Direct Memory Access (DMA)
 
 Circle supports Direct Memory Access (DMA) using the platform DMA controller of the Raspberry Pi. This is implemented in the class ``CDMAChannel``.
 
+.. note::
+
+	Currently only memory copy DMA transfers using "large address" DMA4 engines are supported on the Raspberry Pi 5. Any dynamic DMA channel allocation (non-explicit channel number) will use one of these engines.
+
 CDMAChannel
 ^^^^^^^^^^^
 
@@ -14,7 +18,7 @@ CDMAChannel
 
 .. cpp:function:: CDMAChannel::CDMAChannel (unsigned nChannel, CInterruptSystem *pInterruptSystem = 0)
 
-	Creates an instance of  ``CDMAChannel`` and allocates a channel of the platform DMA controller. ``nChannel`` must be ``DMA_CHANNEL_NORMAL`` (normal DMA engine), ``DMA_CHANNEL_LITE`` (lite (or normal) DMA engine), ``DMA_CHANNEL_EXTENDED`` ("large address" DMA4 engine, on Raspberry Pi 4 only) or an explicit channel number (0-15). ``pInterruptSystem`` is a pointer to the instance of ``CInterruptSystem`` and is only needed for interrupt operation.
+	Creates an instance of  ``CDMAChannel`` and allocates a channel of the platform DMA controller. ``nChannel`` must be ``DMA_CHANNEL_NORMAL`` (normal DMA engine), ``DMA_CHANNEL_LITE`` (lite (or normal) DMA engine), ``DMA_CHANNEL_EXTENDED`` ("large address" DMA4 engine, on Raspberry Pi 4 and 5 only) or an explicit channel number (0-15). ``pInterruptSystem`` is a pointer to the instance of ``CInterruptSystem`` and is only needed for interrupt operation.
 
 .. cpp:function:: void CDMAChannel::SetupMemCopy (void *pDestination, const void *pSource, size_t nLength, unsigned nBurstLength = 0, boolean bCached = TRUE)
 

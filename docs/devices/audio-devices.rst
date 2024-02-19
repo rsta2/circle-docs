@@ -7,7 +7,9 @@ Circle supports the generation of sound via several hardware (PWM, I2S, HDMI, US
 
 .. important::
 
-	The support for USB audio streaming devices is only available on the Raspberry Pi 4, 400 and Compute Module 4.
+	The support for USB audio streaming devices is only available on the Raspberry Pi 4, 400, 5 and Compute Module 4.
+
+	USB audio is currently the only option for sound output and input on the Raspberry Pi 5.
 
 The base class of all sound generating and capturing devices is ``CSoundBaseDevice``. The following table lists the provided classes for the different interfaces. The higher level support provides an additional conversion function for sound data in different formats as an example, which can be easily adapted for other sound classes.
 

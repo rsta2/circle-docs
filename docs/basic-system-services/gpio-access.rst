@@ -178,6 +178,10 @@ This class implements an interrupt multiplexer for ``CGPIOPin`` instances. There
 CGPIOClock
 ^^^^^^^^^^
 
+.. note::
+
+	This class is currently not supported on the Raspberry Pi 5.
+
 A GPIO clock is a programmable digital clock generator. A Raspberry Pi computer provides several of these clocks. Their output is used for special system purposes (e.g. for the PWM and PCM / I2S devices) or can be directly connected to some GPIO pins. GPIO clocks are driven by an internal clock source with a specific clock frequency.
 
 .. code-block:: c++
@@ -227,6 +231,10 @@ A GPIO clock is a programmable digital clock generator. A Raspberry Pi computer 
 
 CPWMOutput
 ^^^^^^^^^^
+
+.. note::
+
+	This class is currently not supported on the Raspberry Pi 5.
 
 This class provides access to the Pulse Width Modulator (PWM) device, which can be used to generate (pseudo) analog signals on the GPIO pins 18 and 19 (two channels). These pins have to be set to ``GPIOModeAlternateFunction5`` using the class ``CGPIOPin`` for that purpose.
 
@@ -318,6 +326,10 @@ I2C_MASTER_DATA_LEFT	Not all data has been sent / received
 CI2CSlave
 ^^^^^^^^^
 
+.. note::
+
+	This class is currently not supported on the Raspberry Pi 5.
+
 This class is a driver for the I2C slave device. The GPIO pin mapping is as follows:
 
 ==============	======	======
@@ -358,6 +370,10 @@ Raspberry Pi	SDA	SCL
 
 CSPIMaster
 ^^^^^^^^^^
+
+.. note::
+
+	This class is currently not supported on the Raspberry Pi 5.
 
 The class ``CSPIMaster`` is a driver for SPI master devices, with these features:
 
@@ -423,6 +439,10 @@ GPIO0 and GPIO1 are normally reserved for the ID EEPROM of hat boards.
 CSPIMasterAUX
 ^^^^^^^^^^^^^
 
+.. note::
+
+	This class is not supported on the Raspberry Pi 5.
+
 The class ``CSPIMasterAUX`` is a polling driver for the auxiliary SPI master (SPI1). The GPIO pin mapping is as follows:
 
 ======	======	======	======	======	======
@@ -465,6 +485,10 @@ The CE# signals are active low.
 
 CSPIMasterDMA
 ^^^^^^^^^^^^^
+
+.. note::
+
+	This class is currently not supported on the Raspberry Pi 5.
 
 The class ``CSPIMasterDMA`` is a driver for the SPI0 master device. It implements an asynchronous DMA operation. Optionally one can do synchronous polling transfers (e.g. for small amounts of data). The GPIO pin mapping of the SPI0 master device is as follows:
 
@@ -516,6 +540,10 @@ GPIO9	GPIO10	GPIO11	GPIO8	GPIO7
 
 CSMIMaster
 ^^^^^^^^^^
+
+.. note::
+
+	This class is not supported on the Raspberry Pi 5.
 
 The class ``CSMIMaster`` is a driver for the `Secondary Memory Interface (SMI) <https://iosoft.blog/category/secondary-memory-interface/>`_ device of the Raspberry Pi. It supports the following features:
 

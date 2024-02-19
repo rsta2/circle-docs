@@ -5,6 +5,10 @@ This section describes the low-level hardware-interrupt support in Circle. This 
 
 In the ARM architecture there are two types of interrupt request, IRQ and FIQ. The IRQ is the basic interrupt request type, can have multiple active sources on all Raspberry Pi models and is used to control most interrupt-driven devices. The FIQ (Fast Interrupt Request) is used for low-latency interrupts and can have only one active interrupt source at a time on the Raspberry Pi 1-3 and Zero. The Raspberry Pi 4 has an new interrupt controller (GIC-400) and may theoretically support multiple simultaneous FIQ sources, but for a homogeneous solution this currently not supported in Circle. Therefore there are normally multiple active interrupt sources in a system, which use the IRQ, but only up to one, which uses the FIQ.
 
+.. important::
+
+	The FIQ is currently not supported on the Raspberry Pi 5.
+
 CInterruptSystem
 ^^^^^^^^^^^^^^^^
 

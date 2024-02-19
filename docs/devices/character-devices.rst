@@ -346,6 +346,10 @@ CMouseDevice
 
 	In raw mode the driver directly reports the raw mouse displacement, button and wheel information.
 
+.. note::
+
+	The Raspberry Pi 5 does not support a mouse cursor in its firmware. Therefore a mouse cursor is not shown on this model, but the cooked mode can still be used to maintain the mouse position, without showing a cursor. The :ref:`LVGL` support implements a LVGL software cursor on the Raspberry Pi 5.
+
 .. cpp:function:: boolean CMouseDevice::Setup (unsigned nScreenWidth, unsigned nScreenHeight)
 
 	Setup mouse device in cooked mode. ``nScreenWidth`` and ``nScreenHeight`` are the width and height of the screen in pixels. Returns ``FALSE`` on failure. This method must be called first in the setup process for a mouse in cooked mode.

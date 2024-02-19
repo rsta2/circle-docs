@@ -7,6 +7,8 @@ In order for a device driver to make certain settings (e.g. size of the frame bu
 
 	This `Mailbox property interface <https://github.com/raspberrypi/firmware/wiki/Mailbox-property-interface>`_ wiki article does not describe all supported functions. Information on more functions can only be retrieved from the Linux source code.
 
+	The firmware of the Raspberry Pi 5 supports only a small subset of the functions, which are described in this wiki article.
+
 CBcmPropertyTags
 ^^^^^^^^^^^^^^^^
 

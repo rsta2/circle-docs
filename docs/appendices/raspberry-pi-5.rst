@@ -19,3 +19,7 @@ RP1 southbridge
 ^^^^^^^^^^^^^^^
 
 The Raspberry Pi 5 features the RP1 southbridge, which provides many of the available peripherals. The RP1 peripherals are accessible automatically on entry into ``main()`` in Circle applications. No specific action is necessary for this purpose.
+
+.. important::
+
+	The firmware support for frame buffer device(s) is not as comfortable on the Raspberry Pi 5 as on earlier models. Because Circle relies on this firmware support, there are limitations, when using HDMI displays (e.g. no configuration in *config.txt*, cannot set display resolution from application) and DSI displays (e.g. the Official 7" touchscreen) do not work at all.

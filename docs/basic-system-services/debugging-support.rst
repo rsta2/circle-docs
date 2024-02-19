@@ -49,6 +49,10 @@ The following functions are only available, when ``NDEBUG`` is not defined.
 
 	The macro ``DEBUG_CLICK`` must be defined, when you want to use ``debug_click()``. The PWM audio device cannot be used in this case.
 
+.. note::
+
+	This function is not supported on the Raspberry Pi 5.
+
 CExceptionHandler
 ^^^^^^^^^^^^^^^^^
 
