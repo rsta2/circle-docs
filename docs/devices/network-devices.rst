@@ -129,6 +129,17 @@ CBcm54213Device
 
 	This class is a driver for the BCM54213PE Gigabit Ethernet Transceivers of the Raspberry Pi 4, 400 and Compute Module 4. It is instantiated in the :ref:`TCP/IP networking` subsystem, but has to be manually instantiated by applications, which do not use this subsystem. This class does not provide specific methods, its API is defined by the base class :cpp:class:`CNetDevice`.
 
+CMACBDevice
+^^^^^^^^^^^
+
+.. code-block:: cpp
+
+	#include <circle/macb.h>
+
+.. cpp:class:: CMACBDevice : public CNetDevice
+
+	This class is a driver for the MACB / GEM Gigabit Ethernet Transceiver of the Raspberry Pi 5. It is instantiated in the :ref:`TCP/IP networking` subsystem, but has to be manually instantiated by applications, which do not use this subsystem. This class does not provide specific methods, its API is defined by the base class :cpp:class:`CNetDevice`.
+
 CBcm4343Device
 ^^^^^^^^^^^^^^
 
@@ -138,7 +149,7 @@ CBcm4343Device
 
 .. cpp:class:: CBcm4343Device : public CNetDevice
 
-	This class is a driver for the BCM4343x WLAN interface device of the Raspberry Pi 3, 4 and Zero (2) W. It has to be instantiated manually, and is normally used together with the class :cpp:class:`CNetSubSystem` from the :ref:`TCP/IP networking` subsystem and the class :cpp:class:`CWPASupplicant` from the submodule `hostap <https://github.com/rsta2/hostap/tree/hostap_0_7_0-circle>`_. This class provides the interface, defined in its base class :cpp:class:`CNetDevice`, and additional methods, which are needed to manage the association with a WLAN access point (AP). The following description covers only the methods, which are specific to this class.
+	This class is a driver for the BCM4343x WLAN interface device of the Raspberry Pi 3, 4, 5 and Zero (2) W. It has to be instantiated manually, and is normally used together with the class :cpp:class:`CNetSubSystem` from the :ref:`TCP/IP networking` subsystem and the class :cpp:class:`CWPASupplicant` from the submodule `hostap <https://github.com/rsta2/hostap/tree/hostap_0_7_0-circle>`_. This class provides the interface, defined in its base class :cpp:class:`CNetDevice`, and additional methods, which are needed to manage the association with a WLAN access point (AP). The following description covers only the methods, which are specific to this class.
 
 .. cpp:function:: CBcm4343Device::CBcm4343Device (const char *pFirmwarePath)
 
