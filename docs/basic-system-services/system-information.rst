@@ -45,6 +45,7 @@ Model information
 * MachineModel400
 * MachineModelCM4
 * MachineModelCM4S
+* MachineModel5
 * MachineModelUnknown
 
 .. cpp:function:: const char *CMachineInfo::GetMachineName (void) const
@@ -67,6 +68,7 @@ Model information
 * SoCTypeBCM2836
 * SoCTypeBCM2837
 * SoCTypeBCM2711
+* SoCTypeBCM2712
 * SoCTypeUnknown
 
 .. cpp:function:: unsigned CMachineInfo::GetRAMSize (void) const

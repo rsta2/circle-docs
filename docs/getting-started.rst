@@ -18,14 +18,19 @@ The recommended toolchains for building Circle applications can be downloaded fr
 Configuration
 ~~~~~~~~~~~~~
 
+.. important::
+
+	The Raspberry Pi 5 can only run 64-bit kernel images.
+
 Circle is configured using the file *Config.mk* in the project's root directory. This file can be created using the ``configure`` script, which provides these options:
 
 .. code-block:: none
 
 	-r <number>, --raspberrypi <number>
-	                   Raspberry Pi model number (1, 2, 3, 4, default: 1)
+	                   Raspberry Pi model number (1, 2, 3, 4, 5, default: 1)
 	-p <string>, --prefix <string>
-	                   Prefix of the toolchain commands (default: arm-none-eabi-)
+	                   Prefix of the toolchain commands
+	                   (default: arm-none-eabi-, aarch64-none-elf- with -r 5)
 	--multicore        Allow multi-core applications
 	--realtime         Enable real time mode to improve IRQ latency
 	--keymap <country> Set default USB keymap (DE, ES, FR, IT, UK, US)
@@ -70,7 +75,7 @@ A typical 64-bit configuration looks like that:
 	AARCH = 64
 	RASPPI = 3
 
-64-bit operation is possible on the Raspberry Pi 3, 4 and Zero 2 only.
+64-bit operation is possible on the Raspberry Pi 3, 4, 5 and Zero 2 only.
 
 Building
 ~~~~~~~~
@@ -82,7 +87,7 @@ After configuring Circle, go to the root directory of the Circle project and ent
 	./makeall clean
 	./makeall
 
-By default only the latest sample (with the highest number) is build. The ready build kernel image file should be in its subdirectory of *sample/*. If you want to build another sample after ``./makeall`` go to its subdirectory and do ``make``.
+By default no sample program is build. If you want to build a sample after ``./makeall`` go to its subdirectory and do ``make``.
 
 
 Installation
