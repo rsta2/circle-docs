@@ -644,6 +644,14 @@ CUSBSerialDevice
 		USBSerialParityEven,
 	};
 
+.. cpp:function:: unsigned CUSBSerialDevice::GetOptions (void) const
+
+	Returns the current serial options mask.
+
+.. cpp:function:: void CUSBSerialDevice::SetOptions (unsigned nOptions)
+
+	Sets the serial options mask to ``nOptions``. See :cpp:func:`CSerialDevice::SetOptions()` for the supported options.
+
 CUSBPrinterDevice
 ^^^^^^^^^^^^^^^^^
 
