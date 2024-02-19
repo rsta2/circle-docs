@@ -580,6 +580,10 @@ CActLED
 
 This class switches the (green) Act(ivity) LED on or off. It automatically determines the Raspberry Pi model to use the right LED pin for the model.
 
+.. note::
+
+	The default state of the ActLED in Circle is always off. It is turned on to signalize system activity (e.g. SD card access). This can be different from the behavior of Raspberry Pi OS, which by default turns off the ActLED, when the SD card is accessed on a few Raspberry Pi models (e.g. Raspberry Pi 5).
+
 .. code-block:: c++
 
 	#include <circle/actled.h>
