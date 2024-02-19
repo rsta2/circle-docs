@@ -7,12 +7,12 @@ In the ARM architecture there are two types of interrupt request, IRQ and FIQ. T
 
 .. important::
 
-	The FIQ is currently not supported on the Raspberry Pi 5.
+	The FIQ is currently not supported on the Raspberry Pi 5 by Circle.
 
 CInterruptSystem
 ^^^^^^^^^^^^^^^^
 
-The class ``CInterruptSystem`` is the provider of hardware-interrupt support in Circle. Hardware-interrupt support is not mandatory in an application, but if it is used, there is exactly one instance of this class in the system.
+The class ``CInterruptSystem`` is the provider of hardware-interrupt support in Circle. Hardware-interrupt support is now mandatory in every application and an instance of this class is created in the system initialization. For compatibility it is still possible, to create a second instance of this class. A call to a method of the second instance will be automatically routed to the first instance.
 
 .. code-block:: c++
 
@@ -30,13 +30,17 @@ The class ``CInterruptSystem`` is the provider of hardware-interrupt support in 
 
 .. cpp:function:: void CInterruptSystem::ConnectIRQ (unsigned nIRQ, TIRQHandler *pHandler, void *pParam)
 
-	Connects an interrupt handler to an IRQ source (vector). The known interrupt sources are defined in ``<circle/bcm2835int.h>`` for the Raspberry Pi 1-3 and Zero and in ``<circle/bcm2711int.h>`` for the Raspberry Pi 4. An IRQ handler has the following prototype:
+	Connects an interrupt handler to an IRQ source (vector). The known interrupt sources are defined in ``<circle/bcm2835int.h>`` for the Raspberry Pi 1-3 and Zero, in ``<circle/bcm2711int.h>`` for the Raspberry Pi 4 and 5 and in ``<circle/rp1int.h>`` for interrupt sources from the RP1 soundbridge. An IRQ handler has the following prototype:
 
-.. code-block:: c++
+.. c:type:: void IRQHandler (void *pParam)
 
-	void IRQHandler (void *pParam);
+	``pParam`` can be any user parameter and gets the value specified in the call to :cpp:func:`CInterruptSystem::ConnectIRQ()` for this IRQ source.
 
-``pParam`` can be any user parameter and gets the value specified in the call to ``ConnectIRQ()`` for this IRQ source.
+.. note::
+
+	For the Raspberry Pi 5 Circle uses a new scheme for IRQ numbers. This allows to distinguish between IRQ interrupt sources, which are directly connected to the main GIC-400 interrupt controller and interrupt sources, which are routed from the RP1 southbridge to the GIC.
+
+	IRQ numbers, which have the bit 11 set, are second level IRQs, which are routed from the RP1 to the GIC. All other IRQs are directly connected to the GIC. An IRQ number, which has the bit 10 set, is edge-triggered (otherwise level-triggered). Edge-triggered interrupts are currently only supported from inside the RP1.
 
 .. cpp:function:: void CInterruptSystem::DisconnectIRQ (unsigned nIRQ)
 
