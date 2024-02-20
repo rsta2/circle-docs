@@ -98,6 +98,29 @@ USB gadget support
 
 In gadget (aka device, peripheral) mode an USB controller supports the connection to exactly one USB host.
 
+.. note::
+
+	USB gadget support is currently not available for Raspberry Pi 5.
+
+CUSBCDCGadget
+"""""""""""""
+
+.. code-block:: cpp
+
+	#include <circle/usb/gadget/usbcdcgadget.h>
+
+.. cpp:class:: CUSBCDCGadget : public CDWUSBGadget
+
+	This class implements an USB serial CDC gadget, which can transfer data to/from the USB host via a serial interface. The device appears in the host system as a USB serial device (e.g. `/dev/ttyACM0`). To use USB for this purpose, you should create a member of this class in the ``CKernel`` class of your application. Only the constructor of this class is described here. More methods are described for the base class :cpp:class:`CDWUSBGadget`. The gadget driver automatically creates an instance of the interface device :cpp:class:`CUSBSerialDevice`, when the gadget is connected to an USB host.
+
+.. note::
+
+	The `test/usb-serial-cdc-gadget` is prepared to work as a serial CDC gadget. Please read the *README* file in the test's directory for information about the required configuration. You have to define your own USB vendor ID as system option ``USB_GADGET_VENDOR_ID``.
+
+.. cpp:function:: CUSBCDCGadget::CUSBCDCGadget (CInterruptSystem *pInterruptSystem)
+
+	Creates an instance of this class. ``pInterruptSystem`` is a pointer to the interrupt system object.
+
 CUSBMIDIGadget
 """"""""""""""
 
