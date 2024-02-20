@@ -7,12 +7,15 @@ Please see these documents for a description of the GPIO hardware:
 
 * `BCM2835 ARM Peripherals <https://datasheets.raspberrypi.com/bcm2835/bcm2835-peripherals.pdf>`_ (for Raspberry Pi 1 and Zero)
 * `BCM2711 ARM Peripherals <https://datasheets.raspberrypi.com/bcm2711/bcm2711-peripherals.pdf>`_ (for Raspberry Pi 4)
+* `RP1 Peripherals <https://datasheets.raspberrypi.com/rp1/rp1-peripherals.pdf>`_ (for Raspberry Pi 5)
 
 The first document is also valid for the Raspberry Pi 2, 3 and Zero 2 with some modifications (e.g. I/O base address).
 
 .. important::
 
 	The Circle documentation (including all READMEs) uses SoC (BCM) numbers (0-53), when referring to specific GPIO pins. These numbers are different from the physical pin position numbers (1-40) on the GPIO header. Please see `pinout.xyz <https://pinout.xyz>`_ for the mapping of SoC numbers to the header position.
+
+	The alternate functions numbers, which are listed on this website, are not valid for the Raspberry Pi 4 and 5. See the documents above for this purpose.
 
 CGPIOPin
 ^^^^^^^^
@@ -29,6 +32,10 @@ This class encapsulates a GPIO pin, which can be read, write or inverted. A GPIO
 
 	Number of available GPIO pins (54).
 
+.. note::
+
+	On the Raspberry Pi 5 this class currently only supports the GPIO pins, which are connected to the RP1 southbridge. The pins on the 40-pin GPIO header are included into this.
+
 Initialization
 """"""""""""""
 
@@ -38,7 +45,7 @@ Initialization
 
 .. cpp:function:: CGPIOPin::CGPIOPin (unsigned nPin, TGPIOMode Mode, CGPIOManager *pManager = 0)
 
-	Creates and initializes a ``CGPIOPin`` instance for GPIO pin number ``nPin``, set pin mode ``Mode``. ``pManager`` must be specified only, if this pin will trigger interrupts (IRQ). ``nPin`` can have a numeric value (0-53) or these special values:
+	Creates and initializes a ``CGPIOPin`` instance for GPIO pin number ``nPin``, set pin mode ``Mode``. ``pManager`` must be specified only, if this pin will trigger interrupts (IRQ). ``nPin`` can have a numeric value (0-53) or these special values (not on Raspberry Pi 5):
 
 	* GPIOPinAudioLeft (GPIO pin, which gates the left PWM audio channel)
 	* GPIOPinAudioRight (GPIO pin, which gates the right PWM audio channel)
@@ -56,6 +63,12 @@ Initialization
 	* GPIOModeAlternateFunction4
 	* GPIOModeAlternateFunction5
 
+	On the Raspberry Pi 5 ``Mode`` can have these additional values:
+
+	* GPIOModeAlternateFunction6
+	* GPIOModeAlternateFunction7
+	* GPIOModeAlternateFunction8
+
 .. cpp:function:: void CGPIOPin::AssignPin (unsigned nPin)
 
 	Assigns a GPIO pin number to the object. To be used together with the default constructor and ``SetMode()``. See ``CGPIOPin::CGPIOPin()`` for the possible values for ``nPin``.
@@ -71,6 +84,32 @@ Initialization
 	* GPIOPullModeOff
 	* GPIOPullModeDown
 	* GPIOPullModeUp
+
+.. cpp:function:: void CGPIOPin::SetSchmittTrigger (boolean bEnable)
+
+	This method is only implemented for the Raspberry Pi 5. Set ``bEnable`` to ``TRUE`` to enable the Schmitt-Trigger, or ``FALSE`` to disable it.
+
+.. cpp:function:: void CGPIOPin::SetFilterConstant (unsigned nFilterConstant)
+
+	This method is only implemented for the Raspberry Pi 5. ``nFilterConstant`` selects the filter constant (max. 127).
+
+.. cpp:function:: void CGPIOPin::SetDriveStrength (TGPIODriveStrength DriveStrength)
+
+	This method is only implemented for the Raspberry Pi 5. ``DriveStrength`` can be:
+
+	* GPIODriveStrength2mA
+	* GPIODriveStrength4mA
+	* GPIODriveStrength8mA
+	* GPIODriveStrength12mA
+
+.. cpp:function:: void CGPIOPin::SetSlewRate (TGPIOSlewRate SlewRate)
+
+	This method is only implemented for the Raspberry Pi 5. ``SlewRate`` can be:
+
+	* GPIOSlewRateSlow
+	* GPIOSlewRateLimited (same as GPIOSlewRateSlow)
+	* GPIOSlewRateFast
+	* GPIOSlewRateNotLimited (same as GPIOSlewRateFast)
 
 Input / Output
 """"""""""""""
@@ -123,6 +162,11 @@ A GPIO pin can trigger an interrupt (IRQ) under certain conditions. The ``CGPIOP
 	* GPIOInterruptOnAsyncRisingEdge
 	* GPIOInterruptOnAsyncFallingEdge
 
+	On the Raspberry Pi 5 there are these additional values for ``Interrupt``:
+
+	* GPIOInterruptOnDebouncedHighLevel
+	* GPIOInterruptOnDebouncedLowLevel
+
 .. cpp:function:: void CGPIOPin::DisableInterrupt (void)
 
 	Disables a previously enabled event condition from triggering an interrupt.
@@ -141,6 +185,10 @@ A GPIO pin can trigger an interrupt (IRQ) under certain conditions. The ``CGPIOP
 
 CGPIOPinFIQ
 ^^^^^^^^^^^
+
+.. note::
+
+	This class is currently not supported on the Raspberry Pi 5.
 
 This class encapsulates a special GPIO pin, which is using the FIQ (Fast Interrupt Request) to handle GPIO interrupts with low latency. There is only one GPIO pin of this type allowed in the system.
 
