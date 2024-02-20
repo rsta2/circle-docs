@@ -268,7 +268,7 @@ This class provides access to the Pulse Width Modulator (PWM) device, which can 
 CI2CMaster
 ^^^^^^^^^^
 
-This class is a driver for the I2C master devices of the Raspberry Pi computer. The GPIO pin mapping for the I2C master devices is as follows:
+This class is a driver for the I2C master devices of the Raspberry Pi computer. The GPIO pin mapping for the I2C master devices of the Raspberry Pi 1-4 is as follows:
 
 =======	=======================	=======================	=======================	===================
 nDevice	nConfig 0 (SDA SCL)	nConfig 1 (SDA SCL)	nConfig 2 (SDA SCL)	Raspberry Pi boards
@@ -280,6 +280,17 @@ nDevice	nConfig 0 (SDA SCL)	nConfig 1 (SDA SCL)	nConfig 2 (SDA SCL)	Raspberry Pi
 4	GPIO6	GPIO7		GPIO8	GPIO9		GPIO8	GPIO9		Raspberry Pi 4 only
 5	GPIO10	GPIO11		GPIO12	GPIO13		GPIO12	GPIO13		Raspberry Pi 4 only
 6	GPIO22	GPIO23								Raspberry Pi 4 only
+=======	=======================	=======================	=======================	===================
+
+The Raspberry Pi 5 has this different mapping:
+
+=======	=======================	=======================	=======================	===================
+nDevice	nConfig 0 (SDA SCL)	nConfig 1 (SDA SCL)	nConfig 2 (SDA SCL)	Raspberry Pi boards
+=======	=======================	=======================	=======================	===================
+0	GPIO0	GPIO1		GPIO8	GPIO9					Raspberry Pi 5 only
+1	GPIO2	GPIO3		GPIO10	GPIO11					Raspberry Pi 5 only
+2	GPIO4	GPIO5		GPIO12	GPIO13					Raspberry Pi 5 only
+3	GPIO6	GPIO7		GPIO14	GPIO15		GPIO22	GPIO23		Raspberry Pi 5 only
 =======	=======================	=======================	=======================	===================
 
 The ``Read()`` and ``Write()`` methods (see below) may return the following error codes as a negative value:
@@ -309,7 +320,7 @@ I2C_MASTER_DATA_LEFT	Not all data has been sent / received
 
 .. cpp:function:: void CI2CMaster::SetClock (unsigned nClockSpeed)
 
-	Modifies the default clock before a specific transfer. ``nClockSpeed`` is the wanted I2C clock frequency in Hertz.
+	Modifies the default clock before a specific transfer. ``nClockSpeed`` is the wanted I2C clock frequency in Hertz. The Raspberry Pi 5 supports the values 100000, 400000 and 1000000 only, other models also support intermediate values.
 
 .. cpp:function:: int CI2CMaster::Read (u8 ucAddress, void *pBuffer, unsigned nCount)
 
