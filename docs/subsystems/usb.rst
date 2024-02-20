@@ -1,7 +1,7 @@
 USB
 ~~~
 
-The USB (Universal Serial Bus) subsystem provides services and device drivers, which support the access to USB 2.0 and USB 3.0 (on the Raspberry Pi 4 only) devices. Essentially, this concerns drivers for the DWHCI OTG USB controller of the Raspberry Pi 1-3 and Zero (host and gadget mode) and the xHCI USB controller(s) of the Raspberry Pi 4, 400 and Compute Module 4 (host mode only), USB device class drivers, some vendor specific USB device drivers and support classes for all these drivers.
+The USB (Universal Serial Bus) subsystem provides services and device drivers, which support the access to USB 2.0 and USB 3.0 (on the Raspberry Pi 4 and 5 only) devices. Essentially, this concerns drivers for the DWHCI OTG USB controller of the Raspberry Pi 1-3 and Zero (host and gadget mode) and the xHCI USB controller(s) of the Raspberry Pi 4, 400, 5 and Compute Module 4 (host mode only), USB device class drivers, some vendor specific USB device drivers and support classes for all these drivers.
 
 Most of the operations in this subsystem are hidden from applications behind device driver interfaces, which will be described in the :ref:`Devices` section. An application, which uses the USB, has especially to deal with the initialization of the USB support at system startup and optionally with detecting newly attached USB devices, while the system is running (USB plug-and-play). This section is limited to these topics.
 
@@ -48,7 +48,7 @@ CUSBHCIDevice
 
 .. note::
 
-	Actually there is not really a class ``CUSBHCIDevice`` available in Circle. Instead, two classes ``CDWHCIDevice`` and ``CXHCIDevice`` (both derived from ``CUSBHostController``) exist for the respective USB host controllers of the target Raspberry Pi model, and ``CUSBHCIDevice`` is only an alias for these class names, defined as macro. To ensure, that an application can be built for each Raspberry Pi model, you should use the name ``CUSBHCIDevice`` only.
+	Actually there is not really a class ``CUSBHCIDevice`` available in Circle. Instead, three classes ``CDWHCIDevice``, ``CXHCIDevice`` (both derived from ``CUSBHostController``) and ``CUSBSubSystem`` (on Raspberry Pi 5) exist for the respective USB host controllers of the target Raspberry Pi model, and ``CUSBHCIDevice`` is only an alias for these class names, defined as macro. To ensure, that an application can be built for each Raspberry Pi model, you should use the name ``CUSBHCIDevice`` only.
 
 	Some methods available via ``CUSBHCIDevice`` are defined in its base class :ref:`CUSBHostController` and can be called using a pointer to a ``CUSBHostController`` object too.
 
@@ -77,7 +77,7 @@ CUSBHostController
 
 	This is the base class of ``CDWHCIDevice`` and ``CXHCIDevice`` (aka ``CUSBHCIDevice``). The following methods can be called for an instance of these classes too.
 
-.. cpp:function:: static boolean CUSBHostController::IsPlugAndPlay (void)
+.. cpp:function:: boolean CUSBHostController::IsPlugAndPlay (void)
 
 	Returns ``TRUE``, if USB plug-and-play is supported by the USB subsystem.
 
