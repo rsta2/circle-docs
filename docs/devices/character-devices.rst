@@ -136,7 +136,7 @@ CSerialDevice
 
 .. cpp:class:: CSerialDevice : public CDevice
 
-	This class is a driver for the PL011-compatible UART(s) of the Raspberry Pi. The Raspberry Pi 4 provides five of these serial devices, the other models only one. This driver cannot be used for the Mini-UART (AUX). The GPIO mapping is as follows (SoC numbers):
+	This class is a driver for the PL011-compatible UART(s) of the Raspberry Pi. The Raspberry Pi 4 provides five of these serial devices, the other models only one. This driver cannot be used for the Mini-UART (AUX). The GPIO mapping for Raspberry Pi 1-4 is as follows (SoC numbers):
 
 	=======	=======	=======	===================
 	nDevice	TXD	RXD	Support
@@ -153,6 +153,26 @@ CSerialDevice
 
 	GPIO32/33 and GPIO36/37 can be selected with system option ``SERIAL_GPIO_SELECT``. GPIO0/1 are normally reserved for the ID EEPROM. Handshake lines CTS and RTS are not supported.
 
+	For Raspberry Pi 5 there is this different mapping:
+
+	=======	=======	=======	===================
+	nDevice	TXD	RXD	Support
+	=======	=======	=======	===================
+	0	GPIO14	GPIO15	Raspberry Pi 5 only
+	1	GPIO0	GPIO1	Raspberry Pi 5 only
+	2	GPIO4	GPIO5	Raspberry Pi 5 only
+	3	GPIO8	GPIO9	Raspberry Pi 5 only
+	4	GPIO12	GPIO13	Raspberry Pi 5 only
+	5	GPIO36	GPIO37	None
+	6			None
+	7			None
+	8			None
+	9			None
+	10	UART	UART	Raspberry Pi 5 only
+	=======	=======	=======	===================
+
+	UART is the dedicated 3-pin JST UART connector.
+
 	This device has the name ``"ttySN"`` (N >= 1) in the device name service, where ``N = nDevice+1``.
 
 .. note::
@@ -163,9 +183,13 @@ CSerialDevice
 
 	This macro defines the size of the read and write ring buffers for the interrupt driver (default 2048). If you want to increase the buffer size, you have to specify a value, which is a power of two.
 
-.. cpp:function:: CSerialDevice::CSerialDevice (CInterruptSystem *pInterruptSystem = 0, boolean bUseFIQ = FALSE, unsigned nDevice = 0)
+.. c:macro:: SERIAL_DEVICE_DEFAULT
 
-	Constructs a ``CSerialDevice`` object. Multiple instances are possible on the Raspberry Pi 4. ``nDevice`` selects the used serial device (see the table above). ``pInterruptSystem`` is a pointer to interrupt system object, or 0 to use the polling driver. The interrupt driver uses the IRQ by default. Set ``bUseFIQ`` to ``TRUE`` to use the FIQ instead. This is recommended for higher baud rates.
+	This macro defines the default serial device, if the ``nDevice`` parameter is not specified in the constructor. By default it has the value 0 on Raspberry Pi 1-4 and 10 on Raspberry Pi 5. You can re-define this macro in the file *Config.mk*, if you want to change this.
+
+.. cpp:function:: CSerialDevice::CSerialDevice (CInterruptSystem *pInterruptSystem = 0, boolean bUseFIQ = FALSE, unsigned nDevice = SERIAL_DEVICE_DEFAULT)
+
+	Constructs a ``CSerialDevice`` object. Multiple instances are possible on the Raspberry Pi 4. ``nDevice`` selects the used serial device (see the table above). ``pInterruptSystem`` is a pointer to interrupt system object, or 0 to use the polling driver. The interrupt driver uses the IRQ by default. Set ``bUseFIQ`` to ``TRUE`` to use the FIQ instead. This is recommended for higher baud rates. The parameter ``bUseFIQ`` is ignored on the Raspberry Pi 5.
 
 .. cpp:function:: boolean CSerialDevice::Initialize (unsigned nBaudrate = 115200, unsigned nDataBits = 8, unsigned nStopBits = 1, TParity Parity = ParityNone)
 
