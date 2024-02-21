@@ -731,6 +731,10 @@ CTouchScreenDevice
 CRPiTouchScreen
 ^^^^^^^^^^^^^^^
 
+.. note::
+
+	This class does currently not work on the Raspberry Pi 5.
+
 .. code-block:: cpp
 
 	#include <circle/input/rpitouchscreen.h>

@@ -304,6 +304,10 @@ A sound device can optionally provide a sound controller, which offers the follo
 CPWMSoundBaseDevice
 ^^^^^^^^^^^^^^^^^^^
 
+.. note::
+
+	This class is currently not available on the Raspberry Pi 5.
+
 .. code-block:: cpp
 
 	#include <circle/sound/pwmsoundbasedevice.h>
@@ -322,6 +326,10 @@ CPWMSoundBaseDevice
 
 CPWMSoundDevice
 ^^^^^^^^^^^^^^^
+
+.. note::
+
+	This class is currently not available on the Raspberry Pi 5.
 
 .. code-block:: cpp
 
@@ -349,6 +357,10 @@ CPWMSoundDevice
 
 CI2SSoundBaseDevice
 ^^^^^^^^^^^^^^^^^^^
+
+.. note::
+
+	This class is currently not available on the Raspberry Pi 5.
 
 .. code-block:: cpp
 
@@ -429,6 +441,10 @@ CUSBSoundBaseDevice
 CHDMISoundBaseDevice
 ^^^^^^^^^^^^^^^^^^^^
 
+.. note::
+
+	This class is currently not available on the Raspberry Pi 5.
+
 .. code-block:: cpp
 
 	#include <circle/sound/hdmisoundbasedevice.h>
@@ -468,6 +484,10 @@ CHDMISoundBaseDevice
 CVCHIQSoundBaseDevice
 ^^^^^^^^^^^^^^^^^^^^^
 
+.. note::
+
+	This class is not available on the Raspberry Pi 5.
+
 .. code-block:: cpp
 
 	#include <vc4/sound/vchiqsoundbasedevice.h>
@@ -501,6 +521,10 @@ CVCHIQSoundBaseDevice
 
 CVCHIQSoundDevice
 ^^^^^^^^^^^^^^^^^
+
+.. note::
+
+	This class is not available on the Raspberry Pi 5.
 
 .. code-block:: cpp
 

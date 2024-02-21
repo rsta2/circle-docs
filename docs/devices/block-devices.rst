@@ -22,7 +22,7 @@ CEMMCDevice
 
 	This class provides the physical access to SD cards and to embedded MMC memory on the Compute Module 4. This class has to be manually instantiated, if an application wants to access one of these devices. This is demonstrated in `addon/SDCard/sample <https://github.com/rsta2/circle/tree/master/addon/SDCard/sample>`_. There can be only one instance of this device, which has the name ``emmc1`` in the device name service.
 
-	This class has drivers for two different interfaces, the SDHOST interface and the EMMC interface. The SDHOST interface is enabled by default on the Raspberry Pi 1-3 and Zero, when the system option ``REALTIME`` is not enabled. On the Raspberry Pi 4 the EMMC interface is used in any case, but can be used on the earlier models with the system option ``NO_SDHOST`` too.  This is not possible, when you want to access the on-board WLAN device at the same time. To access the embedded MMC on the Compute Module 4, the system option ``USE_EMBEDDED_MMC_CM4`` has to be enabled.
+	This class has drivers for two different interfaces, the SDHOST interface and the EMMC interface. The SDHOST interface is enabled by default on the Raspberry Pi 1-3 and Zero, when the system option ``REALTIME`` is not enabled. On the Raspberry Pi 4 and 5 the EMMC interface is used in any case, but can be used on the earlier models with the system option ``NO_SDHOST`` too.  This is not possible, when you want to access the on-board WLAN device at the same time. To access the embedded MMC on the Compute Module 3+ and 4, the system option ``USE_EMBEDDED_MMC_CM`` has to be enabled.
 
 .. note::
 
