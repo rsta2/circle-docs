@@ -1,7 +1,7 @@
 Getting started
 ---------------
 
-To start using Circle, you need to download the project and a toolchain [#tc]_, configure Circle for your target platform, build the Circle libraries and your application [#ap]_, and install the built binary image (the kernel image) [#ki]_ on a SD card, along with a number of firmware files. In some cases an additional configuration file *config.txt* is needed on the SD card. The following notes require a x86_64 PC running Linux as development host. The file `doc/windows-build.txt <https://github.com/rsta2/circle/blob/master/doc/windows-build.txt>`_ describes, how Windows can be used instead.
+To start using Circle, you need to download the project and a toolchain [#tc]_, configure Circle for your target platform, build the Circle libraries and your application [#ap]_, and install the built binary image (the kernel image) [#ki]_ on a SD card, along with a number of firmware files. Furthermore an additional configuration file *config.txt* is needed on the SD card. The following notes require a x86_64 PC running Linux as development host. The file `doc/windows-build.txt <https://github.com/rsta2/circle/blob/master/doc/windows-build.txt>`_ describes, how Windows can be used instead.
 
 Download
 ~~~~~~~~
@@ -89,7 +89,6 @@ After configuring Circle, go to the root directory of the Circle project and ent
 
 By default no sample program is build. If you want to build a sample after ``./makeall`` go to its subdirectory and do ``make``.
 
-
 Installation
 ~~~~~~~~~~~~
 
@@ -105,5 +104,5 @@ Put the SD card into your Raspberry Pi and power it on.
 
 .. [#tc] A toolchain in this context is cross compiler with additional tools and libraries, which runs on a specific platform and builds binaries for another (normally different) platform.
 .. [#ap] For a start this can be one of the provided `sample programs <https://github.com/rsta2/circle/blob/master/sample/README>`_.
-.. [#ki] Depending on the Raspberry Pi model and the target architecture (32- or 64-bit) a binary image has the filename *kernel.img*, *kernel7.img*, *kernel7l.img*, *kernel8.img* or *kernel8-rpi4.img*.
+.. [#ki] Depending on the Raspberry Pi model and the target architecture (32- or 64-bit) a binary image has the filename *kernel.img*, *kernel7.img*, *kernel7l.img*, *kernel8.img*, *kernel8-rpi4.img* or *kernel_2712.img*.
 .. [#pi] For the Raspberry Pi Zero and Zero W the target ``RASPPI = 1`` has to be configured. The Raspberry Pi Zero 2 W requires the target ``RASPPI = 3``.
