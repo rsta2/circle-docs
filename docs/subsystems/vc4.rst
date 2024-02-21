@@ -3,7 +3,7 @@
 VC4
 ~~~
 
-The VC4 subsystem in `addon/vc4 <https://github.com/rsta2/circle/tree/master/addon/vc4>`_ provides the VCHIQ driver as an interface to the audio and accelerated graphics services, which are offered by the Raspberry Pi firmware. The accelerated graphics support is not available on the Raspberry Pi 4 and with ``AARCH = 32`` only. This section describes the components of the VC4 subsystem.
+The VC4 subsystem in `addon/vc4 <https://github.com/rsta2/circle/tree/master/addon/vc4>`_ provides the VCHIQ driver as an interface to the audio and accelerated graphics services, which are offered by the Raspberry Pi firmware. The accelerated graphics support is not available on the Raspberry Pi 4 and 5 and with ``AARCH = 32`` only. This section describes the components of the VC4 subsystem.
 
 .. _VCHIQ driver:
 
@@ -46,4 +46,4 @@ Please see `this website <https://www.khronos.org/>`_ for detailed information a
 
 .. note::
 
-	The accelerated graphics support is not available on the Raspberry Pi 4 and with ``AARCH = 32`` only.
+	The accelerated graphics support is not available on the Raspberry Pi 4 and 5 and with ``AARCH = 32`` only.

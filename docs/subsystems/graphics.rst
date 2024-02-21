@@ -16,6 +16,10 @@ The class ``C2DGraphics`` is part of the Circle base library and can be used to 
 
 	This class is a software graphics library with VSync and hardware-accelerated double buffering.
 
+.. note::
+
+	The double buffering does not work on the Raspberry Pi 5.
+
 .. cpp:function:: C2DGraphics::C2DGraphics (unsigned nWidth, unsigned nHeight, boolean bVSync = TRUE, unsigned nDisplay = 0)
 
 	Creates on instance of this class. ``nWidth`` is the screen width in pixels (0 to detect). ``nHeight`` is the screen height in pixels (0 to detect). Set ``bVSync`` to ``TRUE`` to enable VSync and HW double buffering. ``nDisplay`` is the zero-based display number (for Raspberry Pi 4).
@@ -134,6 +138,10 @@ The `Light and Versatile Graphics Library <https://lvgl.io/>`_ (LVGL) v8.3.10 ca
 ^^^^
 
 The `µGUI library <http://embeddedlightning.com/ugui/>`_ can be used with Circle. This library provides an API, which is based on the C language. Download the `Reference Guide <http://embeddedlightning.com/download/reference-guide/>`_ for details.
+
+.. note::
+
+	This library is currently not supported on the Raspberry Pi 5.
 
 .. code-block:: cpp
 
