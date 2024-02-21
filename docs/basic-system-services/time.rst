@@ -174,6 +174,10 @@ Delay
 CUserTimer
 ^^^^^^^^^^
 
+.. note::
+
+	This class is currently not available on the Raspberry Pi 5.
+
 This class implements a fine grained, user programmable interrupt timer. It uses the system timer 1 hardware, which must not be used for other purposes in the application then.
 
 .. code-block:: c++

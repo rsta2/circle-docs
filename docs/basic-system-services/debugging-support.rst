@@ -118,6 +118,10 @@ CLatencyTester
 
 	The class ``CLatencyTester`` blocks the system timer 1, which is used by the class ``CUserTimer`` too. You can use only one of both classes at a time.
 
+.. note::
+
+	This class is currently not available on the Raspberry Pi 5.
+
 .. cpp:function:: CLatencyTester::CLatencyTester (CInterruptSystem *pInterruptSystem)
 
 	Creates a ``CLatencyTester`` object. ``pInterruptSystem`` is a pointer to the interrupt system object.

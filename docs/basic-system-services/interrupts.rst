@@ -7,7 +7,7 @@ In the ARM architecture there are two types of interrupt request, IRQ and FIQ. T
 
 .. important::
 
-	The FIQ is currently not supported on the Raspberry Pi 5 by Circle.
+	The FIQ is currently not supported as interrupt target level on the Raspberry Pi 5 by Circle.
 
 CInterruptSystem
 ^^^^^^^^^^^^^^^^

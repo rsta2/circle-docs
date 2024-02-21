@@ -345,7 +345,7 @@ Macros
 
 .. c:macro:: BIT(n)
 
-	Returns the bit mask ``(1U << (n))``.
+	Returns the bit mask ``(1UL << (n))``.
 
 .. c:macro:: likely(exp)
 .. c:macro:: unlikely(exp)

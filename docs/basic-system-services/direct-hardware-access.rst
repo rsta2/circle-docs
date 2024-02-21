@@ -73,6 +73,12 @@ This header file provides macro definitions of memory-mapped I/O addresses for t
 
 This header file provides macro definitions of memory-mapped I/O addresses for the Raspberry Pi 4 and compatible models, described in the `BCM2711 ARM Peripherals <https://datasheets.raspberrypi.com/bcm2711/bcm2711-peripherals.pdf>`_ document.
 
+.. code-block:: c
+
+	#include <circle/bcm2712.h>
+
+This header file provides macro definitions of memory-mapped I/O addresses for the Raspberry Pi 5, mostly described in the `RP1 Peripherals <https://datasheets.raspberrypi.com/rp1/rp1-peripherals.pdf>`_ document.
+
 I/O barriers
 ^^^^^^^^^^^^
 

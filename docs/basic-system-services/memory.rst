@@ -18,12 +18,12 @@ The ``new`` operator can have a parameter, which specifies the type of memory to
 Parameter	Description
 ==============	=================================================================
 HEAP_LOW	memory below 1 GByte
-HEAP_HIGH	memory above 1 GByte (on Raspberry Pi 4 only)
+HEAP_HIGH	memory above 1 GByte (on Raspberry Pi 4 and 5 only)
 HEAP_ANY	memory above 1 GB (if available) or memory below 1 GB (otherwise)
 HEAP_DMA30	30-bit DMA-able memory (alias for HEAP_LOW)
 ==============	=================================================================
 
-This is especially important on the Raspberry Pi 4, which supports different SDRAM memory regions. For instance one can specify to allocate a 256 byte memory block above 1 GByte:
+This is especially important on the Raspberry Pi 4 and 5, which support different SDRAM memory regions. For instance one can specify to allocate a 256 byte memory block above 1 GByte:
 
 .. code-block:: c++
 
