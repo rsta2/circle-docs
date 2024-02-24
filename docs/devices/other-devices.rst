@@ -14,10 +14,6 @@ CBcmFrameBuffer
 
 	This class is a driver for the frame buffer device(s), provided by the firmware of the Raspberry Pi. The Raspberry Pi 4, 400 and the Compute Module 4 support multiple frame buffer devices, all other models only one. A frame buffer is basically an address range in main memory, which is continuously read by the firmware in background, to be displayed on a HDMI or composite TV display. Writing to this memory address range modifies the displayed image. The Raspberry Pi firmware supports frame buffers with different widths, heights and depths of the pixel information. If one wants to display text in a frame buffer, the characters must be formed from a character generator in the software. The firmware does not support text displays on its own.
 
-.. important::
-
-	The firmware support for frame buffer device(s) is not as comfortable on the Raspberry Pi 5 as on earlier models. Because Circle relies on this firmware support, there are limitations, when using HDMI displays (e.g. no configuration in *config.txt*, cannot set display resolution from application) and DSI displays (e.g. the Official 7" touchscreen) do not work at all.
-
 .. note::
 
 	To be able to use more than one frame buffer device, the option ``max_framebuffers=N`` (N > 1) is required in the file *config.txt* on the SD card.
