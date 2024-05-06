@@ -102,11 +102,11 @@ Clocks and peripherals
 
 .. cpp:function:: unsigned CMachineInfo::GetGPIOPin (TGPIOVirtualPin Pin) const
 
-	Returns the physical GPIO pin number of the PWM audio pins. ``Pin`` can have the values ``GPIOPinAudioLeft`` or ``GPIOPinAudioRight``. This method returns not a valid value on the Raspberry Pi 5.
+	Returns the physical GPIO pin number of the PWM audio pins. ``Pin`` can have the values ``GPIOPinAudioLeft`` or ``GPIOPinAudioRight``.
 
 .. cpp:function:: unsigned CMachineInfo::GetGPIOClockSourceRate (unsigned nSourceId)
 
-	This method allows to enumerate the different clock sources for GPIO clocks. It returns the frequency in Hz of the GPIO clock source with the ID ``nSourceId``, which can be zero to ``GPIO_CLOCK_SOURCE_ID_MAX``. The returned value is ``GPIO_CLOCK_SOURCE_UNUSED``, if the clock source is unused. This method returns not a valid value on the Raspberry Pi 5.
+	This method allows to enumerate the different clock sources for GPIO clocks. It returns the frequency in Hz of the GPIO clock source with the ID ``nSourceId``, which can be zero to ``GPIO_CLOCK_SOURCE_ID_MAX``. The returned value is ``GPIO_CLOCK_SOURCE_UNUSED``, if the clock source is unused.
 
 .. cpp:function:: unsigned CMachineInfo::GetDevice (TDeviceId DeviceId) const
 
@@ -114,7 +114,7 @@ Clocks and peripherals
 
 .. cpp:function:: boolean CMachineInfo::ArePWMChannelsSwapped (void) const
 
-	Returns ``TRUE``, if the left PWM audio channel is PWM1 (not PWM0). This method returns not a valid value on the Raspberry Pi 5.
+	Returns ``TRUE``, if the left PWM audio channel is PWM1 (not PWM0).
 
 DMA channels
 """"""""""""
