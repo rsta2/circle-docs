@@ -120,7 +120,7 @@ CSocket
 
 	Binds the port number ``usOwnPort`` to this socket. Returns 0 on success or < 0 on error.
 
-.. cpp:function:: int CSocket::Connect (CIPAddress &rForeignIP, u16 usForeignPort)
+.. cpp:function:: int CSocket::Connect (const CIPAddress &rForeignIP, u16 usForeignPort)
 
 	Connects to a foreign host/port (TCP) or setup a foreign host/port address (UDP). ``rForeignIP`` is the IP address of the host to be connected. ``usForeignPort`` is the number of the port to be connected. Returns 0 on success or < 0 on error.
 
@@ -140,7 +140,7 @@ CSocket
 
 	Receives a message from a remote host. ``pBuffer`` is a pointer to the message buffer and ``nLength`` is its size in bytes. ``nLength`` should be at least ``FRAME_BUFFER_SIZE``, otherwise data may get lost. ``nFlags`` can be ``MSG_DONTWAIT`` (non-blocking operation) or 0 (blocking operation). Returns the length of received message, which is 0 with ``MSG_DONTWAIT`` if no message is available, or < 0 on error.
 
-.. cpp:function:: int CSocket::SendTo (const void *pBuffer, unsigned nLength, int nFlags, CIPAddress &rForeignIP, u16 nForeignPort)
+.. cpp:function:: int CSocket::SendTo (const void *pBuffer, unsigned nLength, int nFlags, const CIPAddress &rForeignIP, u16 nForeignPort)
 
 	Sends a message to a specific remote host. ``pBuffer`` is a pointer to the message and ``nLength`` is its length in bytes. ``nFlags`` can be ``MSG_DONTWAIT`` (non-blocking operation) or 0 (blocking operation). ``rForeignIP`` is the IP address of the host to be sent to (ignored on TCP socket). ``nForeignPort`` is the number of the port to be sent to (ignored on TCP socket). Returns the length of the sent message or < 0 on error.
 
