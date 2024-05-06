@@ -313,6 +313,8 @@ This class provides access to the Pulse Width Modulator (PWM) device, which can 
 
 	Macros to be used for the ``nChannel`` parameter.
 
+.. _CI2CMaster:
+
 CI2CMaster
 ^^^^^^^^^^
 
@@ -360,7 +362,7 @@ I2C_MASTER_DATA_LEFT	Not all data has been sent / received
 
 .. cpp:function:: CI2CMaster::CI2CMaster (unsigned nDevice, boolean bFastMode = FALSE, unsigned nConfig = 0)
 
-	Creates a ``CI2CMaster`` object for I2C master ``nDevice`` (0-6), with configuration ``nConfig`` (0 or 1). See the mapping above for these parameters. The default I2C clock is 100 KHz or 400 KHz, if ``bFastMode`` is ``TRUE``. This can be modified with ``SetClock()`` for a specific transfer.
+	Creates a ``CI2CMaster`` object for I2C master ``nDevice`` (0-6), with configuration ``nConfig`` (0-2). See the mapping above for these parameters. The default I2C clock is 100 KHz or 400 KHz, if ``bFastMode`` is ``TRUE``. This can be modified with ``SetClock()`` for a specific transfer.
 
 .. cpp:function:: boolean CI2CMaster::Initialize (void)
 
@@ -381,6 +383,64 @@ I2C_MASTER_DATA_LEFT	Not all data has been sent / received
 .. cpp:function:: int CI2CMaster::WriteReadRepeatedStart (u8 ucAddress, const void *pWriteBuffer, unsigned nWriteCount, void *pReadBuffer, unsigned nReadCount)
 
 	Performs a consecutive write and read operation with repeated start. At first writes ``nWriteCount`` bytes (1-16) to the I2C slave device with address ``ucAddress`` from ``pWriteBuffer``. Then reads ``nReadCount`` bytes from the I2C slave device with the same address into ``pReadBuffer``. Returns the number of read bytes or < 0 on failure. See the error codes above.
+
+CI2CMasterIRQ
+^^^^^^^^^^^^^
+
+This class is a driver for the I2C master devices of the Raspberry Pi 1-4 and Zero. While :ref:`CI2CMaster` is a polling driver, this driver uses the IRQ to work in background. For the GPIO pin mapping see :ref:`CI2CMaster`. ``nConfig`` 2 for ``nDevice`` 3-5 is not available here.
+
+The ``Read()``, ``Write()``, ``StartWriteRead()`` and ``GetStatus()`` methods (see below) may return the following status codes:
+
+	* CI2CMasterIRQ::StatusSuccess (0)
+	* CI2CMasterIRQ::StatusWriting
+	* CI2CMasterIRQ::StatusReading
+	* CI2CMasterIRQ::StatusClockStretchTimeout
+	* CI2CMasterIRQ::StatusDataLeftToReadError
+	* CI2CMasterIRQ::StatusAckError
+	* CI2CMasterIRQ::StatusInvalidParam
+	* CI2CMasterIRQ::StatusInvalidState
+
+.. code-block:: c++
+
+	#include <circle/i2cmasterirq.h>
+
+.. cpp:class:: CI2CMasterIRQ
+
+.. cpp:function:: CI2CMasterIRQ::CI2CMasterIRQ (CInterruptSystem *pInterruptSystem, unsigned nDevice, boolean bFastMode = FALSE, unsigned nConfig = 0)
+
+	Creates a ``CI2CMasterIRQ`` object for I2C master ``nDevice`` (0-6), with configuration ``nConfig`` (0-2). ``pInterruptSystem`` is a pointer to the interrupt system object. The default I2C clock is 100 KHz or 400 KHz, if ``bFastMode`` is ``TRUE``. This can be modified with ``SetClock()`` for a specific transfer.
+
+.. cpp:function:: boolean CI2CMasterIRQ::Initialize (void)
+
+	Initializes the ``CI2CMasterIRQ`` object. Usually called from ``CKernel::Initialize()``. Returns ``TRUE``, if the initialization was successful.
+
+.. cpp:function:: void CI2CMasterIRQ::SetClock (unsigned nClockSpeed)
+
+	Modifies the default clock before a specific transfer. ``nClockSpeed`` is the wanted I2C clock frequency in Hertz.
+
+.. cpp:function:: void CI2CMasterIRQ::SetCompletionRoutine (TI2CCompletionRoutine *pRoutine, void *pParam = 0)
+
+	Sets the completion routine ``pRoutine``, called when a transfer completes, with user parameter ``pParam``.
+
+.. c:type:: void TI2CCompletionRoutine (int nStatus, void *pParam)
+
+	``nStatus`` is one of the status codes above. ``pParam`` is the user parameter passed to ``SetCompletionRoutine()``.
+
+.. cpp:function:: int CI2CMasterIRQ::GetStatus()
+
+	Returns one of the status codes above.
+
+.. cpp:function:: int CI2CMasterIRQ::Read (u8 ucAddress, void *pBuffer, unsigned nCount)
+
+	Starts asynchronous read operation. Reads ``nCount`` bytes from the I2C slave device with address ``ucAddress`` into ``pBuffer``. Returns one of the status codes above.
+
+.. cpp:function:: int CI2CMasterIRQ::Write (u8 ucAddress, const void *pBuffer, unsigned nCount)
+
+	Starts asynchronous write operation. Writes ``nCount`` bytes to the I2C slave device with address ``ucAddress`` from ``pBuffer``. Returns one of the status codes above.
+
+.. cpp:function:: int CI2CMasterIRQ::StartWriteRead (u8 ucAddress, const void *pWriteBuffer, unsigned nWriteCount, void *pReadBuffer, unsigned nReadCount)
+
+	Starts consecutive write and read operations with potential asynchronous callback (non-blocking). At first writes ``nWriteCount`` bytes (up to 16) to the I2C slave device with address ``ucAddress`` from ``pWriteBuffer``. Then reads ``nReadCount`` bytes into ``pReadBuffer``. Returns one of the status codes above.
 
 CI2CSlave
 ^^^^^^^^^
