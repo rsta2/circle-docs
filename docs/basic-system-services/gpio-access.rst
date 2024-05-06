@@ -111,6 +111,14 @@ Initialization
 	* GPIOSlewRateFast
 	* GPIOSlewRateNotLimited (same as GPIOSlewRateFast)
 
+.. cpp:function:: static void CGPIOPin::SetModeAll (u32 nInputMask, u32 nOutputMask)
+
+	Sets mode of GPIO pins 0-31 to input or output at once. Sets the GPIO pins to input, for which the respective bits are set in ``nInputMask``. Sets the GPIO pins to output, for which the respective bits are set in ``nOutputMask``. Other pins are not affected.
+
+.. note::
+
+	The GPIO pins must be set to input or output before in the constructor or using ``SetMode()``.
+
 Input / Output
 """"""""""""""
 
