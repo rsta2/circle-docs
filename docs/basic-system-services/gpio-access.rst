@@ -45,13 +45,14 @@ Initialization
 
 .. cpp:function:: CGPIOPin::CGPIOPin (unsigned nPin, TGPIOMode Mode, CGPIOManager *pManager = 0)
 
-	Creates and initializes a ``CGPIOPin`` instance for GPIO pin number ``nPin``, set pin mode ``Mode``. ``pManager`` must be specified only, if this pin will trigger interrupts (IRQ). ``nPin`` can have a numeric value (0-53) or these special values (not on Raspberry Pi 5):
+	Creates and initializes a ``CGPIOPin`` instance for GPIO pin number ``nPin``, set pin mode ``Mode``. ``pManager`` must be specified only, if this pin will trigger interrupts (IRQ). ``nPin`` can have a numeric value (0-53) or these special values:
 
 	* GPIOPinAudioLeft (GPIO pin, which gates the left PWM audio channel)
 	* GPIOPinAudioRight (GPIO pin, which gates the right PWM audio channel)
 
 	``Mode`` can have these values:
 
+	* GPIOModeNone (disables GPIO pin)
 	* GPIOModeInput
 	* GPIOModeOutput
 	* GPIOModeInputPullUp
