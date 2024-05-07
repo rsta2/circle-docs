@@ -235,10 +235,6 @@ This class implements an interrupt multiplexer for ``CGPIOPin`` instances. There
 CGPIOClock
 ^^^^^^^^^^
 
-.. note::
-
-	This class is currently not supported on the Raspberry Pi 5.
-
 A GPIO clock is a programmable digital clock generator. A Raspberry Pi computer provides several of these clocks. Their output is used for special system purposes (e.g. for the PWM and PCM / I2S devices) or can be directly connected to some GPIO pins. GPIO clocks are driven by an internal clock source with a specific clock frequency.
 
 .. code-block:: c++
@@ -249,7 +245,7 @@ A GPIO clock is a programmable digital clock generator. A Raspberry Pi computer 
 
 .. cpp:function:: CGPIOClock::CGPIOClock (TGPIOClock Clock, TGPIOClockSource Source = GPIOClockSourceUnknown)
 
-	Creates a ``CGPIOClock`` instance for GPIO clock ``Clock`` with clock source ``Source``. ``Clock`` can be:
+	Creates a ``CGPIOClock`` instance for GPIO clock ``Clock`` with clock source ``Source``. ``Clock`` can be (on Raspberry Pi 1-4 and Zero):
 
 	==============	==================================================
 	Clock		Connected to
@@ -259,6 +255,19 @@ A GPIO clock is a programmable digital clock generator. A Raspberry Pi computer 
 	GPIOClock2	GPIO6 (ALT0)
 	GPIOClockPCM	PCM / I2S device
 	GPIOClockPWM	PWM device
+	==============	==================================================
+
+	On the Raspberry Pi 5 ``Clock`` can be:
+
+	==============	==================================================
+	Clock		Connected to
+	==============	==================================================
+	GPIOClock0	GPIO4 (ALT0) or GPIO20 (ALT3)
+	GPIOClock1	GPIO5 (ALT0), GPIO18 (ALT8) or GPIO21 (ALT3)
+	GPIOClock2	GPIO6 (ALT0)
+	GPIOClockI2S	I2S device
+	GPIOClockPWM0	PWM0 device
+	GPIOClockPWM1	PWM1 device
 	==============	==================================================
 
 	The respective GPIO pin has to be set to the given ``GPIOModeAlternateFunctionN`` (ALTn), using a ``CGPIOPin`` object, so that the signal can be accessed at the GPIO header. ``Source`` can be:
@@ -272,11 +281,11 @@ A GPIO clock is a programmable digital clock generator. A Raspberry Pi computer 
 	GPIOClockSourceHDMI		216 MHz			unused
 	==============================	======================	======================
 
-	If ``Source`` is set to ``GPIOClockSourceUnknown``, the clock source is selected automatically, when ``StartRate()`` is called.
+	If ``Source`` is set to ``GPIOClockSourceUnknown``, the clock source is selected automatically, when ``StartRate()`` is called. This is the recommended way for the Raspberry Pi 5, where the supported ``Source`` values are different for each clock.
 
-.. cpp:function:: void CGPIOClock::Start (unsigned nDivI, unsigned nDivF = 0, unsigned nMASH = 0)
+.. cpp:function:: boolean CGPIOClock::Start (unsigned nDivI, unsigned nDivF = 0, unsigned nMASH = 0)
 
-	Starts the clock using the given integer divider ``nDivI`` (1-4095). The MASH modes with ``nDivF > 0`` are described in the `BCM2835 ARM Peripherals`_ document.
+	Starts the clock using the given integer divider ``nDivI`` (1-4095). The MASH modes with ``nDivF > 0`` are described in the `BCM2835 ARM Peripherals`_ document. On the Raspberry Pi 5 there is no ``nMASH`` parameter and the supported ranges for the dividers are different. Returns ``TRUE`` on success.
 
 .. cpp:function:: boolean CGPIOClock::StartRate (unsigned nRateHZ)
 
