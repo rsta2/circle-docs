@@ -298,11 +298,9 @@ A GPIO clock is a programmable digital clock generator. A Raspberry Pi computer 
 CPWMOutput
 ^^^^^^^^^^
 
-.. note::
+This class provides access to the Pulse Width Modulator (PWM) device, which can be used to generate (pseudo) analog signals on the GPIO pins 18 and 19 (two channels) on the Raspberry Pi 1-4 and Zero. These pins have to be set to ``GPIOModeAlternateFunction5`` using the class ``CGPIOPin`` for that purpose.
 
-	This class is currently not supported on the Raspberry Pi 5.
-
-This class provides access to the Pulse Width Modulator (PWM) device, which can be used to generate (pseudo) analog signals on the GPIO pins 18 and 19 (two channels). These pins have to be set to ``GPIOModeAlternateFunction5`` using the class ``CGPIOPin`` for that purpose.
+The Raspberry Pi 5 has two PWM devices with four channels each. PWM0 can be connected to GPIO pins 12-15 using ``GPIOModeAlternateFunction0`` or to GPIO pins 18-19 using ``GPIOModeAlternateFunction3`` (PWM0 channels 3 and 4 only). The PWM1 device can be used to control the fan.
 
 .. code-block:: c++
 
@@ -310,13 +308,17 @@ This class provides access to the Pulse Width Modulator (PWM) device, which can 
 
 .. cpp:class:: CPWMOutput
 
-.. cpp:function:: CPWMOutput::CPWMOutput (TGPIOClockSource Source, unsigned nDivider, unsigned nRange, boolean bMSMode)
+.. cpp:function:: CPWMOutput::CPWMOutput (unsigned nClockRateHz, unsigned nRange, boolean bMSMode, boolean bInvert = FALSE, unsigned nDevice = 0)
 
-	Creates a ``CPWMOutput`` object with clock source ``Source`` and the divider ``nDivider`` (equivalent to ``nDivI``, 1-4095). See ``CGPIOClock`` for these parameters. For the parameters ``nRange`` (Range) and ``bMSMode`` (M/S mode) see the `BCM2835 ARM Peripherals`_ document.
+	Creates a ``CPWMOutput`` object with PWM clock rate ``nClockRateHz`` in Hertz. For the parameters ``nRange`` (Range) and ``bMSMode`` (M/S mode, Trailing edge mode) see the `BCM2835 ARM Peripherals`_ document. The PWM output is inverted, when ``bInvert`` is ``TRUE``. ``nDevice`` must be 0 or 1 on the Raspberry Pi 5, or 0 on other Raspberry Pi models.
 
-.. cpp:function:: void CPWMOutput::Start (void)
+.. cpp:function:: CPWMOutput::CPWMOutput (TGPIOClockSource Source, unsigned nDivider, unsigned nRange, boolean bMSMode, boolean bInvert = FALSE, unsigned nDevice = 0)
 
-	Starts the PWM clock and device.
+	Creates a ``CPWMOutput`` object with clock source ``Source`` and the divider ``nDivider`` (equivalent to ``nDivI``). See :cpp:class:`CGPIOClock` for these parameters. For the parameters ``nRange`` (Range) and ``bMSMode`` (M/S mode, Trailing edge mode) see the `BCM2835 ARM Peripherals`_ document. The PWM output is inverted, when ``bInvert`` is ``TRUE``. ``nDevice`` must be 0 or 1 on the Raspberry Pi 5, or 0 on other Raspberry Pi models.
+
+.. cpp:function:: boolean CPWMOutput::Start (void)
+
+	Starts the PWM clock and device. Returns ``TRUE`` on success.
 
 .. cpp:function:: void CPWMOutput::Stop (void)
 
@@ -324,12 +326,14 @@ This class provides access to the Pulse Width Modulator (PWM) device, which can 
 
 .. cpp:function:: void CPWMOutput::Write (unsigned nChannel, unsigned nValue)
 
-	Write ``nValue`` (0-Range) to PWM channel ``nChannel`` (1 or 2).
+	Write ``nValue`` (0-Range) to PWM channel ``nChannel`` (1 or 2, also 3 or 4 on the Raspberry Pi 5).
 
 .. c:macro:: PWM_CHANNEL1
 .. c:macro:: PWM_CHANNEL2
+.. c:macro:: PWM_CHANNEL3
+.. c:macro:: PWM_CHANNEL4
 
-	Macros to be used for the ``nChannel`` parameter.
+	Macros to be used for the ``nChannel`` parameter. ``PWM_CHANNEL3`` and ``PWM_CHANNEL4`` are supported on the Raspberry Pi 5 only.
 
 .. _CI2CMaster:
 
