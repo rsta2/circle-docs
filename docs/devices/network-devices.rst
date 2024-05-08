@@ -182,3 +182,7 @@ CBcm4343Device
 .. cpp:function:: boolean CBcm4343Device::CreateOpenNet (const char *pSSID, int nChannel, bool bHidden)
 
 	Creates an open WLAN network (AP mode) with the SSID ``pSSID`` on channel ``nChannel``. The SSID is hidden, if ``bHidden`` is ``TRUE``. Returns ``TRUE`` on success.
+
+.. cpp:function:: boolean CBcm4343Device::DestroyOpenNet (void)
+
+	Destroys a created open WLAN network. It can be created afterwards again. Returns ``TRUE`` on success.
