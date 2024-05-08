@@ -5,7 +5,7 @@ Circle supports Direct Memory Access (DMA) using the platform DMA controller of 
 
 .. note::
 
-	Currently only memory copy DMA transfers using "large address" DMA4 engines are supported on the Raspberry Pi 5. Any dynamic DMA channel allocation (non-explicit channel number) will use one of these engines.
+	Currently only "large address" DMA4 engines are supported on the Raspberry Pi 5. Any dynamic DMA channel allocation (non-explicit channel number) will use one of these engines. The defined ``DREQSource*`` values are currently valid for the Raspberry Pi 1-4 and Zero only.
 
 CDMAChannel
 ^^^^^^^^^^^
@@ -24,7 +24,7 @@ CDMAChannel
 
 	Setup a DMA memory copy transfer from ``pSource`` to ``pDestination`` with length ``nLength``. ``nBurstLength`` > 0 increases the speed, but may congest the system bus. ``bCached`` determines, if the source and destination address ranges are in cached memory.
 
-.. cpp:function:: void CDMAChannel::SetupIORead (void *pDestination, u32 nIOAddress, size_t nLength, TDREQ DREQ)
+.. cpp:function:: void CDMAChannel::SetupIORead (void *pDestination, uintptr nIOAddress, size_t nLength, TDREQ DREQ)
 
 	Setup a DMA read transfer from the I/O port ``nIOAddress`` to ``pDestination`` with length ``nLength``. ``DREQ`` paces the transfer from these devices:
 
@@ -35,7 +35,7 @@ CDMAChannel
 * DREQSourceSPIRX
 * DREQSourceUARTRX
 
-.. cpp:function:: void CDMAChannel::SetupIOWrite (u32 nIOAddress, const void *pSource, size_t nLength, TDREQ DREQ)
+.. cpp:function:: void CDMAChannel::SetupIOWrite (uintptr nIOAddress, const void *pSource, size_t nLength, TDREQ DREQ)
 
 	Setup a DMA write transfer to the I/O port ``nIOAddress`` from ``pSource`` with length ``nLength``. ``DREQ`` paces the transfer to these devices:
 
