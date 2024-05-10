@@ -509,12 +509,10 @@ Raspberry Pi	SDA	SCL
 
 	Writes ``nCount`` bytes to the I2C master from ``pBuffer``. Returns the number of written bytes or < 0 on failure. ``nTimeout_us`` can force a return after the given number of µs, when less than ``nCount`` bytes have been written. When a timeout occurs, the result is smaller than ``nCount`` (or 0).
 
+.. _CSPIMaster:
+
 CSPIMaster
 ^^^^^^^^^^
-
-.. note::
-
-	This class is currently not supported on the Raspberry Pi 5.
 
 The class ``CSPIMaster`` is a driver for SPI master devices, with these features:
 
@@ -523,7 +521,7 @@ The class ``CSPIMaster`` is a driver for SPI master devices, with these features
 * Chip select lines (CE0, CE1) are active low
 * Polled operation only
 
-The GPIO pin mapping is as follows:
+The GPIO pin mapping for the Raspberry Pi 1-4 and Zero is as follows:
 
 =======	=======	=======	=======	=======	=======	===================
 nDevice	MISO	MOSI	SCLK	CE0	CE1	Support
@@ -535,6 +533,21 @@ nDevice	MISO	MOSI	SCLK	CE0	CE1	Support
 4	GPIO5	GPIO6	GPIO7	GPIO4	GPIO25	Raspberry Pi 4 only
 5	GPIO13	GPIO14	GPIO15	GPIO12	GPIO26	Raspberry Pi 4 only
 6	GPIO19	GPIO20	GPIO21	GPIO18	GPIO27	Raspberry Pi 4 only
+=======	=======	=======	=======	=======	=======	===================
+
+GPIO0 and GPIO1 are normally reserved for the ID EEPROM of hat boards.
+
+The GPIO pin mapping for the Raspberry Pi 5 is as follows:
+
+=======	=======	=======	=======	=======	=======	===================
+nDevice	MISO	MOSI	SCLK	CE0	CE1	Support
+=======	=======	=======	=======	=======	=======	===================
+0	GPIO9	GPIO10	GPIO11	GPIO8	GPIO7 	Raspberry Pi 5 only
+1	GPIO19	GPIO20	GPIO21	GPIO18	GPIO17	Raspberry Pi 5 only
+2	GPIO1	GPIO2	GPIO3	GPIO0	GPIO24	Raspberry Pi 5 only
+3	GPIO5	GPIO6	GPIO7	GPIO4	GPIO25	Raspberry Pi 5 only
+4						None
+5	GPIO13	GPIO14	GPIO15	GPIO12	GPIO26	Raspberry Pi 5 only
 =======	=======	=======	=======	=======	=======	===================
 
 GPIO0 and GPIO1 are normally reserved for the ID EEPROM of hat boards.
@@ -564,6 +577,10 @@ GPIO0 and GPIO1 are normally reserved for the ID EEPROM of hat boards.
 .. cpp:function:: void CSPIMaster::SetCSHoldTime (unsigned nMicroSeconds)
 
 	Sets the additional time, CE# stays active after the transfer. The set value is valid for the next transfer only. Normally CE# goes inactive very soon after the transfer, this sets the additional time, CE# stays active.
+
+.. note::
+
+	A call of this method is ignored on the Raspberry Pi 5.
 
 .. cpp:function:: int CSPIMaster::Read (unsigned nChipSelect, void *pBuffer, unsigned nCount)
 
@@ -627,10 +644,6 @@ The CE# signals are active low.
 CSPIMasterDMA
 ^^^^^^^^^^^^^
 
-.. note::
-
-	This class is currently not supported on the Raspberry Pi 5.
-
 The class ``CSPIMasterDMA`` is a driver for the SPI0 master device. It implements an asynchronous DMA operation. Optionally one can do synchronous polling transfers (e.g. for small amounts of data). The GPIO pin mapping of the SPI0 master device is as follows:
 
 ======	======	======	======	======
@@ -638,6 +651,10 @@ MISO	MOSI	SCLK	CE0	CE1
 ======	======	======	======	======
 GPIO9	GPIO10	GPIO11	GPIO8	GPIO7
 ======	======	======	======	======
+
+.. note::
+
+	On the Raspberry Pi 5 all SPI master devices are supported, with the same GPIO pin mapping as listed for the class :ref:`CSPIMaster`.
 
 .. code-block:: c++
 
@@ -647,7 +664,13 @@ GPIO9	GPIO10	GPIO11	GPIO8	GPIO7
 
 .. cpp:function:: CSPIMasterDMA::CSPIMasterDMA (CInterruptSystem *pInterruptSystem, unsigned nClockSpeed = 500000, unsigned CPOL = 0, unsigned CPHA = 0, boolean bDMAChannelLite = TRUE)
 
-	Creates a ``CSPIMasterDMA`` object. Sets the default SPI clock frequency to ``nClockSpeed`` in Hertz, the clock polarity to ``CPOL`` (0 or 1) and the clock phase to ``CPHA`` (0 or 1). ``pInterruptSystem`` is a pointer to the interrupt system object. Set ``bDMAChannelLite`` to ``FALSE`` for very high speeds or transfer sizes >= 64K.
+	(Constructor on Raspberry Pi 1-4 and Zero)
+
+.. cpp:function:: CSPIMasterDMA::CSPIMasterDMA (CInterruptSystem *pInterruptSystem, unsigned nClockSpeed = 500000, unsigned CPOL = 0, unsigned CPHA = 0, unsigned nDevice = 0)
+
+	(Constructor on Raspberry Pi 5)
+
+	Creates a ``CSPIMasterDMA`` object for SPI master ``nDevice`` (can be specified on Raspberry Pi 5 only). Sets the default SPI clock frequency to ``nClockSpeed`` in Hertz, the clock polarity to ``CPOL`` (0 or 1) and the clock phase to ``CPHA`` (0 or 1). ``pInterruptSystem`` is a pointer to the interrupt system object. Set ``bDMAChannelLite`` to ``FALSE`` for very high speeds or transfer sizes >= 64K (not on Raspberry Pi 5).
 
 .. cpp:function:: boolean CSPIMasterDMA::Initialize (void)
 
