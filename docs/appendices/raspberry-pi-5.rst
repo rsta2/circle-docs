@@ -34,8 +34,3 @@ Serial devices
 ^^^^^^^^^^^^^^
 
 The serial bootloader is supported via the dedicated UART connector. Please note that the UART connector is the serial device ``ttyS11`` (``nDevice = 10``), which is the default on the Raspberry Pi 5 for applications, which do not explicitly select a serial device number like all sample programs. This can be changed with the system option ``SERIAL_DEVICE_DEFAULT``. The serial device at GPIO14/15 has the device number 0 (``ttyS1``).
-
-Sound devices
-^^^^^^^^^^^^^
-
-The only option to generate sound is currently via USB streaming.

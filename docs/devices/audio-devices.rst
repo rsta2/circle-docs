@@ -9,7 +9,7 @@ Circle supports the generation of sound via several hardware (PWM, I2S, HDMI, US
 
 	The support for USB audio streaming devices is only available on the Raspberry Pi 4, 400, 5 and Compute Module 4.
 
-	USB audio is currently the only option for sound output and input on the Raspberry Pi 5.
+	The support for HDMI and VCHIQ audio interfaces is currently not available on the Raspberry Pi 5.
 
 The base class of all sound generating and capturing devices is ``CSoundBaseDevice``. The following table lists the provided classes for the different interfaces. The higher level support provides an additional conversion function for sound data in different formats as an example, which can be easily adapted for other sound classes.
 
@@ -304,10 +304,6 @@ A sound device can optionally provide a sound controller, which offers the follo
 CPWMSoundBaseDevice
 ^^^^^^^^^^^^^^^^^^^
 
-.. note::
-
-	This class is currently not available on the Raspberry Pi 5.
-
 .. code-block:: cpp
 
 	#include <circle/sound/pwmsoundbasedevice.h>
@@ -318,7 +314,7 @@ CPWMSoundBaseDevice
 
 .. note::
 
-	On the Raspberry Pi Zero, which does not have a headphone jack, the output from the PWM sound interface can be used via the GPIO header. You have to define the system option ``USE_PWM_AUDIO_ON_ZERO`` for this purpose. See the file `include/circle/sysconfig.h <https://github.com/rsta2/circle/blob/master/include/circle/sysconfig.h>`_ for details!
+	On the Raspberry Pi 5 or Zero, which do not have a headphone jack, the output from the PWM sound interface can be used via the GPIO header. You need an external interface `like this <https://learn.adafruit.com/adding-basic-audio-ouput-to-raspberry-pi-zero>`_, normally connected to GPIO12/13. You have to define the system option ``USE_PWM_AUDIO_ON_ZERO`` for this purpose for the Raspberry Pi Zero. See the file `include/circle/sysconfig.h <https://github.com/rsta2/circle/blob/master/include/circle/sysconfig.h>`_ for details!
 
 .. cpp:function:: CPWMSoundBaseDevice::CPWMSoundBaseDevice (CInterruptSystem *pInterrupt, unsigned nSampleRate = 44100, unsigned nChunkSize = 2048)
 
@@ -326,10 +322,6 @@ CPWMSoundBaseDevice
 
 CPWMSoundDevice
 ^^^^^^^^^^^^^^^
-
-.. note::
-
-	This class is currently not available on the Raspberry Pi 5.
 
 .. code-block:: cpp
 
@@ -357,10 +349,6 @@ CPWMSoundDevice
 
 CI2SSoundBaseDevice
 ^^^^^^^^^^^^^^^^^^^
-
-.. note::
-
-	This class is currently not available on the Raspberry Pi 5.
 
 .. code-block:: cpp
 
@@ -403,7 +391,11 @@ CI2SSoundBaseDevice
 
 	* DeviceModeTXOnly (output)
 	* DeviceModeRXOnly (input)
-	* DeviceModeTXRX (output and input)
+	* DeviceModeTXRX (output and input, not on Raspberry Pi 5)
+
+.. note::
+
+	On the Raspberry Pi 5 only the following sample rates are supported: 8000, 11025, 16000, 22050, 32000, 44100, 48000, 88200, 96000, 176400, 192000.
 
 CUSBSoundBaseDevice
 ^^^^^^^^^^^^^^^^^^^
