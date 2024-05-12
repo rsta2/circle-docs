@@ -662,15 +662,9 @@ GPIO9	GPIO10	GPIO11	GPIO8	GPIO7
 
 .. cpp:class:: CSPIMasterDMA
 
-.. cpp:function:: CSPIMasterDMA::CSPIMasterDMA (CInterruptSystem *pInterruptSystem, unsigned nClockSpeed = 500000, unsigned CPOL = 0, unsigned CPHA = 0, boolean bDMAChannelLite = TRUE)
+.. cpp:function:: CSPIMasterDMA::CSPIMasterDMA (CInterruptSystem *pInterruptSystem, unsigned nClockSpeed = 500000, unsigned CPOL = 0, unsigned CPHA = 0, boolean bDMAChannelLite = TRUE, unsigned nDevice = 0)
 
-	(Constructor on Raspberry Pi 1-4 and Zero)
-
-.. cpp:function:: CSPIMasterDMA::CSPIMasterDMA (CInterruptSystem *pInterruptSystem, unsigned nClockSpeed = 500000, unsigned CPOL = 0, unsigned CPHA = 0, unsigned nDevice = 0)
-
-	(Constructor on Raspberry Pi 5)
-
-	Creates a ``CSPIMasterDMA`` object for SPI master ``nDevice`` (can be specified on Raspberry Pi 5 only). Sets the default SPI clock frequency to ``nClockSpeed`` in Hertz, the clock polarity to ``CPOL`` (0 or 1) and the clock phase to ``CPHA`` (0 or 1). ``pInterruptSystem`` is a pointer to the interrupt system object. Set ``bDMAChannelLite`` to ``FALSE`` for very high speeds or transfer sizes >= 64K (not on Raspberry Pi 5).
+	Creates a ``CSPIMasterDMA`` object for SPI master ``nDevice`` (can be greater than 0 on Raspberry Pi 5 only). Sets the default SPI clock frequency to ``nClockSpeed`` in Hertz, the clock polarity to ``CPOL`` (0 or 1) and the clock phase to ``CPHA`` (0 or 1). ``pInterruptSystem`` is a pointer to the interrupt system object. Set ``bDMAChannelLite`` to ``FALSE`` for very high speeds or transfer sizes >= 64K (parameter ignored on Raspberry Pi 5).
 
 .. cpp:function:: boolean CSPIMasterDMA::Initialize (void)
 
