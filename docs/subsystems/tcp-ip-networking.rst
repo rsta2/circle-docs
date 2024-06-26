@@ -19,6 +19,10 @@ Sample		Description
 38-bootloader	HTTP- and TFTP-based bootloader
 ==============	=========================================
 
+.. note::
+
+	Circle currently supports the IP multicast support level 1 (send only) according to RFC1112.
+
 CNetSubSystem
 ^^^^^^^^^^^^^
 
@@ -45,6 +49,10 @@ CNetSubSystem
 .. cpp:function:: boolean CNetSubSystem::IsRunning (void) const
 
 	Returns ``TRUE``, when is TCP/IP network is available and configured. If DHCP is enabled, this means that an IP address is already bound.
+
+.. cpp:function:: const char *CNetSubSystem::GetHostname (void) const
+
+	Returns the hostname, which has been handed over to the constructor.
 
 .. cpp:function:: CNetConfig *CNetSubSystem::GetConfig (void)
 
@@ -552,6 +560,10 @@ CIPAddress
 .. cpp:function:: boolean CIPAddress::IsBroadcast (void) const
 
 	Returns ``TRUE`` if the IP address is the broadcast address (255.255.255.255).
+
+.. cpp:function:: boolean CIPAddress::IsMulticast (void) const
+
+	Returns ``TRUE`` if the IP address is a multicast address (224.x.x.x to 239.x.x.x).
 
 .. cpp:function:: unsigned CIPAddress::GetSize (void) const
 
