@@ -276,6 +276,7 @@ A sound device can optionally provide a sound controller, which offers the follo
 
 	* ControlMute (mute value is 0 (disable) or 1 (enable))
 	* ControlVolume (volume value in dB)
+	* ControlALC (Automatic Level Control, 0 (disable) or 1 (enable))
 
 .. cpp:enum:: CSoundController::TChannel
 
@@ -373,6 +374,21 @@ CI2SSoundBaseDevice
 
 	The clock pins are outputs in master mode, or inputs in slave mode. On early models the signals are exposed on the separate P5 header.
 
+	The Raspberry Pi 5 can be used in an 8 channel mode (TX master only), with this GPIO pin assignment:
+
+	==============	==============	==================================
+	Name		Pin number	Description
+	==============	==============	==================================
+	I2S0_SCLK	GPIO18		Bit clock (output)
+	I2S0_WS		GPIO19		Frame clock (output)
+	I2S0_SDO[0]	GPIO21		Data output (channels 0 and 1)
+	I2S0_SDO[1]	GPIO23		Data output (channels 2 and 3)
+	I2S0_SDO[2]	GPIO25		Data output (channels 4 and 5)
+	I2S0_SDO[3]	GPIO27		Data output (channels 6 and 7)
+	==============	==============	==================================
+
+	The clock signals are shared between the data lines. This mode can be used with the HifiBerry DAC8x.
+
 .. note::
 
 	This driver class supports several I2S interfaces. Some interfaces require an additional I2C connection to work. The following interfaces are known to work:
@@ -381,9 +397,9 @@ CI2SSoundBaseDevice
 	* PiFi DAC+ v2.0 (with PCM5122 DAC)
 	* `Adafruit I2S Audio Bonnet <https://www.adafruit.com/product/4037>`_ (with UDA1334A DAC)
 	* `Adafruit I2S 3W Class D Amplifier Breakout <https://www.adafruit.com/product/3006>`_ (with MAX98357A DAC)
-	* `Waveshare WM8960 Audio HAT <https://www.waveshare.com/wm8960-audio-hat.htm>`_ (with WM8960 DAC)
+	* `Waveshare WM8960 Audio HAT <https://www.waveshare.com/wm8960-audio-hat.htm>`_ (with WM8960 DAC, sample rates 44100 and 48000 only)
 
-.. cpp:function:: CI2SSoundBaseDevice::CI2SSoundBaseDevice (CInterruptSystem *pInterrupt, unsigned nSampleRate = 192000, unsigned nChunkSize = 8192, boolean bSlave = FALSE, CI2CMaster *pI2CMaster = 0, u8 ucI2CAddress = 0, TDeviceMode DeviceMode  = DeviceModeTXOnly)
+.. cpp:function:: CI2SSoundBaseDevice::CI2SSoundBaseDevice (CInterruptSystem *pInterrupt, unsigned nSampleRate = 192000, unsigned nChunkSize = 8192, boolean bSlave = FALSE, CI2CMaster *pI2CMaster = 0, u8 ucI2CAddress = 0, TDeviceMode DeviceMode  = DeviceModeTXOnly, unsigned nHWChannels = 2)
 
 	Constructs an instance of this class. There can be only one. ``pInterrupt`` is  a pointer to the interrupt system object. ``nSampleRate`` is the sample rate in Hz. ``nChunkSize`` is twice the number of samples (words) to be handled with one call to ``GetChunk()`` (one word per stereo channel). Decreasing this value also decreases the latency on this interface, but increases the IRQ load on CPU core 0.
 
@@ -392,6 +408,8 @@ CI2SSoundBaseDevice
 	* DeviceModeTXOnly (output)
 	* DeviceModeRXOnly (input)
 	* DeviceModeTXRX (output and input, not on Raspberry Pi 5)
+
+	``nHWChannels`` specifies the number of hardware channels (normally 2, can be 8 on the Raspberry Pi 5).
 
 .. note::
 
