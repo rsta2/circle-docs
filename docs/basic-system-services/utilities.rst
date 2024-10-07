@@ -297,6 +297,7 @@ String functions
 .. c:function:: char *strcpy (char *pDest, const char *pSrc)
 .. c:function:: char *strncpy (char *pDest, const char *pSrc, size_t nMaxLen)
 .. c:function:: char *strcat (char *pDest, const char *pSrc)
+.. c:function:: char *strncat (char *pDest, const char *pSrc, size_t nMaxLen)
 .. c:function:: char *strchr (const char *pString, int chChar)
 .. c:function:: char *strstr (const char *pString, const char *pNeedle)
 .. c:function:: char *strtok_r (char *pString, const char *pDelim, char **ppSavePtr)
