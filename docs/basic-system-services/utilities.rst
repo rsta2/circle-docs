@@ -36,6 +36,10 @@ This class encapsulates a character string and allows different manipulations on
 
 	Returns a pointer to the string buffer, which is terminated with a zero-character.
 
+.. cpp:function:: const char *CString::c_str (void) const
+
+	Returns a pointer to the string buffer, which is terminated with a zero-character.
+
 .. cpp:function:: const char *CString::operator = (const char *pString)
 
 	Assigns a new string. Returns a pointer to the string buffer, which is terminated with a zero-character.
@@ -51,6 +55,22 @@ This class encapsulates a character string and allows different manipulations on
 .. cpp:function:: size_t CString::GetLength (void) const
 
 	Returns the length of the string in number of characters (zero for empty string).
+
+.. cpp:function:: CString &CString::operator += (const char chChar)
+
+	Appends ``chChar`` to the string. Returns a reference to the string object.
+
+.. cpp:function:: CString &CString::operator += (const char *pString)
+
+	Appends ``pString`` to the string. Returns a reference to the string object.
+
+.. cpp:function:: CString &CString::operator += (const CString &rString)
+
+	Appends ``rString`` to the string. Returns a reference to the string object.
+
+.. cpp:function:: void CString::Append (const char chChar)
+
+	Appends ``chChar`` to the string.
 
 .. cpp:function:: void CString::Append (const char *pString)
 
