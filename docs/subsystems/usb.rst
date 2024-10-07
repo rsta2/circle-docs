@@ -121,6 +121,33 @@ CUSBCDCGadget
 
 	Creates an instance of this class. ``pInterruptSystem`` is a pointer to the interrupt system object.
 
+CUSBMSDGadget
+"""""""""""""
+
+.. code-block:: cpp
+
+	#include <circle/usb/gadget/usbmsdgadget.h>
+
+.. cpp:class:: CUSBMSDGadget : public CDWUSBGadget
+
+	This class implements an USB mass-storage device gadget, which can be mounted to an USB host. The device appears in the host system as an external USB drive. You should create a member of this class in the ``CKernel`` class of your application. Only a few methods of this class are described here. More methods are described for the base class :cpp:class:`CDWUSBGadget`.
+
+.. note::
+
+	The `test/usb-msd-gadget` is prepared to work as a mass-storage device gadget. Please read the *README* file in the test's directory for information about the required configuration. You have to define your own USB vendor ID as system option ``USB_GADGET_VENDOR_ID``.
+
+.. cpp:function:: CUSBMSDGadget::CUSBMSDGadget (CInterruptSystem *pInterruptSystem, CDevice *pDevice = nullptr)
+
+	Creates an instance of this class. ``pInterruptSystem`` is a pointer to the interrupt system object. ``pDevice`` can be a pointer to the block device, to be controlled by this gadget. The block device must be initialized yet, when it is specified here. :cpp:func:`SetDevice()` has to be called later, when ``pDevice`` is not specified here.
+
+.. cpp:function:: void CUSBMSDGadget::SetDevice (CDevice *pDevice)
+
+	Call this, if ``pDevice`` has not been specified to the constructor. ``pDevice`` Is a pointer to the block device, to be controlled by this gadget
+
+.. cpp:function:: void CUSBMSDGadget::Update (void)
+
+	This method must be called periodically from ``TASK_LEVEL`` to allow I/O operations.
+
 CUSBMIDIGadget
 """"""""""""""
 
