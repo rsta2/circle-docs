@@ -71,6 +71,14 @@ Model information
 * SoCTypeBCM2712
 * SoCTypeUnknown
 
+.. cpp:function:: TSoCStepping CMachineInfo::GetSoCStepping (void) const
+
+	Returns the stepping of the SoC (System on a Chip), the application is running on. Possible values are:
+
+* SoCSteppingC1
+* SoCSteppingD0
+* SoCSteppingUnknown
+
 .. cpp:function:: unsigned CMachineInfo::GetRAMSize (void) const
 
 	Returns the size of the SDRAM in MBytes of the Raspberry Pi model, the application is running on, or zero if it is unknown.
