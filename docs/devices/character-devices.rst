@@ -123,6 +123,10 @@ CScreenDevice
 
 	Displays a rotating symbol in the upper right corner of the screen. ``nIndex`` is the index of the rotor to be displayed (0..3). ``nCount`` is the phase (angle) of the current rotor symbol (0..3).
 
+.. cpp:function:: void CScreenDevice::SetCursorBlock (boolean bCursorBlock)
+
+	Enable block cursor (``TRUE``) instead of the default underline cursor (``FALSE``).
+
 .. cpp:function:: CBcmFrameBuffer *CScreenDevice::GetFrameBuffer (void)
 
 	Returns a pointer to the member of the type ``CBcmFrameBuffer``, which can be used to directly manipulate the frame buffer.
