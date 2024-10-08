@@ -366,6 +366,29 @@ CSysLogDaemon
 
 	Creates the ``CSysLogDaemon`` task. ``pNetSubSystem`` is a pointer to the network subsystem. ``rServerIP`` is the IP address of the syslog server. ``usServerPort`` is the port number of the syslog server (default 514). This object must be created using the ``new`` operator.
 
+CmDNSPublisher
+""""""""""""""
+
+.. code-block:: cpp
+
+	#include <circle/net/mdnspublisher.h>
+
+.. cpp:class:: CmDNSPublisher : public CTask
+
+	This class is a mDNS (aka Bonjour) client background task. It publishes one or multiple services in a local network using multicast packets. See `test/mdns-publisher` for an example.
+
+.. cpp:function:: CmDNSPublisher::CmDNSPublisher (CNetSubSystem *pNet)
+
+	Creates the ``CmDNSPublisher`` task. ``pNet`` is a pointer to the network subsystem.
+
+.. cpp:function:: boolean CmDNSPublisher::PublishService (const char *pServiceName, const char *pServiceType, u16 usServicePort, const char *ppText[] = nullptr)
+
+	Starts publishing a service with the name ``pServiceName``, the type ``pServiceType`` (e.g. ``ServiceTypeAppleMIDI``) and port number ``usServicePort`` (in host byte order). ``ppText`` is an optional array of pointers to the descriptions of the service (terminated with a ``nullptr``). Returns ``TRUE``, if the operation was successful.
+
+.. cpp:function:: boolean CmDNSPublisher::UnpublishService (const char *pServiceName)
+
+	Stops publishing the service ``pServiceName`` (same name as when published). Returns ``TRUE``, if the operation was successful.
+
 Servers
 ^^^^^^^
 
