@@ -48,6 +48,10 @@ CDMAChannel
 * DREQSourceSPITX
 * DREQSourceUARTTX
 
+.. cpp:function:: void CDMAChannel::SetupCyclicIOWrite (uintptr ulIOAddress, const void *ppSources[], unsigned nBuffers, size_t ulLength, TDREQ DREQ)
+
+	Setup a cyclic DMA write transfer to the I/O port ``ulIOAddress`` (ARM-side or bus address) for ``nBuffers`` concatenated DMA buffers (max. 4) at ``ppSources`` (pointer to array of pointers) with length ``ulLength`` bytes per buffer. ``DREQ`` paces the transfer (see :cpp:func:`CDMAChannel::SetupIOWrite` for the possible devices). The transfer starts from first buffer again, when last buffer has been sent.
+
 .. cpp:function:: void CDMAChannel::SetupMemCopy2D (void *pDestination, const void *pSource, size_t nBlockLength, unsigned nBlockCount, size_t nBlockStride, unsigned nBurstLength = 0)
 
 	Setup a 2D DMA memory copy transfer of ``nBlockCount`` blocks of ``nBlockLength`` length from ``pSource`` to ``pDestination``. Skip ``nBlockStride`` bytes after each block on destination. Source is continuous. The destination cache, if any, is not touched. ``nBurstLength`` > 0 increases speed, but may congest the system bus. This method can be used to copy data to the framebuffer and is not supported with ``DMA_CHANNEL_LITE``.
@@ -56,11 +60,9 @@ CDMAChannel
 
 	Sets a DMA completion routine for interrupt operation. ``pRoutine`` is called, when the transfer is completed. ``pParam`` is a user parameter, which is handed over to the completion routine. ``TDMACompletionRoutine`` has the following prototype:
 
-.. code-block:: c++
+.. c:type:: void TDMACompletionRoutine (unsigned nChannel, unsigned nBuffer, boolean bStatus, void *pParam)
 
-	void TDMACompletionRoutine (unsigned nChannel, boolean bStatus, void *pParam);
-
-``nChannel`` is the channel number. ``bStatus`` is ``TRUE``, if the transfer completed successfully.
+``nChannel`` is the channel number. ``nBuffer`` is the number of the cyclic buffer (always 0 for non-cyclic transfers). ``bStatus`` is ``TRUE``, if the transfer completed successfully.
 
 .. cpp:function:: void CDMAChannel::Start (void)
 
