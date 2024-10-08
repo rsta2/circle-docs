@@ -451,10 +451,6 @@ CUSBSoundBaseDevice
 CHDMISoundBaseDevice
 ^^^^^^^^^^^^^^^^^^^^
 
-.. note::
-
-	This class is currently not available on the Raspberry Pi 5.
-
 .. code-block:: cpp
 
 	#include <circle/sound/hdmisoundbasedevice.h>
@@ -467,7 +463,7 @@ CHDMISoundBaseDevice
 
 	This driver supports only two channels (Stereo).
 
-	This driver does not support HDMI1 on the Raspberry Pi 4 and 400 (HDMI0 only).
+	This driver does not support HDMI1 on the Raspberry Pi 4, 5 and 400 (HDMI0 only).
 
 	This driver supports a DMA and a polling mode. The latter is intended for very time critical and cache-sensitive applications, which cannot use interrupts.
 
