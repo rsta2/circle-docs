@@ -197,7 +197,7 @@ CSerialDevice
 
 .. cpp:function:: boolean CSerialDevice::Initialize (unsigned nBaudrate = 115200, unsigned nDataBits = 8, unsigned nStopBits = 1, TParity Parity = ParityNone)
 
-	Initializes the serial device and sets the baud rate to ``nBaudrate`` bits per second. ``nDataBits`` selects the number of data bits (5..8, default 8) and ``nStopBits`` the number of stop bits (1..2, default 1). ``Parity`` can be ``CSerialDevice::ParityNone`` (default), ``CSerialDevice::ParityOdd`` or ``CSerialDevice::ParityEven``. Returns ``TRUE`` on success.
+	Initializes the serial device and sets the baud rate to ``nBaudrate`` bits per second. ``nDataBits`` selects the number of data bits (5..8, default 8) and ``nStopBits`` the number of stop bits (1..2, default 1). ``Parity`` can be ``CSerialDevice::ParityNone`` (default), ``CSerialDevice::ParityOdd``, ``CSerialDevice::ParityEven``, ``CSerialDevice::ParitySpace`` or ``CSerialDevice::ParityMark``. Returns ``TRUE`` on success.
 
 .. cpp:function:: int CSerialDevice::Write (const void *pBuffer, size_t nCount)
 
@@ -225,6 +225,22 @@ CSerialDevice
 .. c:macro:: SERIAL_OPTION_ONLCR
 
 	Translate NL to NL+CR on output (default)
+
+.. cpp:function:: void CSerialDevice::SetParity (TParity Parity)
+
+	Modifies the parity setting to ``Parity``, which can be ``CSerialDevice::ParityNone``, ``CSerialDevice::ParityOdd``, ``CSerialDevice::ParityEven``, ``CSerialDevice::ParitySpace`` (0) or ``CSerialDevice::ParityMark`` (1). This will disable the UART for a small time.
+
+.. cpp:function:: boolean CSerialDevice::IsTransmitting (void) const
+
+	Returns ``TRUE``, if the transmitter is busy, transmitting characters.
+
+.. cpp:function:: void CSerialDevice::RegisterCharReceivedHandler (TCharReceivedHandler *pHandler, void *pParam)
+
+	Registers a character received handler ``pHandler``, which is called, when a character has been received. This does only work with interrupt driver, and :cpp:func:`Read()` does not work, when this handler is registered. ``pParam`` is a user parameter, which is handed over to the handler.
+
+.. cpp:type:: void CSerialDevice::TCharReceivedHandler (u8 uchChar, int nStatus, void *pParam)
+
+	``uchChar`` is the character code of the received character. ``nStatus`` is an error code (see :cpp:func:`Write()`) as a negative value, or 0 (no error). ``pParam`` is the user parameter, which was handed over to :cpp:func:`RegisterCharReceivedHandler()`.
 
 .. cpp:function:: void CSerialDevice::RegisterMagicReceivedHandler (const char *pMagic, TMagicReceivedHandler *pHandler)
 
