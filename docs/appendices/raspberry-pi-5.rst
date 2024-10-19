@@ -13,6 +13,7 @@ Installing
 The resulting kernel image file has the name *kernel_2712.img*. Additionally the following files are required on the SD card:
 
 * *bcm2712-rpi-5-b.dtb* (can be downloaded in *boot/*)
+* *overlays/bcm2712d0.dtbo* (can be downloaded in *boot/*)
 * *config.txt* (copy *boot/config64.txt* and rename it)
 
 RP1 southbridge
