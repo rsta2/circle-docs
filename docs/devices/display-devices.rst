@@ -223,3 +223,128 @@ The class ``CBcmFrameBuffer`` provides the methods of the class :cpp:class:`CDis
 .. cpp:function:: static unsigned CBcmFrameBuffer::GetNumDisplays (void)
 
 	Returns to number of available displays, which is always 1 on models other than the Raspberry Pi 4, 400 or Compute Module 4.
+
+CST7789Display
+^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+	#include <display/st7789display.h>
+
+.. cpp:class:: CST7789Display : public CDisplay
+
+	This class is a driver for dot-matrix displays with ST7789 controller and SPI interface. It provides the methods, defined by its base-class :cpp:class:`CDisplay`, and the following additional methods. Other methods, which are not listed here, are deprecated.
+
+.. cpp:function:: CST7789Display::CST7789Display (CSPIMaster *pSPIMaster, unsigned nDCPin, unsigned nResetPin = None, unsigned nBackLightPin = None, unsigned nWidth = 240, unsigned nHeight = 240, unsigned CPOL = 0, unsigned CPHA = 0, unsigned nClockSpeed = 15000000, unsigned nChipSelect = 0, boolean bSwapColorBytes = TRUE)
+
+	``pSPIMaster`` is a pointer to the SPI master object to be used. ``nDCPin`` is the GPIO pin number (SoC number, not header position) for the DC pin, ``nResetPin`` is the GPIO pin number for the Reset pin (optional), ``nBackLightPin`` is the GPIO pin number for backlight pin (optional). ``nWidth`` is the display width in number of pixels (default 240), ``nHeight`` is the display height in number of pixels (default 240). ``CPOL`` is the SPI clock polarity (0 or 1, default 0), ``CPHA`` is the SPI clock phase (0 or 1, default 0). ``nClockSpeed`` is the SPI clock frequency in Hz (default 15 MHz). ``nChipSelect`` is the SPI chip select (if connected, otherwise don't care). Set ``bSwapColorBytes`` to ``TRUE`` to use big endian colors (RGB565_BE) instead of RGB565.
+
+.. note::
+
+	Optional GPIO pin numbers have to be set to ``None``, if they are not connected. If the SPI chip select is not connected, ``CPOL`` is probably 1. The default physical color model is RGB565_BE for compatibility reasons.
+
+.. cpp:function:: boolean CST7789Display::Initialize (void)
+
+	Initializes and clears the display and switches it on. Returns ``TRUE`` on success.
+
+.. cpp:function:: void CST7789Display::SetRotation (unsigned nRot)
+
+	Sets the global rotation of the display. ``nRot`` can have the value 0, 90, 180 or 270 (degrees counterclockwise).
+
+.. cpp:function:: unsigned CST7789Display::GetRotation (void) const
+
+	Returns the global rotation in degrees (0, 90, 180 or 270).
+
+.. cpp:function:: void CST7789Display::On (void)
+
+	Switches the display on.
+
+.. cpp:function:: void CST7789Display::Off (void)
+
+	Switches the display off.
+
+.. cpp:function:: void CST7789Display::Clear (TST7789Color Color = ST7789_BLACK_COLOR)
+
+	Clears the entire display to ``Color`` (default black).
+
+CSSD1306Display
+^^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+	#include <display/ssd1306display.h>
+
+.. cpp:class:: CSSD1306Display : public CDisplay
+
+	This class is a driver for monochrome dot-matrix displays with SSD1306 controller and I2C interface. It provides the methods, defined by its base-class :cpp:class:`CDisplay`, and the following additional methods.
+
+.. cpp:function:: CSSD1306Display::CSSD1306Display (CI2CMaster *pI2CMaster, unsigned nWidth = 128, unsigned nHeight = 32, u8 uchI2CAddress = 0x3C, unsigned nClockSpeed = 0)
+
+	``pI2CMaster`` is a pointer to the I2C master to be used. ``nWidth`` is the display width in pixels (128 only), ``nHeight`` is the display height in pixels (32 or 64, default 32). ``uchI2CAddress`` is the I2C slave address of the display controller (default 0x3C). ``nClockSpeed`` is the I2C clock frequency in Hz or 0 to use the system default.
+
+.. cpp:function:: boolean CSSD1306Display::Initialize (void)
+
+	Initializes and clears the display and switches it on. Returns ``TRUE`` on success.
+
+.. cpp:function:: void CSSD1306Display::SetRotation (unsigned nDegrees)
+
+	Sets the global rotation of the display to ``nDegrees`` (0 or 180). This method must be called before :cpp:func:`CSSD1306Display::Initialize()`. The default rotation is 0.
+
+.. cpp:function:: unsigned CSSD1306Display::GetRotation (void) const
+
+	Returns the global rotation in degrees (0 or 180).
+
+.. cpp:function:: void CSSD1306Display::On (void)
+
+	Switches the display on.
+
+.. cpp:function:: void CSSD1306Display::Off (void)
+
+	Switches the display off.
+
+.. cpp:function:: void CSSD1306Display::Clear (TRawColor nColor = 0)
+
+	Clears the entire display to ``nColor`` (0 or 1, default black);
+
+CILI9341Display
+^^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+	#include <display/ili9341display.h>
+
+.. cpp:class:: CILI9341Display : public CDisplay
+
+	This class is a driver for dot-matrix displays with ILI9341 controller and SPI interface. It provides the methods, defined by its base-class :cpp:class:`CDisplay`, and the following additional methods.
+
+.. cpp:function:: CILI9341Display::CILI9341Display (CSPIMaster *pSPIMaster, unsigned nDCPin, unsigned nResetPin = None, unsigned nBackLightPin = None, unsigned nWidth = 240, unsigned nHeight = 320, unsigned nCPOL = 0, unsigned nCPHA = 0, unsigned nClockSpeed = 15000000, unsigned nChipSelect = 0, boolean bSwapColorBytes = TRUE)
+
+	``pSPIMaster`` is a pointer to the SPI master object to be used. ``nDCPin`` is the GPIO pin number (SoC number, not header position) for the DC pin, ``nResetPin`` is the GPIO pin number for the Reset pin (optional), ``nBackLightPin`` is the GPIO pin number for backlight pin (optional). ``nWidth`` is the display width in number of pixels (default 240), ``nHeight`` is the display height in number of pixels (default 320). ``CPOL`` is the SPI clock polarity (0 or 1, default 0), ``CPHA`` is the SPI clock phase (0 or 1, default 0). ``nClockSpeed`` is the SPI clock frequency in Hz (default 15 MHz). ``nChipSelect`` is the SPI chip select (if connected, otherwise don't care). Set ``bSwapColorBytes`` to ``TRUE`` to use big endian colors (RGB565_BE) instead of RGB565.
+
+.. note::
+
+	Optional GPIO pin numbers have to be set to ``None``, if they are not connected. Width/height are valid at rotation 0 (may be swapped with rotation 90 and 270). Big endian colors are supported by the hardware and are displayed quicker.
+
+.. cpp:function:: boolean CILI9341Display::Initialize (void)
+
+	Initializes and clears the display and switches it on. Returns ``TRUE`` on success.
+
+.. cpp:function:: void CILI9341Display::SetRotation (unsigned nDegrees)
+
+	Sets the global rotation of the display to ``nDegrees`` counterclockwise (0, 90, 180 or 270). This method must be called before :cpp:func:`CILI9341Display::Initialize()`. The default rotation is 0.
+
+.. cpp:function:: unsigned CILI9341Display::GetRotation (void) const
+
+	Returns the global rotation in degrees (0, 90, 180 or 270).
+
+.. cpp:function:: void CILI9341Display::On (void)
+
+	Switches the display on.
+
+.. cpp:function:: void CILI9341Display::Off (void)
+
+	Switches the display off.
+
+.. cpp:function:: void CILI9341Display::Clear (TRawColor nColor = 0)
+
+	Clears the entire display to ``nColor`` (default black).
