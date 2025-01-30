@@ -1,12 +1,12 @@
 Graphics
 ~~~~~~~~
 
-Circle provides several options for implementing graphical user interfaces (GUI) and for generating pixel and vector graphics on an attached HDMI or composite TV display. These options are described in this section.
+Circle provides several options for implementing graphical user interfaces (GUI) and for generating pixel and vector graphics on an attached HDMI, composite TV display or external displays with SPI/I2C interface. These options are described in this section.
 
 C2DGraphics
 ^^^^^^^^^^^
 
-The class ``C2DGraphics`` is part of the Circle base library and can be used to generate pixel graphics on a frame buffer, which is provided by the class :cpp:class:`CBcmFrameBuffer`.
+The class ``C2DGraphics`` is part of the Circle base library and can be used to generate pixel graphics on a dot-matrix display, which is provided by the class :cpp:class:`CDisplay`.
 
 .. code-block:: cpp
 
@@ -18,11 +18,27 @@ The class ``C2DGraphics`` is part of the Circle base library and can be used to 
 
 .. note::
 
-	The double buffering does not work on the Raspberry Pi 5.
+	The double buffering does not work on the Raspberry Pi 5 and on displays with SPI/I2C interface.
+
+.. cpp:type:: T2DColor
+
+	Same as :cpp:type:`CDisplay::TColor`.
+
+.. c:macro:: COLOR2D(red, green, blue)
+
+	Same as :c:macro:`DISPLAY_COLOR`.
+
+.. cpp:function:: C2DGraphics::C2DGraphics (CDisplay *pDisplay)
+
+	Creates on instance of this class. ``pDisplay`` is a pointer to the display driver.
+
+.. note::
+
+	There is no VSync support with this constructor.
 
 .. cpp:function:: C2DGraphics::C2DGraphics (unsigned nWidth, unsigned nHeight, boolean bVSync = TRUE, unsigned nDisplay = 0)
 
-	Creates on instance of this class. ``nWidth`` is the screen width in pixels (0 to detect). ``nHeight`` is the screen height in pixels (0 to detect). Set ``bVSync`` to ``TRUE`` to enable VSync and HW double buffering. ``nDisplay`` is the zero-based display number (for Raspberry Pi 4).
+	Creates on instance of this class and uses the class :cpp:class:`CBcmFrameBuffer` as display driver. ``nWidth`` is the screen width in pixels (0 to detect). ``nHeight`` is the screen height in pixels (0 to detect). Set ``bVSync`` to ``TRUE`` to enable VSync and HW double buffering. ``nDisplay`` is the zero-based display number (for Raspberry Pi 4).
 
 .. cpp:function:: boolean C2DGraphics::Initialize (void)
 
@@ -40,47 +56,47 @@ The class ``C2DGraphics`` is part of the Circle base library and can be used to 
 
 	Returns the screen height in pixels.
 
-.. cpp:function:: void C2DGraphics::ClearScreen (TScreenColor Color)
+.. cpp:function:: void C2DGraphics::ClearScreen (T2DColor Color)
 
-	Clears the screen. ``Color`` is the color used to clear the screen (see :cpp:func:`CScreenDevice::SetPixel()`).
+	Clears the screen. ``Color`` is the color used to clear the screen.
 
-.. cpp:function:: void C2DGraphics::DrawRect (unsigned nX, unsigned nY, unsigned nWidth, unsigned nHeight, TScreenColor Color)
+.. cpp:function:: void C2DGraphics::DrawRect (unsigned nX, unsigned nY, unsigned nWidth, unsigned nHeight, T2DColor Color)
 
 	Draws a filled rectangle. ``nX`` is the start X coordinate. ``nY`` is the start Y coordinate. ``nWidth`` is the rectangle width. ``nHeight`` is the rectangle height. ``Color`` is the rectangle color.
 
-.. cpp:function:: void C2DGraphics::DrawRectOutline (unsigned nX, unsigned nY, unsigned nWidth, unsigned nHeight, TScreenColor Color)
+.. cpp:function:: void C2DGraphics::DrawRectOutline (unsigned nX, unsigned nY, unsigned nWidth, unsigned nHeight, T2DColor Color)
 
 	Draws an unfilled rectangle (inner outline). ``nX`` is the start X coordinate. ``nY`` is the start Y coordinate. ``nWidth`` is the rectangle width. ``nHeight`` is the rectangle height. ``Color`` is the rectangle color.
 
-.. cpp:function:: void C2DGraphics::DrawLine (unsigned nX1, unsigned nY1, unsigned nX2, unsigned nY2, TScreenColor Color)
+.. cpp:function:: void C2DGraphics::DrawLine (unsigned nX1, unsigned nY1, unsigned nX2, unsigned nY2, T2DColor Color)
 
 	Draws a line. ``nX1`` is the start position X coordinate. ``nY1`` is the start position Y coordinate. ``nX2`` is the end position X coordinate. ``nY2`` is the end position Y coordinate. ``Color`` is the line color.
 
-.. cpp:function:: void C2DGraphics::DrawCircle (unsigned nX, unsigned nY, unsigned nRadius, TScreenColor Color)
+.. cpp:function:: void C2DGraphics::DrawCircle (unsigned nX, unsigned nY, unsigned nRadius, T2DColor Color)
 
 	Draws a filled circle. ``nX`` is the circle X coordinate. ``nY`` is the circle Y coordinate. ``nRadius`` is the circle radius. ``Color`` is the circle color.
 
-.. cpp:function:: void C2DGraphics::DrawCircleOutline (unsigned nX, unsigned nY, unsigned nRadius, TScreenColor Color)
+.. cpp:function:: void C2DGraphics::DrawCircleOutline (unsigned nX, unsigned nY, unsigned nRadius, T2DColor Color)
 
 	Draws an unfilled circle (inner outline). ``nX`` is the circle X coordinate. ``nY`` is the circle Y coordinate. ``nRadius`` is the circle radius. ``Color`` is the circle color.
 
-.. cpp:function:: void C2DGraphics::DrawImage (unsigned nX, unsigned nY, unsigned nWidth, unsigned nHeight, TScreenColor *PixelBuffer)
+.. cpp:function:: void C2DGraphics::DrawImage (unsigned nX, unsigned nY, unsigned nWidth, unsigned nHeight, const void *PixelBuffer)
 
 	Draws an image from a pixel buffer. ``nX`` is the image X coordinate. ``nY`` is the image Y coordinate. ``nWidth`` is the image width. ``nHeight`` is the image height. ``PixelBuffer`` is a pointer to the pixels.
 
-.. cpp:function:: void C2DGraphics::DrawImageTransparent (unsigned nX, unsigned nY, unsigned nWidth, unsigned nHeight, TScreenColor *PixelBuffer, TScreenColor TransparentColor)
+.. cpp:function:: void C2DGraphics::DrawImageTransparent (unsigned nX, unsigned nY, unsigned nWidth, unsigned nHeight, const void *PixelBuffer, T2DColor TransparentColor)
 
 	Draws an image from a pixel buffer with transparent color. ``nX`` is the image X coordinate. ``nY`` is the image Y coordinate. ``nWidth`` is the image width. ``nHeight`` is the image height. ``PixelBuffer`` is a pointer to the pixels. ``TransparentColor`` is the color to use for transparency.
 
-.. cpp:function:: void C2DGraphics::DrawImageRect (unsigned nX, unsigned nY, unsigned nWidth, unsigned nHeight, unsigned nSourceX, unsigned nSourceY, TScreenColor *PixelBuffer)
+.. cpp:function:: void C2DGraphics::DrawImageRect (unsigned nX, unsigned nY, unsigned nWidth, unsigned nHeight, unsigned nSourceX, unsigned nSourceY, const void *PixelBuffer)
 
 	Draws an area of an image from a pixel buffer. ``nX`` is the image X coordinate. ``nY`` is the image Y coordinate. ``nWidth`` is the image width. ``nHeight`` is the image height. ``nSourceX`` is the source X coordinate in the pixel buffer. ``nSourceY`` is the source Y coordinate in the pixel buffer. ``PixelBuffer`` is a pointer to the pixels.
 
-.. cpp:function:: void C2DGraphics::DrawImageRectTransparent (unsigned nX, unsigned nY, unsigned nWidth, unsigned nHeight, unsigned nSourceX, unsigned nSourceY, unsigned nSourceWidth, unsigned nSourceHeight, TScreenColor *PixelBuffer, TScreenColor TransparentColor)
+.. cpp:function:: void C2DGraphics::DrawImageRectTransparent (unsigned nX, unsigned nY, unsigned nWidth, unsigned nHeight, unsigned nSourceX, unsigned nSourceY, unsigned nSourceWidth, unsigned nSourceHeight, const void *PixelBuffer, T2DColor TransparentColor)
 
 	Draws an area of an image from a pixel buffer with transparent color. ``nX`` is the image X coordinate. ``nY`` is the image Y coordinate. ``nWidth`` is the image width. ``nHeight`` is the image height. ``nSourceX`` is the source X coordinate in the pixel buffer. ``nSourceY`` is the source Y coordinate in the pixel buffer. ``nSourceWidth`` is the source image width. ``nSourceHeight`` is the source image height. ``PixelBuffer`` is a pointer to the pixels. ``TransparentColor`` is the color to use for transparency.
 
-.. cpp:function:: void C2DGraphics::DrawPixel (unsigned nX, unsigned nY, TScreenColor Color)
+.. cpp:function:: void C2DGraphics::DrawPixel (unsigned nX, unsigned nY, T2DColor Color)
 
 	Draws a single pixel. ``nX`` is the pixel X coordinate. ``nY`` is the pixel Y coordinate. ``Color`` is the pixel color.
 
@@ -88,9 +104,9 @@ The class ``C2DGraphics`` is part of the Circle base library and can be used to 
 
 	If you need to draw a lot of pixels, consider using :cpp:func:`C2DGraphics::GetBuffer()` for better speed.
 
-.. cpp:function:: void C2DGraphics::DrawText (unsigned nX, unsigned nY, TScreenColor Color, const char *pText, TTextAlign Align = AlignLeft)
+.. cpp:function:: void C2DGraphics::DrawText (unsigned nX, unsigned nY, T2DColor Color, const char *pText, TTextAlign Align = AlignLeft, const TFont &rFont = DEFAULT_FONT, CCharGenerator::TFontFlags FontFlags = CCharGenerator::FontFlagsNone)
 
-	Draws a horizontal ISO8859-1 text string, using the 8x16 system font. ``nX`` is the text X coordinate. ``nY`` is the text Y coordinate. ``Color`` is the text color. The background is transparent. ``pText`` is a zero-terminated C-string. ``Align`` specifies the horizontal text alignment, with these possible values:
+	Draws a horizontal ISO8859-1 text string, using the font ``rFont`` with the flags ``FontFlags``. ``nX`` is the text X coordinate. ``nY`` is the text Y coordinate. ``Color`` is the text color. The background is transparent. ``pText`` is a zero-terminated C-string. ``Align`` specifies the horizontal text alignment, with these possible values:
 
 .. cpp:enum:: C2DGraphics::TTextAlign
 
@@ -98,13 +114,41 @@ The class ``C2DGraphics`` is part of the Circle base library and can be used to 
 	* AlignRight
 	* AlignCenter
 
-.. cpp:function:: TScreenColor *C2DGraphics::GetBuffer (void)
+.. cpp:function:: void *C2DGraphics::GetBuffer (void)
 
-	Gets raw access to the drawing buffer. Returns a pointer to the buffer.
+	Gets raw access to the drawing buffer. Returns a pointer to the buffer, which contains the pixels in the physical color format (depends on the display).
+
+.. cpp:function:: CDisplay *C2DGraphics::GetDisplay (void)
+
+	Returns a pointer to the display, we are working on.
 
 .. cpp:function:: void C2DGraphics::UpdateDisplay (void)
 
 	Once everything has been drawn, updates the display to show the contents on screen. If VSync is enabled, this method is blocking until the screen refresh signal is received (every 16ms for 60 FPS refresh rate).
+
+.. cpp:class:: C2DImage
+
+	This is a sprite image to be displayed on a :cpp:class:`C2DGraphics` instance.
+
+.. cpp:function:: C2DImage::C2DImage (C2DGraphics *p2DGraphics)
+
+	Creates an instance of ``C2DImage``. ``p2DGraphics`` is the :cpp:class:`C2DGraphics` instance to be used.
+
+.. cpp:function:: void C2DImage::Set (unsigned nWidth, unsigned nHeight, const T2DColor *pData)
+
+	Initializes the image with a width of ``nWidth`` pixels, the height of ``nHeight`` pixels and the color information for the pixels in logical format at ``pData``.
+
+.. cpp:function:: unsigned C2DImage::GetWidth (void) const
+
+	Returns the width of the image in number of pixels.
+
+.. cpp:function:: unsigned C2DImage::GetHeight (void) const
+
+	Returns the height of the image in number of pixels.
+
+.. cpp:function:: const void *C2DImage::GetPixels (void) const
+
+	Returns a pointer to the color information of the image pixels in physical (hardware) format.
 
 .. _LVGL:
 
