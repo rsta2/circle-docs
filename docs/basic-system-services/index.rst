@@ -22,5 +22,6 @@ The Circle project does not provide a single centralized C++ header file. Instea
 	cpu-clock-rate-management
 	firmware-access
 	direct-hardware-access
+	font-service
 	utilities
 	debugging-support
