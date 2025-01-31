@@ -155,7 +155,7 @@ The class ``C2DGraphics`` is part of the Circle base library and can be used to 
 LVGL
 ^^^^
 
-The `Light and Versatile Graphics Library <https://lvgl.io/>`_ (LVGL) v9.2.0 can be used with Circle. This library provides an API, which is based on the C language. See the `LVGL documentation <https://docs.lvgl.io/9.2/>`_ for details.
+The `Light and Versatile Graphics Library <https://lvgl.io/>`_ (LVGL) v9.2.2 can be used with Circle. This library provides an API, which is based on the C language. See the `LVGL documentation <https://docs.lvgl.io/9.2/>`_ for details.
 
 .. code-block:: cpp
 
@@ -165,10 +165,10 @@ The `Light and Versatile Graphics Library <https://lvgl.io/>`_ (LVGL) v9.2.0 can
 
 	This class is a wrapper for LVGL and has to be instantiated to use this graphics library. The wrapper class supports USB mouse or touchscreen input.
 
-.. cpp:function:: CLVGL::CLVGL (CScreenDevice *pScreen, CInterruptSystem *pInterrupt)
-.. cpp:function:: CLVGL::CLVGL (CBcmFrameBuffer *pFrameBuffer, CInterruptSystem *pInterrupt)
+.. cpp:function:: CLVGL::CLVGL (CScreenDevice *pScreen)
+.. cpp:function:: CLVGL::CLVGL (CDisplay *pDisplay)
 
-	Create an instance of this class. ``pScreen`` or ``pFrameBuffer`` reference the display to be used. ``pInterrupt`` is a pointer to the system interrupt object.
+	Create an instance of this class. ``pScreen`` or ``pDisplay`` reference the display to be used.
 
 .. cpp:function:: boolean CLVGL::Initialize (void)
 
