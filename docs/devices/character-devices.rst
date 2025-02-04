@@ -12,11 +12,11 @@ CScreenDevice
 
 .. cpp:class:: CScreenDevice : public CDevice
 
-	This class can be used to write characters to the (usually HDMI) screen, which is connected to the Raspberry Pi computer. The screen is treated like a terminal and provides a number of control sequences (see ``Write()``). This device has the name ``"ttyN"`` (N >= 1) in the device name service.
+	This class can be used to write characters to the (usually HDMI) screen, which is connected to the Raspberry Pi computer. The screen is treated like a terminal and provides a number of control sequences (see :cpp:func:`CTerminalDevice::Write()`). This device has the name ``"ttyN"`` (N >= 1) in the device name service.
 
-.. cpp:function:: CScreenDevice::CScreenDevice (unsigned nWidth, unsigned nHeight, boolean bVirtual = FALSE, unsigned nDisplay = 0)
+.. cpp:function:: CScreenDevice::CScreenDevice (unsigned nWidth, unsigned nHeight, const TFont &rFont = DEFAULT_FONT, CCharGenerator::TFontFlags FontFlags = CCharGenerator::FontFlagsNone, unsigned nDisplay = 0)
 
-	Constructs an instance of ``CScreenDevice``. ``nWidth`` is the screen width and ``nHeight`` the screen height in number of pixels. Set both parameters to 0 to auto-detect the default resolution of the screen, which is usually the maximum resolution of the used monitor. ``bVirtual`` should be set to ``FALSE`` in any case. The Raspberry Pi 4 supports more than one display. ``nDisplay`` is the zero-based display number here. Multiple instances of ``CScreenDevice`` are possible here.
+	Constructs an instance of ``CScreenDevice``. ``nWidth`` is the screen width and ``nHeight`` the screen height in number of pixels. Set both parameters to 0 to auto-detect the default resolution of the screen, which is usually the maximum resolution of the used monitor. ``rFont`` is the display font to be used with the flags ``FontFlags``. The Raspberry Pi 4 supports more than one display. ``nDisplay`` is the zero-based display number here. Multiple instances of ``CScreenDevice`` are possible here.
 
 .. note::
 
@@ -48,37 +48,7 @@ CScreenDevice
 
 .. cpp:function:: int CScreenDevice::Write (const void *pBuffer, size_t nCount)
 
-	Writes ``nCount`` characters from ``pBuffer`` to the screen. Returns the number of written characters. This method supports several escape sequences:
-
-	==============	======================================	=====================
-	Sequence	Description				Remarks
-	==============	======================================	=====================
-	\\E[B		Cursor down one line
-	\\E[H		Cursor home
-	\\E[A		Cursor up one line
-	\\E[%d;%dH	Cursor move to row %1 and column %2	starting at 1
-	^H		Cursor left one character
-	\\E[D		Cursor left one character
-	\\E[C		Cursor right one character
-	^M		Carriage return
-	\\E[J		Clear to end of screen
-	\\E[K		Clear to end of line
-	\\E[%dX		Erase %1 characters starting at cursor
-	^J		Carriage return/linefeed
-	\\E[0m		End of bold, half bright, reverse mode
-	\\E[1m		Start bold mode
-	\\E[2m		Start half bright mode
-	\\E[7m		Start reverse video mode
-	\\E[27m		Same as \\E[0m
-	\\E[%dm		Set foreground color			%d = 30-37 or 90-97
-	\\E[%dm		Set background color			%d = 40-47 or 100-107
-	^I		Move to next hardware tab
-	\\E[?25h	Normal cursor visible
-	\\E[?25l	Cursor invisible
-	\\E[%d;%dr	Set scroll region from row %1 to %2	starting at 1
-	==============	======================================	=====================
-
-	^X = Control character, \\E = Escape (\\x1b), %d = Numerical parameter (ASCII)
+	Writes ``nCount`` characters from ``pBuffer`` to the screen. Returns the number of written characters. This method supports several escape sequences (see :cpp:func:`CTerminalDevice::Write()`).
 
 .. cpp:function:: void CScreenDevice::SetPixel (unsigned nPosX, unsigned nPosY, TScreenColor Color)
 
@@ -121,15 +91,122 @@ CScreenDevice
 
 .. cpp:function:: void CScreenDevice::Rotor (unsigned nIndex, unsigned nCount)
 
-	Displays a rotating symbol in the upper right corner of the screen. ``nIndex`` is the index of the rotor to be displayed (0..3). ``nCount`` is the phase (angle) of the current rotor symbol (0..3).
+	Displays some rotating pixels in the upper right corner of the screen. ``nIndex`` is the index of the rotor to be displayed (0..3). ``nCount`` is the phase (angle) of the current rotor symbol (0..3).
 
 .. cpp:function:: void CScreenDevice::SetCursorBlock (boolean bCursorBlock)
 
 	Enable block cursor (``TRUE``) instead of the default underline cursor (``FALSE``).
 
+.. cpp:function:: void CScreenDevice::Update (unsigned nMillis = 0)
+
+	Updates the frame buffer from the internal buffer. Updates only, when ``nMillis`` ms were passed since the previous update (0 to disable). Once this method has been called, the frame buffer is only updated, when this method is called and only in the given time interval.
+
 .. cpp:function:: CBcmFrameBuffer *CScreenDevice::GetFrameBuffer (void)
 
-	Returns a pointer to the member of the type ``CBcmFrameBuffer``, which can be used to directly manipulate the frame buffer.
+	Returns a pointer to the member of the type :cpp:class:`CBcmFrameBuffer`, which can be used to directly manipulate the frame buffer.
+
+CTerminalDevice
+^^^^^^^^^^^^^^^
+
+.. code-block:: cpp
+
+	#include <circle/terminal.h>
+
+.. cpp:class:: CTerminalDevice : public CDevice
+
+	This class manages a scrolling terminal display on a dot-matrix display. It provides a number of control sequences (see :cpp:func:`CTerminalDevice::Write()`). This device has the name ``"ttyN"`` (N >= 1) in the device name service.
+
+.. cpp:function:: CTerminalDevice::CTerminalDevice (CDisplay *pDisplay, unsigned nDeviceIndex = 0, const TFont &rFont = DEFAULT_FONT, CCharGenerator::TFontFlags FontFlags = CCharGenerator::FontFlagsNone)
+
+	Constructs a terminal device on the dot-matrix display ``pDisplay`` with the device name ``"ttyN"`` (N = ``nDeviceIndex`` + 1). It uses the display font ``rFont`` with the flags ``FontFlags``.
+
+.. cpp:function:: boolean CTerminalDevice::Initialize (void)
+
+	Initializes the instance of ``CTerminalDevice`` and clears the display. Returns ``TRUE`` on success.
+
+.. cpp:function:: unsigned CTerminalDevice::GetWidth (void) const
+
+	Returns the terminal width in pixels.
+
+.. cpp:function:: unsigned CTerminalDevice::GetHeight (void) const
+
+	Returns the terminal height in pixels.
+
+.. cpp:function:: unsigned CTerminalDevice::GetColumns (void) const
+
+	Returns the terminal width in characters.
+
+.. cpp:function:: unsigned CTerminalDevice::GetRows (void) const
+
+	Returns the terminal height in characters.
+
+.. cpp:function:: int CTerminalDevice::Write (const void *pBuffer, size_t nCount)
+
+	Writes ``nCount`` characters from ``pBuffer`` to the terminal. Returns the number of written characters. This method supports several escape sequences:
+
+	==============	======================================	=====================
+	Sequence	Description				Remarks
+	==============	======================================	=====================
+	\\E[B		Cursor down one line
+	\\E[H		Cursor home
+	\\E[A		Cursor up one line
+	\\E[%d;%dH	Cursor move to row %1 and column %2	starting at 1
+	^H		Cursor left one character
+	\\E[D		Cursor left one character
+	\\E[C		Cursor right one character
+	^M		Carriage return
+	\\E[J		Clear to end of screen
+	\\E[K		Clear to end of line
+	\\E[%dX		Erase %1 characters starting at cursor
+	^J		Carriage return/linefeed
+	\\E[0m		End of bold, half bright, reverse mode
+	\\E[1m		Start bold mode
+	\\E[2m		Start half bright mode
+	\\E[7m		Start reverse video mode
+	\\E[27m		Same as \\E[0m
+	\\E[%dm		Set foreground color			%d = 30-37 or 90-97
+	\\E[%dm		Set background color			%d = 40-47 or 100-107
+	^I		Move to next hardware tab
+	\\E[?25h	Normal cursor visible
+	\\E[?25l	Cursor invisible
+	\\E[%d;%dr	Set scroll region from row %1 to %2	starting at 1
+	\\Ed+		Start autopage mode
+	\\Ed*		End autopage mode
+	==============	======================================	=====================
+
+	^X = Control character, \\E = Escape (\\x1b), %d = Numerical parameter (ASCII)
+
+.. cpp:function:: void CTerminalDevice::SetCursorBlock (boolean bCursorBlock)
+
+	Enables a block cursor instead of the default underline cursor, when called with ``bCursorBlock`` set to ``TRUE``.
+
+.. cpp:function:: void CTerminalDevice::Update (unsigned nMillis = 0)
+
+	Updates the display from the internal display buffer. Updates only, when ``nMillis`` ms were passed since the previous update (0 to disable). Once this method has been called, the display is only updated, when this method is called and only in the given time interval.
+
+.. cpp:function:: void CTerminalDevice::SetPixel (unsigned nPosX, unsigned nPosY, TTerminalColor Color)
+
+	Sets a pixel to a logical color. ``nPosX`` is the X-Position of the pixel (based on 0). ``nPosY`` is the Y-Position of the pixel (based on 0). ``Color`` is the logical color to be set, which has this type:
+
+.. cpp:type:: TTerminalColor
+
+	Same as :cpp:type:`CDisplay::TColor`.
+
+.. c:macro:: TERMINAL_COLOR(red, green, blue)
+
+	Same as :c:macro:`DISPLAY_COLOR`.
+
+.. cpp:function:: TTerminalColor CTerminalDevice::GetPixel (unsigned nPosX, unsigned nPosY)
+
+	Returns the logical color value of the pixel at the X-Position ``nPosX`` (based on 0) and the Y-Position ``nPosY`` (based on 0). Returns ``CDisplay::Black``, if the read physical color value cannot be converted into a logical color.
+
+.. cpp:function:: void CTerminalDevice::SetPixel (unsigned nPosX, unsigned nPosY, CDisplay::TRawColor nColor)
+
+	Sets a pixel to the physical (raw) color ``nColor``. ``nPosX`` is the X-Position of the pixel (based on 0). ``nPosY`` is the Y-Position of the pixel (based on 0).
+
+.. cpp:function:: CDisplay *CTerminalDevice::GetDisplay (void)
+
+	Returns a pointer to the display, we are working on.
 
 CSerialDevice
 ^^^^^^^^^^^^^
