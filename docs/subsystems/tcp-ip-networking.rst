@@ -499,6 +499,10 @@ CTFTPDaemon
 
 	Virtual method entered to write ``nCount`` bytes from ``pBuffer`` into the currently open file. Returns the number of bytes written, or < 0 on error.
 
+.. cpp:function:: virtual boolean CTFTPDaemon::IsAccessAllowed (const CIPAddress *pForeignIP, const char *pFilename, boolean bWriteRequest)
+
+	Virtual method, which can be overwritten to implement an access control. Has to return ``TRUE``, if the access from ``pForeignIP`` to ``pFileName`` is allowed. ``bWriteRequest`` is ``TRUE``, if the file is about to be written.
+
 .. cpp:function:: virtual void CTFTPDaemon::UpdateStatus (TStatus Status, const char *pFileName)
 
 	Virtual method entered to inform the derived class about the progress of an ongoing transfer. ``pFileName`` is the name of the transferred file, if available. ``Status`` can have the following values:
