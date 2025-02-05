@@ -64,6 +64,10 @@ CDMAChannel
 
 ``nChannel`` is the channel number. ``nBuffer`` is the number of the cyclic buffer (always 0 for non-cyclic transfers). ``bStatus`` is ``TRUE``, if the transfer completed successfully.
 
+.. note::
+
+	The method ``SetCompletionRoutine()`` has to be called before each asynchronous transfer. The completion routine is reset after the completion of the transfer, so that the next transfer can be synchronous, if it is intended.
+
 .. cpp:function:: void CDMAChannel::Start (void)
 
 	Starts the DMA transfer, which has been setup before.
