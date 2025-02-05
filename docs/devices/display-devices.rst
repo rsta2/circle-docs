@@ -167,6 +167,10 @@ The class ``CBcmFrameBuffer`` provides the methods of the class :cpp:class:`CDis
 
 	``nDisplay`` is the zero-based ID number of the frame buffer device, which is transferred to the firmware to select a specific display on the Raspberry Pi 4, 400 and the Compute Module 4.
 
+.. note::
+
+	On the Raspberry Pi 5 only depth 16 is supported. Other values cause ``Initialize()`` to fail.
+
 .. cpp:function:: void CBcmFrameBuffer::SetPalette (u8 nIndex, u16 nRGB565)
 .. cpp:function:: void CBcmFrameBuffer::SetPalette32 (u8 nIndex, u32 nRGBA)
 
