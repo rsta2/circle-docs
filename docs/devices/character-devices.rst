@@ -471,9 +471,9 @@ CMouseDevice
 
 	The Raspberry Pi 5 does not support a mouse cursor in its firmware. Therefore a mouse cursor is not shown on this model, but the cooked mode can still be used to maintain the mouse position, without showing a cursor. The :ref:`LVGL` support implements a LVGL software cursor on the Raspberry Pi 5.
 
-.. cpp:function:: boolean CMouseDevice::Setup (unsigned nScreenWidth, unsigned nScreenHeight)
+.. cpp:function:: boolean CMouseDevice::Setup (CDisplay *pDisplay, boolean bCursor = TRUE)
 
-	Setup mouse device in cooked mode. ``nScreenWidth`` and ``nScreenHeight`` are the width and height of the screen in pixels. Returns ``FALSE`` on failure. This method must be called first in the setup process for a mouse in cooked mode.
+	Setup mouse device in cooked mode. Show the mouse on ``pDisplay``. Set ``bCursor`` to ``TRUE`` to support a mouse cursor. Returns ``FALSE`` on failure. This method must be called first in the setup process for a mouse in cooked mode.
 
 .. cpp:function:: void CMouseDevice::Release (void)
 
@@ -799,6 +799,10 @@ CTouchScreenDevice
 
 	This class is the generic touchscreen interface device. An instance of this class is automatically created, when a compatible USB touchscreen is found in the USB device enumeration process. When the class :cpp:class:`CRPiTouchScreen` is manually instantiated, it is created too. This device has the name ``"touchN"`` (N >= 1) in the device name service.
 
+.. cpp:function:: void CTouchScreenDevice::Setup (CDisplay *pDisplay)
+
+	This method must be be called before any other method with ``pDisplay`` set to the display, which will receive the touch events.
+
 .. cpp:function:: void CTouchScreenDevice::Update (void)
 
 	This method must be called about 60 times per second. This is required for the Raspberry Pi official touchscreen only, but to be prepared for any touchscreen, you should call it in any case.
@@ -817,9 +821,9 @@ CTouchScreenDevice
 	* TouchScreenEventFingerUp
 	* TouchScreenEventFingerMove
 
-.. cpp:function:: boolean CTouchScreenDevice::SetCalibration (const unsigned Coords[4], unsigned nWidth, unsigned nHeight)
+.. cpp:function:: boolean CTouchScreenDevice::SetCalibration (const unsigned Coords[4])
 
-	Sets the calibration parameters for the touchscreen. ``Coords`` are the usable coordinates (min-x, max-x, min-y, max-y) of the touchscreen. ``nWidth`` is the physical screen width and ``nHeight`` the height in number of pixels. Returns ``TRUE``, if the calibration information is valid.
+	Sets the calibration parameters for the touchscreen. ``Coords`` are the usable coordinates (min-x, max-x, min-y, max-y) of the touchscreen. Returns ``TRUE``, if the calibration information is valid.
 
 .. note::
 
