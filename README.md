@@ -9,6 +9,7 @@ Local installation
 This documentation can be built locally too. You will need a working python environment. Just enter in a shell:
 
 	pip install sphinx
+	pip install sphinx_rtd_theme
 
 	cd /path/to/your/projects
 	git clone https://github.com/rsta2/circle-docs.git
