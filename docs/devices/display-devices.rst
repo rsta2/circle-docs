@@ -169,7 +169,10 @@ The class ``CBcmFrameBuffer`` provides the methods of the class :cpp:class:`CDis
 
 .. note::
 
-	On the Raspberry Pi 5 only depth 16 is supported. Other values cause ``Initialize()`` to fail.
+	On the Raspberry Pi 5 only depths 16 and 32 are supported. For depth 32 you need the following settings in the file *config.txt*:
+
+	* framebuffer_depth=32
+	* framebuffer_ignore_alpha=1
 
 .. cpp:function:: void CBcmFrameBuffer::SetPalette (u8 nIndex, u16 nRGB565)
 .. cpp:function:: void CBcmFrameBuffer::SetPalette32 (u8 nIndex, u32 nRGBA)
