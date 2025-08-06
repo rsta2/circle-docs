@@ -593,9 +593,9 @@ CUSBMIDIDevice
 
 	Sends one or more packets in the encoded USB MIDI event packet format. ``pData`` is a pointer to the packet buffer. ``nLength`` is the length of the packet buffer in bytes, which must be a multiple of 4. Returns ``TRUE``, if the operation has been successful. This function fails, if ``nLength`` is not a multiple of 4 or the send function is not supported. The format of the USB MIDI event packets is not validated.
 
-.. cpp:function:: boolean CUSBMIDIDevice::SendPlainMIDI (unsigned nCable, const u8 *pData, unsigned nLength)
+.. cpp:function:: boolean CUSBMIDIDevice::SendPlainMIDI (unsigned nCable, const u8 *pData, unsigned nLength, unsigned nChunkSize = 0)
 
-	Sends one or more messages in plain MIDI message format. ``nCable`` is the number of the virtual MIDI cable (0..15). ``pData`` is a pointer to the message buffer. ``nLength`` is the length of the message buffer in bytes. Returns ``TRUE``, if the operation has been successful. This function fails, if the message format is invalid or the send function is not supported.
+	Sends one or more messages in plain MIDI message format. ``nCable`` is the number of the virtual MIDI cable (0..15). ``pData`` is a pointer to the message buffer. ``nLength`` is the length of the message buffer in bytes. The MIDI data is sent in ``nChunkSize`` number of bytes (multiple of 4), if this parameter is not 0. Returns ``TRUE``, if the operation has been successful. This function fails, if the message format is invalid or the send function is not supported.
 
 .. cpp:function:: void CUSBMIDIDevice::SetAllSoundOffOnUSBError (boolean bEnable)
 
