@@ -82,6 +82,27 @@ This class implements a cooperative non-preemptive scheduler, which controls whi
 
 	Stops causing new tasks to be created in a suspended state and starts any tasks that were created suspended. Nested calls to ``SuspendNewTasks()`` and ``ResumeNewTasks()`` are allowed.
 
+.. cpp:function:: boolean CScheduler::EnumerateTasks (boolean (*pCallback) (CTask *pTask, const char *pName, TTaskState State, TTaskFlags Flags, void *pParam), void *pParam)
+
+	Enumerates all existing tasks. Invokes ``pCallback`` for each task. ``pParam`` is a user defined pointer, that will back passed to the callback. Returns ``FALSE``, if the enumeration was canceled by the callback returning ``FALSE``.
+
+.. c:enum:: TTaskState
+
+	* TaskStateNew
+	* TaskStateReady
+	* TaskStateBlocked
+	* TaskStateBlockedWithTimeout
+	* TaskStateSleeping
+	* TaskStateTerminated
+
+.. c:enum:: TTaskFlags
+
+	* TaskFlagNone
+	* TaskFlagRunning
+	* TaskFlagSuspended
+
+	These flag values can be or'ed together.
+
 .. cpp:function:: void CScheduler::ListTasks (CDevice *pTarget)
 
 	Writes a task listing to the device ``pTarget``.
