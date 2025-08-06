@@ -160,6 +160,18 @@ CSocket
 
 	``bAllowed`` specifies weather sending and receiving broadcast messages is allowed on this socket (default ``FALSE``). Call this with ``bAllowed = TRUE`` after ``Bind()`` or ``Connect()`` to be able to send and/or receive broadcast messages (ignored on TCP socket). Returns 0 on success or < 0 on error.
 
+.. cpp:function:: int CSocket::SetOptionAddMembership (const CIPAddress &rGroupAddress)
+
+	Adds the IP multicast host group with the group address ``rGroupAddress`` to an UDP socket. Returns 0 on success or < 0 on error.
+
+.. note::
+
+	Only one host group is allowed per socket. Only eight host groups are allowed in the system.
+
+.. cpp:function:: int CSocket::SetOptionDropMembership (const CIPAddress &rGroupAddress)
+
+	Drops the IP multicast host group with the group address ``rGroupAddress`` from an UDP socket. Returns 0 on success or < 0 on error.
+
 .. cpp:function:: const u8 *CSocket::GetForeignIP (void) const
 
 	Returns a pointer to the IP address of the connected remote host (4 bytes) or 0, if the socket is not connected.
