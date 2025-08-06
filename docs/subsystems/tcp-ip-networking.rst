@@ -644,6 +644,10 @@ CMACAddress
 
 	Sets the MAC address to the (Ethernet) broadcast address (FF:FF:FF:FF:FF:FF).
 
+.. cpp:function:: void CMACAddress::SetMulticast (const u8 *pIPAddress)
+
+	Sets the related (Ethernet) MAC address (01:00:5E:xx:xx:xx) for the IP address ``pIPAddress``.
+
 .. cpp:function:: const u8 *CMACAddress::Get (void) const
 
 	Returns a pointer to the MAC address as an array with 6 bytes.
@@ -655,6 +659,10 @@ CMACAddress
 .. cpp:function:: boolean CMACAddress::IsBroadcast (void) const
 
 	Returns ``TRUE`` if the MAC address is the (Ethernet) broadcast address (FF:FF:FF:FF:FF:FF).
+
+.. cpp:function:: boolean CMACAddress::IsMulticast (void) const
+
+	Returns ``TRUE`` if the MAC address is an (Ethernet) multicast address (01:00:5E:xx:xx:xx).
 
 .. cpp:function:: unsigned CMACAddress::GetSize (void) const
 
