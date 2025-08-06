@@ -73,6 +73,10 @@ CNetDevice
 
 	This method is called continuously every two seconds by the PHY task of the :ref:`TCP/IP networking` subsystem. If you do not use this subsystem, you have to call this method on your own.
 
+.. cpp:function:: virtual boolean CNetDevice::SetMulticastFilter (const u8 Groups[][MAC_ADDRESS_SIZE])
+
+	Sets the multicast address filter of the network device. ``Groups`` is an array of multicast group addresses (terminated with `00:00:00:00:00:00`). Returns ``FALSE``, if this function is not supported.
+
 .. cpp:function:: static const char *CNetDevice::GetSpeedString (TNetDeviceSpeed Speed)
 
 	Returns a description for the link speed value ``Speed``, which normally has been returned from ``GetLinkSpeed()``.
