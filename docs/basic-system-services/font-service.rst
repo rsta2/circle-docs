@@ -14,16 +14,17 @@ System fonts
 
 	This structure is the basic descriptor for a defined system font. The following fonts are available:
 
-	===============	=======	=======	===============	============
-	Font		Width	Height	Extra height	Total height
-	===============	=======	=======	===============	============
+	===============	=======	=======	===============	============ ==========
+	Font		Width	Height	Extra height	Total height Remarks
+	===============	=======	=======	===============	============ ==========
 	Font6x7		6	7	1		8
 	Font8x8		8	8	2		10
 	Font8x10	8	10	2		12
 	Font8x12	8	12	3		15
 	Font8x14	8	14	3		17
 	Font8x16	8	16	3		19
-	===============	=======	=======	===============	============
+	Font12x22	12	22	4		26	     ASCII only
+	===============	=======	=======	===============	============ ==========
 
 	Widths and heights are given in number of pixels. Extra height is the room reserved for the underline (cursor).
 
