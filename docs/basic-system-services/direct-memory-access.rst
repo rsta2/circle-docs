@@ -66,7 +66,7 @@ CDMAChannel
 
 .. note::
 
-	The method ``SetCompletionRoutine()`` has to be called before each asynchronous transfer. The completion routine is reset after the completion of the transfer, so that the next transfer can be synchronous, if it is intended.
+	The method ``SetCompletionRoutine()`` has to be called before each asynchronous transfer. The completion routine is reset after the completion of the transfer, so that the next transfer can be synchronous, if it is intended. For cyclic transfers the completion routine is called multiple times and is not reset, when an DMA interrupt occurs. It is reset, when the transfer is canceled.
 
 .. cpp:function:: void CDMAChannel::Start (void)
 
