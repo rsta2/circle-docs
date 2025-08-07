@@ -114,8 +114,9 @@ Coarse system tick and up-time
 	Frequency of the coarse grained, consecutive system tick counter (100).
 
 .. cpp:function:: unsigned CTimer::GetUptime (void) const
+.. cpp:function:: boolean CTimer::GetUptime (unsigned *pSeconds, unsigned *pMicroSeconds)
 
-	Returns the system up-time in seconds, since the class ``CTimer`` has been initialized.
+	Returns the system up-time in seconds, since the class ``CTimer`` has been initialized. The second variant always returns ``TRUE``.
 
 Kernel timers
 """""""""""""
