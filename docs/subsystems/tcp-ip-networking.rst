@@ -21,7 +21,7 @@ Sample		Description
 
 .. note::
 
-	Circle currently supports the IP multicast support level 1 (send only) according to RFC1112.
+	Circle supports the IP multicast support level 2 (send and receive) according to RFC1112 with IGMPv2 support (RFC2236).
 
 CNetSubSystem
 ^^^^^^^^^^^^^
@@ -377,6 +377,41 @@ CSysLogDaemon
 .. cpp:function:: CSysLogDaemon::CSysLogDaemon (CNetSubSystem *pNetSubSystem, const CIPAddress &rServerIP, u16 usServerPort = SYSLOG_PORT)
 
 	Creates the ``CSysLogDaemon`` task. ``pNetSubSystem`` is a pointer to the network subsystem. ``rServerIP`` is the IP address of the syslog server. ``usServerPort`` is the port number of the syslog server (default 514). This object must be created using the ``new`` operator.
+
+CmDNSDaemon
+"""""""""""
+
+.. code-block:: cpp
+
+	#include <circle/net/mdnsdaemon.h>
+
+.. cpp:class:: CmDNSDaemon : public CTask
+
+	This mDNS responder task determines and maintains our mDNS hostname on the local network. Name collisions with other hosts will be resolved by appending a numeric suffix to the hostname.
+
+.. note::
+
+	The daemon is automatically started, when someone requests a pointer to it. This has been added to the :cpp:class:`CmDNSPublisher` class, which works in conjunction with ``CmDNSDaemon``.
+
+.. cpp:function:: CmDNSDaemon::CmDNSDaemon (CNetSubSystem *pNet)
+
+	Creates the ``CmDNSDaemon`` task. ``pNet`` is a pointer to the network subsystem.
+
+.. cpp:function:: boolean CmDNSDaemon::IsRunning (void) const
+
+	Returns ``TRUE``, when the responder has been successfully been initialized.
+
+.. cpp:function:: CString CmDNSDaemon::GetHostname (void) const
+
+	Returns our own mDNS hostname without ".local" domain suffix.
+
+.. cpp:function:: unsigned CmDNSDaemon::GetSuffix (void) const
+
+	Returns our own mDNS hostname suffix number (e.g. 2 for "-2"). The first host with this hostname prefix has the suffix number 1, which is not appended to the hostname above.
+
+.. cpp:function:: static CmDNSDaemon *CmDNSDaemon::Get (void)
+
+	Returns a pointer to the one and only mDNS responder task object. The object is automatically created, if it does not exist yet.
 
 CmDNSPublisher
 """"""""""""""
