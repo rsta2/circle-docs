@@ -19,7 +19,7 @@ import sphinx_rtd_theme
 # -- Project information -----------------------------------------------------
 
 project = 'Circle'
-copyright = '2020-2025, Rene Stange'
+copyright = '2020-2026, Rene Stange'
 author = 'Rene Stange'
 
 
