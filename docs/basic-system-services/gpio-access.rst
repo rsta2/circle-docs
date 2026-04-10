@@ -201,6 +201,10 @@ CGPIOPinFIQ
 
 This class encapsulates a special GPIO pin, which is using the FIQ (Fast Interrupt Request) to handle GPIO interrupts with low latency. There is only one GPIO pin of this type allowed in the system.
 
+.. note::
+
+	If you want to use multiple GPIO pins to trigger an FIQ, you can enable the system option ``USE_GPIO_MANAGER_FIQ`` with the class ``CGPIOManager``.
+
 .. code-block:: c++
 
 	#include <circle/gpiopinfiq.h>
@@ -217,6 +221,10 @@ CGPIOManager
 ^^^^^^^^^^^^
 
 This class implements an interrupt multiplexer for ``CGPIOPin`` instances. There must be exactly one instance of ``CGPIOManager`` in the system, if at least one GPIO pin triggers interrupts using the IRQ.
+
+.. note::
+
+	If you want to use multiple GPIO pins to trigger an FIQ, you can enable the system option ``USE_GPIO_MANAGER_FIQ`` with this class. The GPIO interrupt handler will run at ``FIQ_LEVEL`` then.
 
 .. code-block:: c++
 
