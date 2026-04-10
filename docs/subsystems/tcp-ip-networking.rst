@@ -130,7 +130,7 @@ CSocket
 
 .. cpp:function:: int CSocket::Bind (u16 usOwnPort)
 
-	Binds the port number ``usOwnPort`` to this socket. Returns 0 on success or < 0 on error.
+	Binds the port number ``usOwnPort`` to this socket. Can be called with port 0 to bind to an ephemeral port. Returns 0 on success or < 0 on error.
 
 .. cpp:function:: int CSocket::Connect (const CIPAddress &rForeignIP, u16 usForeignPort)
 
@@ -183,6 +183,10 @@ CSocket
 .. cpp:function:: int CSocket::SetOptionDropMembership (const CIPAddress &rGroupAddress)
 
 	Drops the IP multicast host group with the group address ``rGroupAddress`` from an UDP socket. Returns 0 on success or < 0 on error.
+
+.. cpp:function:: u16 CSocket::GetOwnPort (void) const
+
+	Returns local (own) port number or 0, if it is not assigned yet.
 
 .. cpp:function:: const u8 *CSocket::GetForeignIP (void) const
 
