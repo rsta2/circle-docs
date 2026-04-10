@@ -262,3 +262,72 @@ Provides a method to synchronize the execution of tasks with an event. The event
 .. cpp:function:: boolean CSynchronizationEvent::WaitWithTimeout (unsigned nMicroSeconds)
 
 	Blocks the calling task for ``nMicroSeconds`` microseconds, if the synchronization event is cleared. The task will wake up, when the event is set later. Multiple tasks can wait for the event to be set. This method returns ``TRUE``, if ``nMicroSeconds`` microseconds have elapsed, before the event has been set. To determine, what caused the method to return, use ``GetState()`` to see, if the event has been set. It is possible to have timed out and the event is set anyway.
+
+CPipe
+^^^^^
+
+This class implements an unidirectional interprocess communication channel using a FIFO as a way to communicate between tasks. A pipe can operate in blocking (default) or non-blocking mode. In blocking mode writes and reads to/from the pipe block the calling task, when the pipe is not ready (FIFO full/empty). In non-blocking mode ``-WouldBlock`` is returned instead in this condition.
+
+.. code-block:: cpp
+
+	#include <circle/sched/pipe.h>
+
+.. cpp:class:: CPipe
+
+.. cpp:function:: CPipe::CPipe (boolean bAutoOpen = TRUE, unsigned nFIFOSize = 0x4000, unsigned nAtomicWrite = 512)
+
+	Creates an an instance of the pipe. ``bAutoOpen`` is set to ``FALSE`` to not automatically open reader and writer once. ``nFIFOSize`` is the size of the internal FIFO (default 16K). ``nAtomicWrite`` is the number of bytes to be send atomically (known as PIPE_BUF).
+
+.. important::
+
+	Create this with the `new` operator, don't delete it!
+
+.. cpp:function:: CPipeFile *CPipe::GetReader (void) const
+
+	Returns a pointer to the reader object.
+
+.. cpp:function:: CPipeFile *CPipe::GetWriter (void) const
+
+	Returns a pointer to the writer object.
+
+
+.. cpp:class:: CPipeFile
+
+	This class encapsulates the read or write endpoint of a ``CPipe`` channel.
+
+.. important::
+
+	Do not directly instantiate this class, use ``CPipe`` instead!
+
+.. cpp:function:: void CPipeFile::Open (void)
+
+	To be called, before the pipe file is reused, or initially if ``bAutoOpen`` was not set.
+
+.. cpp:function:: void CPipeFile::Close (void)
+
+	To be called, when the pipe file is not used any more.
+
+.. cpp:function:: int CPipeFile::Read (void *pBuffer, size_t nCount)
+
+	Reads from the pipe. The read data will be placed at ``pBuffer``. ``nCount`` is the maximum number of bytes to be read. Returns the number of read bytes or ``-WouldBlock``, when the FIFO is empty and non-blocking is off.
+
+.. cpp:function:: int CPipeFile::Write (const void *pBuffer, size_t nCount)
+
+	Writes to the pipe. The data will be fetched from ``pBuffer``. ``nCount`` is the number of bytes to be written. Returns the number of written bytes or ``-WouldBlock``, when the FIFO is full and non-blocking off, or ``-NoReader``,  when all readers have been closed.
+
+.. cpp:function:: TStatus CPipeFile::GetStatus (void) const
+
+	Returns the pipe status as:
+
+.. code-block:: cpp
+
+	struct TStatus
+	{
+		boolean bReadReady;	// Ready to read without blocking
+		boolean bWriteReady;	// Ready to write without blocking
+		boolean bException;	// Exception arrived (always FALSE)
+	};
+
+.. cpp:function:: void CPipeFile::SetBlocking (boolean bOn)
+
+	Set (non-) blocking mode. Blocking mode is on, when ``bOn`` is ``TRUE`` (default). Set to ``FALSE`` to immediately return from `Read()` and `Write()`, when pipe is not ready.
