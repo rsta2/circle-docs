@@ -113,7 +113,7 @@ This class encapsulates a character string and allows different manipulations on
 	f	insert ``double``
 	i	same as %d
 	o	insert octal ``unsigned``, ``unsigned long`` or ``unsigned long long``
-	p	same as %x
+	p	same as %lx
 	s	insert string (type is ``const char *``)
 	u	insert decimal ``unsigned``, ``unsigned long`` or ``unsigned long long``
 	x	insert hex ``unsigned``, ``unsigned long`` or ``unsigned long long`` (lower case)
@@ -305,6 +305,7 @@ Memory functions
 .. c:function:: void *memcpy (void *pDest, const void *pSrc, size_t nLength)
 .. c:function:: void *memmove (void *pDest, const void *pSrc, size_t nLength)
 .. c:function:: int memcmp (const void *pBuffer1, const void *pBuffer2, size_t nLength)
+.. c:function:: void *memmem (const void *pHaystack, size_t nHaystackLength, const void *pNeedle, size_t nNeedleLength)
 
 String functions
 """"""""""""""""
