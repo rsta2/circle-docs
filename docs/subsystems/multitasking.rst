@@ -193,6 +193,10 @@ Provides a method to provide mutual exclusion (critical sections) across tasks.
 
 	Acquires the mutex. The current task blocks, if another task already acquired the mutex. The mutex can be acquired multiple times by the same task.
 
+.. cpp:function:: boolean CMutex::TryAcquire (void)
+
+	Try to acquire the mutex, task does not block. Returns ``TRUE``, if the mutex was successfully acquired. The mutex can be acquired multiple times by the same task.
+
 .. cpp:function:: void CMutex::Release (void)
 
 	Releases the mutex. Another task, which was waiting for the mutex to acquire, will be waken.
