@@ -88,6 +88,10 @@ This class encapsulates a character string and allows different manipulations on
 
 	Searches for ``chChar`` in the string. Returns the zero-based index of the character or -1, if it is not found.
 
+.. cpp:function:: void CString::TrimRight (const char *pTargets = " \t\r\n")
+
+	Remove all trailing characters, which are contained in ``pTargets``.
+
 .. cpp:function:: int CString::Replace (const char *pOld, const char *pNew)
 
 	Replaces all occurrences of ``pOld`` with ``pNew`` in the string. Returns the number of occurrences.
