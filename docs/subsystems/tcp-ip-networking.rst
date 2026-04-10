@@ -103,7 +103,7 @@ CSocket
 .. code-block:: cpp
 
 	#include <circle/net/socket.h>
-	#include <circle/net/in.h>		// for IPPROTO_*, MSG_DONTWAIT
+	#include <circle/net/in.h>		// for IPPROTO_*, MSG_*
 	#include <circle/netdevice.h>		// for FRAME_BUFFER_SIZE
 
 .. cpp:class:: CSocket : public CNetSocket
@@ -146,7 +146,7 @@ CSocket
 
 .. cpp:function:: int CSocket::Send (const void *pBuffer, unsigned nLength, int nFlags)
 
-	Sends a message to a remote host. ``pBuffer`` is a pointer to the message and ``nLength`` is its length in bytes. ``nFlags`` can be ``MSG_DONTWAIT`` (non-blocking operation) or 0 (blocking operation). Returns the length of the sent message or < 0 on error.
+	Sends a message to a remote host. ``pBuffer`` is a pointer to the message and ``nLength`` is its length in bytes. ``nFlags`` can be ``MSG_DONTWAIT`` (non-blocking operation) or 0 (blocking operation). ``nFlags`` can be or'ed with ``MSG_MORE``, when more data follows (disables the TCP PSH flag). Returns the length of the sent message or < 0 on error.
 
 .. cpp:function:: int CSocket::Receive (void *pBuffer, unsigned nLength, int nFlags)
 
@@ -154,7 +154,7 @@ CSocket
 
 .. cpp:function:: int CSocket::SendTo (const void *pBuffer, unsigned nLength, int nFlags, const CIPAddress &rForeignIP, u16 nForeignPort)
 
-	Sends a message to a specific remote host. ``pBuffer`` is a pointer to the message and ``nLength`` is its length in bytes. ``nFlags`` can be ``MSG_DONTWAIT`` (non-blocking operation) or 0 (blocking operation). ``rForeignIP`` is the IP address of the host to be sent to (ignored on TCP socket). ``nForeignPort`` is the number of the port to be sent to (ignored on TCP socket). Returns the length of the sent message or < 0 on error.
+	Sends a message to a specific remote host. ``pBuffer`` is a pointer to the message and ``nLength`` is its length in bytes. ``nFlags`` can be ``MSG_DONTWAIT`` (non-blocking operation) or 0 (blocking operation). ``nFlags`` can be or'ed with ``MSG_MORE``, when more data follows (disables the TCP PSH flag). ``rForeignIP`` is the IP address of the host to be sent to (ignored on TCP socket). ``nForeignPort`` is the number of the port to be sent to (ignored on TCP socket). Returns the length of the sent message or < 0 on error.
 
 .. cpp:function:: int CSocket::ReceiveFrom (void *pBuffer, unsigned nLength, int nFlags, CIPAddress *pForeignIP, u16 *pForeignPort)
 
