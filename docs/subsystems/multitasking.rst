@@ -224,6 +224,10 @@ Implements the well-known `semaphore <https://en.wikipedia.org/wiki/Semaphore_(p
 
 	Decrements the semaphore count. Blocks the calling task, if the count is already zero.
 
+.. cpp:function:: boolean CSemaphore::DownWithTimeout (unsigned nMicroSeconds)
+
+	Decrements the semaphore count. Blocks the calling task, if the count is already zero. Returns ``TRUE`` after ``nMicroSeconds`` microseconds, if the semaphore count is still zero, or ``FALSE`` otherwise.
+
 .. cpp:function:: void CSemaphore::Up (void)
 
 	Increments the semaphore count. Wakes another waiting task, if the count was zero. Can be called from interrupt context.
