@@ -317,9 +317,9 @@ CPWMSoundBaseDevice
 
 	On the Raspberry Pi 5 or Zero, which do not have a headphone jack, the output from the PWM sound interface can be used via the GPIO header. You need an external interface `like this <https://learn.adafruit.com/adding-basic-audio-ouput-to-raspberry-pi-zero>`_, normally connected to GPIO12/13. You have to define the system option ``USE_PWM_AUDIO_ON_ZERO`` for this purpose for the Raspberry Pi Zero. See the file `include/circle/sysconfig.h <https://github.com/rsta2/circle/blob/master/include/circle/sysconfig.h>`_ for details!
 
-.. cpp:function:: CPWMSoundBaseDevice::CPWMSoundBaseDevice (CInterruptSystem *pInterrupt, unsigned nSampleRate = 44100, unsigned nChunkSize = 2048)
+.. cpp:function:: CPWMSoundBaseDevice::CPWMSoundBaseDevice (CInterruptSystem *pInterrupt, unsigned nSampleRate = 44100, unsigned nChunkSize = 2048, boolean bMSMode = TRUE)
 
-	Constructs an instance of this class. There can be only one. ``pInterrupt`` is a pointer to the interrupt system object. ``nSampleRate`` is the sample rate in Hz. ``nChunkSize`` is twice the number of samples (words) to be handled with one call to ``GetChunk()`` (one word per stereo channel). Decreasing this value also decreases the latency on this interface, but increases the IRQ load on CPU core 0.
+	Constructs an instance of this class. There can be only one. ``pInterrupt`` is a pointer to the interrupt system object. ``nSampleRate`` is the sample rate in Hz. ``nChunkSize`` is twice the number of samples (words) to be handled with one call to ``GetChunk()`` (one word per stereo channel). Decreasing this value also decreases the latency on this interface, but increases the IRQ load on CPU core 0. ``bMSMode`` enables the M/S mode (default) (see `BCM2835 ARM Peripherals <https://datasheets.raspberrypi.com/bcm2835/bcm2835-peripherals.pdf>`_, pg. 139).
 
 CPWMSoundDevice
 ^^^^^^^^^^^^^^^
