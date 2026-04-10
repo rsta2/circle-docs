@@ -49,6 +49,7 @@ Model information
 * MachineModel500
 * MachineModelCM5
 * MachineModelCM5Lite
+* MachineModelCM0
 * MachineModelUnknown
 
 .. cpp:function:: const char *CMachineInfo::GetMachineName (void) const
