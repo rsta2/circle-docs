@@ -132,11 +132,23 @@ DMA channels
 
 .. cpp:function:: unsigned CMachineInfo::AllocateDMAChannel (unsigned nChannel)
 
-	Allocates an available DMA channel from the platform DMA controller. ``nChannel`` can be ``DMA_CHANNEL_NORMAL`` (normal DMA engine requested), ``DMA_CHANNEL_LITE`` (lite (or normal) DMA engine requested), ``DMA_CHANNEL_EXTENDED`` ("large address" DMA4 engine requested, on Raspberry Pi 4 only) or an explicit channel number (0-15). Returns the allocated channel number or ``DMA_CHANNEL_NONE`` on failure.
+	Allocates an available DMA channel from the platform DMA controller. ``nChannel`` can be ``DMA_CHANNEL_NORMAL`` (normal DMA engine requested), ``DMA_CHANNEL_LITE`` (lite (or normal) DMA engine requested), ``DMA_CHANNEL_EXTENDED`` ("large address" DMA4 engine requested, on Raspberry Pi 4 and 5 only) or an explicit channel number (0-15). Returns the allocated channel number or ``DMA_CHANNEL_NONE`` on failure.
 
 .. cpp:function:: void CMachineInfo::FreeDMAChannel (unsigned nChannel)
 
 	Release an allocated DMA channel. ``nChannel`` is the channel number (0-15).
+
+.. cpp:function:: unsigned CMachineInfo::AllocateDMAChannelRP1 (unsigned nChannel)
+
+	Allocates an available DMA channel from the RP1 southbridge of the Raspberry Pi 5. ``nChannel`` can be ``DMA_CHANNEL_RP1_NORMAL`` (normal (or fast) DMA engine requested) or ``DMA_CHANNEL_RP1_FAST`` (fast DMA engine requested) or an explicit channel number (0-7). Returns the allocated channel number or ``DMA_CHANNEL_NONE`` on failure.
+
+.. note::
+
+	Fast DMA engines have a higher priority and larger temporary storage.
+
+.. cpp:function:: void CMachineInfo::FreeDMAChannelRP1 (unsigned nChannel)
+
+	Release an allocated DMA channel from the RP1 southbridge. ``nChannel`` is the channel number (0-7).
 
 CKernelOptions
 ^^^^^^^^^^^^^^
