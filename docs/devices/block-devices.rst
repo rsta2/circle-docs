@@ -21,7 +21,7 @@ CEMMCDevice
 
 .. cpp:class:: CEMMCDevice : public CDevice
 
-	This class provides the physical access to SD cards and to embedded MMC memory on the Compute Module 4. This class has to be manually instantiated, if an application wants to access one of these devices. This is demonstrated in `addon/SDCard/sample <https://github.com/rsta2/circle/tree/master/addon/SDCard/sample>`_. There can be only one instance of this device, which has the name ``emmc1`` in the device name service.
+	This class provides the physical access to SD cards and to embedded MMC memory on Compute Modules. This class has to be manually instantiated, if an application wants to access one of these devices. This is demonstrated in `addon/SDCard/sample <https://github.com/rsta2/circle/tree/master/addon/SDCard/sample>`_. There can be up to two instances of this device, which have the name ``emmc1`` or ``emmc2`` (with `Device = SDCardExternal`) in the device name service.
 
 	This class has drivers for two different interfaces, the SDHOST interface and the EMMC interface. The SDHOST interface is enabled by default on the Raspberry Pi 1-3 and Zero, when the system option ``REALTIME`` is not enabled. On the Raspberry Pi 4 and 5 the EMMC interface is used in any case, but can be used on the earlier models with the system option ``NO_SDHOST`` too.  This is not possible, when you want to access the on-board WLAN device at the same time. To access the embedded MMC on the Compute Module 3+ and 4, the system option ``USE_EMBEDDED_MMC_CM`` has to be enabled.
 
@@ -29,9 +29,11 @@ CEMMCDevice
 
 	On the Raspberry Pi 5 the SDHOST interface is currently not supported by Circle.
 
-.. cpp:function:: CEMMCDevice::CEMMCDevice (CInterruptSystem *pInterruptSystem, CTimer *pTimer, CActLED *pActLED = 0)
+	The external EMMC interface at GPIO22..27 requires the enabled system option ``NO_SDHOST`` on the Raspberry Pi 1-3 and Zero.
 
-	Creates the instance of this class. ``pInterruptSystem`` is a pointer to the system interrupt object. ``pTimer`` is a pointer to the system timer object. ``pActLED`` can be specified to use the green Activity LED to inform the user, when the SD card is currently accessed. This is optional.
+.. cpp:function:: CEMMCDevice::CEMMCDevice (CInterruptSystem *pInterruptSystem, CTimer *pTimer, CActLED *pActLED = 0, TDeviceSelector Device = DefaultDevice)
+
+	Creates the instance of this class. ``pInterruptSystem`` is a pointer to the system interrupt object. ``pTimer`` is a pointer to the system timer object. ``pActLED`` can be specified to use the green Activity LED to inform the user, when the SD card is currently accessed. This is optional. ``Device`` is the EMMC interface to access. It can be ``SDCardOnBoard`` (normally the default), ``SDCardExternal`` (with SDIO breakout board at GPIO22..27) or ``EmbeddedMMC`` (default, when the system option ``USE_EMBEDDED_MMC_CM`` is enabled).
 
 .. cpp:function:: boolean CEMMCDevice::Initialize (void)
 
