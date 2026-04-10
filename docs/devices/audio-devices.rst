@@ -102,6 +102,7 @@ These methods are used to output sound using a write queue. They are not used, i
 	* SoundFormatSigned16
 	* SoundFormatSigned24 (occupies 3 bytes)
 	* SoundFormatSigned24_32 (occupies 4 bytes)
+	* SoundFormatFloat32 (range [-1.0 .. 1.0])
 
 .. cpp:function:: int CSoundBaseDevice::Write (const void *pBuffer, size_t nCount)
 
@@ -144,6 +145,7 @@ These methods are used to input sound data using a read queue. They are not used
 	* SoundFormatSigned16
 	* SoundFormatSigned24 (occupies 3 bytes)
 	* SoundFormatSigned24_32 (occupies 4 bytes)
+	* SoundFormatFloat32 (range [-1.0 .. 1.0])
 
 .. cpp:function:: int CSoundBaseDevice::Read (void *pBuffer, size_t nCount)
 
