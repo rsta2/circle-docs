@@ -65,6 +65,23 @@ CDevice
 
 	See the file `doc/usb-plug-and-play.txt <https://github.com/rsta2/circle/blob/master/doc/usb-plug-and-play.txt>`_ for detailed information on USB plug-and-play support in Circle!
 
+.. cpp:function:: void CDevice::SetProperty (TProperty Property, const char *pString)
+
+	Sets property ``Property`` of a device to ``pString``. The following properties are available:
+
+	* PropertyVendor
+	* PropertyProduct
+	* PropertySerialNumber
+	* PropertyFunction (sub-function in a device, e.g. USB interface)
+
+.. cpp:function:: const char *CDevice::GetProperty (TProperty Property) const
+
+	Returns property string for ``Property``.
+
+.. note::
+
+	These property strings are automatically set for all USB devices and for some other devices. They can be used to distinguish multiple instances of devices of the same class.
+
 CDeviceNameService
 ^^^^^^^^^^^^^^^^^^
 
@@ -103,9 +120,9 @@ CDeviceNameService
 
 	Returns a pointer to the device object of the device, with the name prefix ``pName``, the device index ``nIndex`` and the device type ``bBlockDevice``, or 0 if the device is not found. ``bBlockDevice`` is ``TRUE``, if this is a block device, otherwise it is a character device. The resulting name consists of the name prefix followed by the decimal device index (e.g. ``umsd1`` for the first USB mass-storage device).
 
-.. cpp:function:: void CDeviceNameService::ListDevices (CDevice *pTarget)
+.. cpp:function:: void CDeviceNameService::ListDevices (CDevice *pTarget, boolean bShowProperties = FALSE)
 
-	Generates a textual device name listing and writes it to the device ``pTarget``.
+	Generates a textual device name listing and writes it to the device ``pTarget``. Set ``bShowProperties`` to ``TRUE`` to show the device properties.
 
 .. cpp:function:: boolean CDeviceNameService::EnumerateDevices (boolean (*pCallback) (CDevice *pDevice, const char *pName, boolean bBlockDevice, void *pParam), void *pParam)
 
