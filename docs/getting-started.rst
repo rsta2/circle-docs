@@ -35,11 +35,16 @@ Circle is configured using the file *Config.mk* in the project's root directory.
 	--realtime         Enable real time mode to improve IRQ latency
 	--keymap <country> Set default USB keymap (DE, ES, FR, IT, UK, US)
 	--qemu             Build for running under QEMU
+	--kernel-max-size <megabytes>
+	                   Set maximum size of the kernel image (default: 2)
 	-d <option>, --define <option>
 	                   Define additional system option
-	--c++17            Use C++17 standard for compiling (default C++14)
+	--c++14            Use C++14 standard for compiling (default C++17)
+	--c++20            Use C++20 standard for compiling (default C++17)
+	--clang            Build with Clang / LLVM
+	--kasan            Enable Kasan address sanitizer
 	-f, --force        Overwrite existing Config.mk file
-	-h, --help         Show usage message
+	-h, --help         Show this usage message
 
 If you want to configure Circle for a Raspberry Pi 3 with the default toolchain prefix ``arm-none-eabi-``, with the toolchain path in the system ``PATH`` variable, from Circle's project root enter simply:
 
