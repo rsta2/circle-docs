@@ -206,3 +206,7 @@ The class ``CKernelOptions`` provides the values of runtime options, which can b
 .. cpp:function:: unsigned CKernelOptions::GetAppOptionDecimal (const char *pOption, unsigned nDefault = -1) const
 
 	Returns the value of the application-defined option ``pOption`` as a number, or ``nDefault`` if the option is not found in the command line.
+
+.. cpp:function:: int CKernelOptions::GetAppOptionSignedDecimal (const char *pOption, int nDefault = -1) const
+
+	Returns the value of the application-defined option ``pOption`` as a number, or ``nDefault`` if the option is not found in the command line.
