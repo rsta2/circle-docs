@@ -371,6 +371,9 @@ nDevice	nConfig 0 (SDA SCL)	nConfig 1 (SDA SCL)	nConfig 2 (SDA SCL)	Raspberry Pi
 1	GPIO2	GPIO3		GPIO10	GPIO11					Raspberry Pi 5 only
 2	GPIO4	GPIO5		GPIO12	GPIO13					Raspberry Pi 5 only
 3	GPIO6	GPIO7		GPIO14	GPIO15		GPIO22	GPIO23		Raspberry Pi 5 only
+4	GPIO40	GPIO41								Raspberry Pi 5 only
+5										None
+6	GPIO38	GPIO39								Raspberry Pi 5 only
 =======	=======================	=======================	=======================	===================
 
 The ``Read()`` and ``Write()`` methods (see below) may return the following error codes as a negative value:
