@@ -243,7 +243,7 @@ CHTTPClient
 
 .. note::
 
-	In the Internet of today there are only a few webservers any more, which provide plain HTTP access. For HTTPS (HTTP over TLS) access with Circle you can use the `circle-stdlib <https://codeberg.org/larchcone/circle-stdlib>`_ project, which includes Circle as a submodule.
+	In the Internet of today there are only a few webservers any more, which provide plain HTTP access. For HTTPS (HTTP over TLS) access with Circle you can use the `circle-stdlib <https://github.com/smuehlst/circle-stdlib>`_ project, which includes Circle as a submodule.
 
 .. cpp:function:: CHTTPClient::CHTTPClient (CNetSubSystem *pNetSubSystem, CIPAddress &rServerIP, u16 usServerPort = HTTP_PORT, const char *pServerName = 0)
 
