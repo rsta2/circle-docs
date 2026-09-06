@@ -16,12 +16,16 @@ CLogger
 
 There is exactly one or no instance of ``CLogger`` in the system. Only relatively simple programs can work without an instance of ``CLogger``.
 
+.. note::
+
+	The default log level is 4. If you want to see trace messages, you manually have to set the log level in the file *cmdline.txt* to 5 using ``loglevel=5``. Trace messages are not written to the event queue.
+
 Initialization
 """"""""""""""
 
 .. cpp:function:: CLogger::CLogger (unsigned nLogLevel, CTimer *pTimer = 0, boolean bOverwriteOldest = TRUE)
 
-	Creates the instance of ``CLogger``. ``nLogLevel`` (0-4) determines, which log messages are included in the system log. Only messages with a log level smaller or equal to ``nLogLevel`` are considered. ``pTimer`` is a pointer to the system timer object. The time is not logged, if ``pTimer`` is zero. The following log levels are defined:
+	Creates the instance of ``CLogger``. ``nLogLevel`` (0-5) determines, which log messages are included in the system log. Only messages with a log level smaller or equal to ``nLogLevel`` are considered. ``pTimer`` is a pointer to the system timer object. The time is not logged, if ``pTimer`` is zero. The following log levels are defined:
 
 ======	==============	===============================================================
 Level	Severity	Description
@@ -31,6 +35,7 @@ Level	Severity	Description
 2	LogWarning	Non-severe problem, component continues to work
 3	LogNotice	Informative message, which is interesting for the system user
 4	LogDebug	Message, which is only interesting for debugging this component
+5	LogTrace	Message, which is only interesting to trace this component
 ======	==============	===============================================================
 
 	Set ``bOverwriteOldest`` to ``FALSE``, if you want to keep old log messages for ``Read()``, even when the text ring buffer is full (see :ref:`Read the log`).
@@ -110,5 +115,6 @@ The following macros allow a quick access to the system log.
 .. c:macro:: LOGWARN(format, ...)
 .. c:macro:: LOGNOTE(format, ...)
 .. c:macro:: LOGDBG(format, ...)
+.. c:macro:: LOGTRACE(format, ...)
 
 	Writes a message with the given severity, ``format`` and optional parameters to the system log using the module name defined with ``LOGMODULE()``.
