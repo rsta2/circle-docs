@@ -178,10 +178,10 @@ The `Light and Versatile Graphics Library <https://lvgl.io/>`_ (LVGL) v9.4.0 can
 
 	Updates the display. This has to be called continuously from the application main loop at ``TASK_LEVEL``. ``bPlugAndPlayUpdated`` must be set to ``TRUE``, if the application supports USB plug-and-play and :cpp:func:`CUSBHostController::UpdatePlugAndPlay()` returned ``TRUE`` too.
 
-µGUI
+ÂµGUI
 ^^^^
 
-The `µGUI library <http://embeddedlightning.com/ugui/>`_ can be used with Circle. This library provides an API, which is based on the C language. Download the `Reference Guide <http://embeddedlightning.com/download/reference-guide/>`_ for details.
+The `ÂµGUI library <http://embeddedlightning.com/ugui/>`_ can be used with Circle. This library provides an API, which is based on the C language. Download the `Reference Guide <http://embeddedlightning.com/download/reference-guide/>`_ for details.
 
 .. note::
 
@@ -193,7 +193,7 @@ The `µGUI library <http://embeddedlightning.com/ugui/>`_ can be used with Circle
 
 .. cpp:class:: CUGUI
 
-	This class is a wrapper for µGUI and has to be instantiated to use this graphics library. The wrapper class supports USB mouse or touchscreen input.
+	This class is a wrapper for ÂµGUI and has to be instantiated to use this graphics library. The wrapper class supports USB mouse or touchscreen input.
 
 .. cpp:function:: CUGUI::CUGUI (CScreenDevice *pScreen)
 
@@ -201,7 +201,7 @@ The `µGUI library <http://embeddedlightning.com/ugui/>`_ can be used with Circle
 
 .. cpp:function:: boolean CUGUI::Initialize (void)
 
-	Initializes to µGUI support. Returns ``TRUE`` on success.
+	Initializes to ÂµGUI support. Returns ``TRUE`` on success.
 
 .. cpp:function:: void CUGUI::Update (boolean bPlugAndPlayUpdated = FALSE)
 

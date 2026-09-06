@@ -32,7 +32,7 @@ extensions = [
 	"sphinx_rtd_theme"
 ]
 
-source_encoding = 'iso-8859-1'
+#source_encoding = 'utf-8'
 
 # Add any paths that contain templates here, relative to this directory.
 # templates_path = ['_templates']

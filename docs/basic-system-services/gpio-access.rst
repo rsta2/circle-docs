@@ -504,7 +504,7 @@ Raspberry Pi	SDA	SCL
 
 .. cpp:function:: int CI2CSlave::Read (void *pBuffer, unsigned nCount, unsigned nTimeout_us = TimeoutForEver)
 
-	Reads ``nCount`` bytes from the I2C master into ``pBuffer``. Returns the number of read bytes or < 0 on failure. ``nTimeout_us`` can force a return after the given number of µs, when less than ``nCount`` bytes have been read. When a timeout occurs, the result is smaller than ``nCount`` (or 0). ``nTimeout_us`` can have the following special values:
+	Reads ``nCount`` bytes from the I2C master into ``pBuffer``. Returns the number of read bytes or < 0 on failure. ``nTimeout_us`` can force a return after the given number of Âµs, when less than ``nCount`` bytes have been read. When a timeout occurs, the result is smaller than ``nCount`` (or 0). ``nTimeout_us`` can have the following special values:
 
 	* TimeoutNone (return immediately)
 	* TimeoutForEver (Timeout never occurs)
@@ -515,7 +515,7 @@ Raspberry Pi	SDA	SCL
 
 .. cpp:function:: int CI2CSlave::Write (const void *pBuffer, unsigned nCount, unsigned nTimeout_us = TimeoutForEver)
 
-	Writes ``nCount`` bytes to the I2C master from ``pBuffer``. Returns the number of written bytes or < 0 on failure. ``nTimeout_us`` can force a return after the given number of µs, when less than ``nCount`` bytes have been written. When a timeout occurs, the result is smaller than ``nCount`` (or 0).
+	Writes ``nCount`` bytes to the I2C master from ``pBuffer``. Returns the number of written bytes or < 0 on failure. ``nTimeout_us`` can force a return after the given number of Âµs, when less than ``nCount`` bytes have been written. When a timeout occurs, the result is smaller than ``nCount`` (or 0).
 
 .. _CSPIMaster:
 

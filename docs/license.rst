@@ -1,7 +1,7 @@
 License
 -------
 
-Copyright © 2020-2026, Rene Stange
+Copyright Â© 2020-2026, Rene Stange
 
 .. image:: https://i.creativecommons.org/l/by-sa/4.0/88x31.png
 	:alt: Creative Commons License

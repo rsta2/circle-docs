@@ -162,11 +162,11 @@ CSocket
 
 .. cpp:function:: int CSocket::SetOptionReceiveTimeout (unsigned nMicroSeconds)
 
-	Sets the timeout ``nMicroSeconds`` (in µs, or 0 to wait forever (default)) for ``Receive()`` and ``ReceiveFrom()``. The timeout applies only, when the flag ``MSG_DONTWAIT`` is not used. Returns 0 on success or < 0 on error.
+	Sets the timeout ``nMicroSeconds`` (in Âµs, or 0 to wait forever (default)) for ``Receive()`` and ``ReceiveFrom()``. The timeout applies only, when the flag ``MSG_DONTWAIT`` is not used. Returns 0 on success or < 0 on error.
 
 .. cpp:function:: int CSocket::SetOptionSendTimeout (unsigned nMicroSeconds)
 
-	Sets the timeout ``nMicroSeconds`` (in µs, or 0 to wait forever (default)) for ``Send()`` and ``SendTo()``. The timeout applies only, when the flag ``MSG_DONTWAIT`` is not used. Returns 0 on success or < 0 on error.
+	Sets the timeout ``nMicroSeconds`` (in Âµs, or 0 to wait forever (default)) for ``Send()`` and ``SendTo()``. The timeout applies only, when the flag ``MSG_DONTWAIT`` is not used. Returns 0 on success or < 0 on error.
 
 .. cpp:function:: int CSocket::SetOptionBroadcast (boolean bAllowed)
 
