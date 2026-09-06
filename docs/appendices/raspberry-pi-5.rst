@@ -24,7 +24,9 @@ The Raspberry Pi 5 features the RP1 southbridge, which provides many of the avai
 Display support
 ^^^^^^^^^^^^^^^
 
-The firmware support for frame buffer device(s) is not as comfortable on the Raspberry Pi 5 as on earlier models. Because Circle relies on this firmware support, there are limitations, when using HDMI displays (e.g. no configuration in *config.txt*, cannot set display resolution from application) and DSI displays (e.g. the Official 7" touchscreen) do not work at all.
+The firmware support for frame buffer device(s) is not as comfortable on the Raspberry Pi 5 as on earlier models. Because Circle relies on this firmware support, there are limitations, when using HDMI displays (e.g. no configuration in *config.txt*, cannot set display resolution from application).
+
+The Official 5" and 7" touchscreens (v1 and v2) with DSI interface are supported in the addon library in *addon/rp1dsi*. This can be tested with *sample/28-touchscreen* and *addon/lvgl/sample*. You have to set the ``DSI_DISPLAY`` variable in the Makefile to enable them.
 
 Fan support
 ^^^^^^^^^^^
